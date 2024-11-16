@@ -13,6 +13,7 @@ signal undo_command_selected()
 ## Connect to your character to use the selected Command. [br]
 ## After that use the command_done function the move on
 signal target_selected(targets: Array[TurnBasedAgent], command:Resource)
+signal target_changed(targets : Array[TurnBasedAgent], allies)
 
 @onready var on_turn_icon_node: TextureRect = $onTurnIconNode
 @onready var target_icon_node: TextureRect = $targetIconNode
@@ -42,7 +43,7 @@ var isActive = false
 var mainTarget: TurnBasedAgent
 var allSelectedTargets: Array[TurnBasedAgent]
 var currentCommand: Resource
-
+var isTargetAlly = false
 
 func _ready() -> void:
 	_set_group()
@@ -94,12 +95,15 @@ func _on_command_selected(command: CommandResource):
 	if command.targetType == CommandResource.Target_Type.ENEMIES:
 		targets = get_tree().get_nodes_in_group("enemy")
 	elif command.targetType == CommandResource.Target_Type.PLAYERS:
+		isTargetAlly = true
 		targets = get_tree().get_nodes_in_group("player")
 	
 	mainTarget = targets[0]
-	
 	mainTarget.set_target()
+	
 	_check_and_select_multi_target(mainTarget, targets)
+	
+	target_changed.emit(allSelectedTargets, isTargetAlly)
 
 func _on_run_command():
 	get_tree().quit()
@@ -127,7 +131,7 @@ func _deselect_all_targets():
 		target.target_icon_node.hide()	
 
 func _input(event: InputEvent) -> void:
-	if not mainTarget: return
+	if not mainTarget or not event is InputEventKey: return
 	
 	var enemies = get_tree().get_nodes_in_group("enemy")
 	var players = get_tree().get_nodes_in_group("player")
@@ -153,7 +157,10 @@ func _select_between_targets(event: InputEvent, targets: Array):
 		currentTargetIndex += 1
 		if currentTargetIndex > targets.size() - 1: currentTargetIndex = 0
 	
+	target_changed.emit(allSelectedTargets, isTargetAlly)
+	
 	_deselect_all_targets()
+	
 	mainTarget = targets[currentTargetIndex]
 	mainTarget.set_target()
 	
@@ -190,7 +197,7 @@ func _undo_command():
 	mainTarget = null
 	_deselect_all_targets()
 	allSelectedTargets = []
-	undo_command_selected.emit(null)
+	undo_command_selected.emit()
 
 func command_done():
 	turn_finished.emit()
