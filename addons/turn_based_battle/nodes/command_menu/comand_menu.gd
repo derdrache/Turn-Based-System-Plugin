@@ -72,7 +72,7 @@ func _set_late_signals():
 	
 	for character: TurnBasedAgent in get_tree().get_nodes_in_group("player"):
 		character.player_turn_started.connect(_on_player_turn.bind(character))
-		character.undo_command_selected.connect(_on_player_turn)
+		character.undo_command_selected.connect(_on_player_turn.bind(null))
 
 func _on_player_turn(character) -> void:
 	if character:
