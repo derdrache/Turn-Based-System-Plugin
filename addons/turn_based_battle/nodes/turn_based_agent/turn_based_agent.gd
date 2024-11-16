@@ -25,14 +25,14 @@ signal target_selected(targets: Array[TurnBasedAgent], command:Resource)
 
 @export var turn_order_value : float
 
-@export_category("icons")
+@export_category("Icons")
 @export var onTurnIconTexture: CompressedTexture2D
 @export var onTurnIconOffSet: Vector2 = Vector2(0,-50)
 @export var targetIconTexture: CompressedTexture2D
 @export var targetIconOffSet: Vector2 = Vector2(50,0)
 @export var turnOrderBarIconTexture: CompressedTexture2D
 
-@export_category("customize")
+@export_category("Customize")
 @export var selectEnemyIconColor: Color = Color(1,0,0)
 @export var selectPlayerIconColor: Color = Color(0, 1, 0)
 

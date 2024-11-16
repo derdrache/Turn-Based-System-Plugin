@@ -32,8 +32,9 @@ func _refresh_bar():
 	
 	_clear_data()
 	
-	for character in characterTurnOrder:
+	for character: TurnBasedAgent in characterTurnOrder:
 		var characterDisplayNode = CHARACTER_DISPLAY.instantiate()
+		characterDisplayNode.icon = character.turnOrderBarIconTexture
 		#characterDisplayNode.characterName = character.get_parent().name
 		
 		var styleBox = characterDisplayNode.get_theme_stylebox("panel").duplicate()
@@ -44,3 +45,5 @@ func _refresh_bar():
 		characterDisplayNode.add_theme_stylebox_override("panel", styleBox)
 		
 		character_container.add_child(characterDisplayNode)
+		
+	
