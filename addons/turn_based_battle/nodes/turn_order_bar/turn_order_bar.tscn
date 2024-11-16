@@ -79,7 +79,7 @@ layout_mode = 2
 [node name="CharacterDisplay7" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/CharacterContainer" instance=ExtResource("2_vflxu")]
 layout_mode = 2
 
-[node name="onTurnIcon" type="TextureRect" parent="."]
+[node name="onTurnIconTextureRect" type="TextureRect" parent="."]
 modulate = Color(1, 1, 0, 1)
 custom_minimum_size = Vector2(35, 35)
 layout_mode = 0
@@ -89,3 +89,12 @@ offset_right = 1113.0
 offset_bottom = 108.0
 texture = ExtResource("3_e6igx")
 expand_mode = 1
+
+[node name="TargetIconsContainer" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
