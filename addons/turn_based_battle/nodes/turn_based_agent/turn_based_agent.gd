@@ -141,15 +141,15 @@ func _input(event: InputEvent) -> void:
 func _select_between_targets(event: InputEvent, targets: Array):
 	var currentTargetIndex = targets.find(mainTarget, 0)
 	
-	var goLeft = event.is_action_pressed("ui_left")
-	var goRight = event.is_action_pressed("ui_right")
+	var pressedLeft = event.is_action_pressed("ui_left")
+	var pressedRight = event.is_action_pressed("ui_right")
+	var pressedUp = event.is_action_pressed("ui_up")
+	var pressedDown =  event.is_action_pressed("ui_down")
 	
-	if not goLeft and not goRight: return
-	
-	if goLeft:
+	if pressedLeft or pressedUp:
 		currentTargetIndex -= 1
 		if currentTargetIndex < 0: currentTargetIndex = targets.size() - 1
-	elif goRight:
+	elif pressedRight or pressedDown:
 		currentTargetIndex += 1
 		if currentTargetIndex > targets.size() - 1: currentTargetIndex = 0
 	
