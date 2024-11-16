@@ -1,14 +1,18 @@
-[gd_scene load_steps=11 format=3 uid="uid://bojnuadillejy"]
+[gd_scene load_steps=15 format=3 uid="uid://bojnuadillejy"]
 
 [ext_resource type="PackedScene" uid="uid://b4la2yqdnumj5" path="res://addons/turn_based_battle/nodes/turn_based_controller/turn_based_controller.tscn" id="2_08mpt"]
-[ext_resource type="Texture2D" uid="uid://b2tptysl4d3g" path="res://addons/turn_based_battle/assets/icons/icon.svg" id="2_oxf4v"]
+[ext_resource type="Texture2D" uid="uid://80nu5nqla587" path="res://addons/turn_based_battle/test/assets/2D/83.png" id="2_tl5g6"]
 [ext_resource type="Script" path="res://addons/turn_based_battle/test/character/character.gd" id="2_yehj6"]
 [ext_resource type="PackedScene" uid="uid://c81upvc534ayg" path="res://addons/turn_based_battle/nodes/turn_based_agent/turn_based_agent.tscn" id="3_tbp2h"]
 [ext_resource type="PackedScene" uid="uid://csjsu65sx7iu5" path="res://addons/turn_based_battle/nodes/command_menu/comand_menu.tscn" id="4_pl6x7"]
 [ext_resource type="Resource" uid="uid://cwjljuoc83jn0" path="res://addons/turn_based_battle/test/resource/enemy.tres" id="4_s0etk"]
+[ext_resource type="Texture2D" uid="uid://sdtjd8j6r3ct" path="res://addons/turn_based_battle/test/assets/2D/91.png" id="5_5tugo"]
 [ext_resource type="Resource" uid="uid://ccq1ra2k8frfy" path="res://addons/turn_based_battle/test/resource/player1.tres" id="5_jfnju"]
 [ext_resource type="Resource" uid="uid://cudnqmq33tpnh" path="res://addons/turn_based_battle/test/resource/player2.tres" id="6_2gvv6"]
 [ext_resource type="PackedScene" uid="uid://cv1rrda3groo5" path="res://addons/turn_based_battle/nodes/turn_order_bar/turn_order_bar.tscn" id="6_d0se7"]
+[ext_resource type="Texture2D" uid="uid://bmlqrajokytar" path="res://addons/turn_based_battle/test/assets/2D/99.png" id="6_kb8yp"]
+[ext_resource type="Texture2D" uid="uid://bdbnbh1tbm1e3" path="res://addons/turn_based_battle/test/assets/2D/87.png" id="7_50ei7"]
+[ext_resource type="Texture2D" uid="uid://brstn62lvwmhj" path="res://addons/turn_based_battle/test/assets/2D/42.png" id="9_nca4s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tmcke"]
 size = Vector2(96, 96)
@@ -16,12 +20,12 @@ size = Vector2(96, 96)
 [node name="TestScene" type="Node2D"]
 
 [node name="Enemy 1" type="StaticBody2D" parent="."]
-position = Vector2(406, 112)
+position = Vector2(365, 154)
 script = ExtResource("2_yehj6")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemy 1"]
 scale = Vector2(0.75, 0.75)
-texture = ExtResource("2_oxf4v")
+texture = ExtResource("2_tl5g6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy 1"]
 shape = SubResource("RectangleShape2D_tmcke")
@@ -30,14 +34,15 @@ shape = SubResource("RectangleShape2D_tmcke")
 character_type = 1
 character_resource = ExtResource("4_s0etk")
 turn_order_value = 45.0
+turnOrderBarIconTexture = ExtResource("2_tl5g6")
 
 [node name="Enemy 2" type="StaticBody2D" parent="."]
-position = Vector2(583, 160)
+position = Vector2(418, 342)
 script = ExtResource("2_yehj6")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemy 2"]
 scale = Vector2(0.75, 0.75)
-texture = ExtResource("2_oxf4v")
+texture = ExtResource("5_5tugo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy 2"]
 shape = SubResource("RectangleShape2D_tmcke")
@@ -46,14 +51,15 @@ shape = SubResource("RectangleShape2D_tmcke")
 character_type = 1
 character_resource = ExtResource("4_s0etk")
 turn_order_value = 50.0
+turnOrderBarIconTexture = ExtResource("5_5tugo")
 
 [node name="Enemy 3" type="StaticBody2D" parent="."]
-position = Vector2(786, 101)
+position = Vector2(385, 514)
 script = ExtResource("2_yehj6")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemy 3"]
 scale = Vector2(0.75, 0.75)
-texture = ExtResource("2_oxf4v")
+texture = ExtResource("6_kb8yp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy 3"]
 shape = SubResource("RectangleShape2D_tmcke")
@@ -62,14 +68,15 @@ shape = SubResource("RectangleShape2D_tmcke")
 character_type = 1
 character_resource = ExtResource("4_s0etk")
 turn_order_value = 50.0
+turnOrderBarIconTexture = ExtResource("6_kb8yp")
 
 [node name="Player1" type="StaticBody2D" parent="."]
-position = Vector2(458, 452)
+position = Vector2(818, 169)
 script = ExtResource("2_yehj6")
 
 [node name="Sprite2D" type="Sprite2D" parent="Player1"]
 scale = Vector2(0.75, 0.75)
-texture = ExtResource("2_oxf4v")
+texture = ExtResource("7_50ei7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player1"]
 shape = SubResource("RectangleShape2D_tmcke")
@@ -77,14 +84,15 @@ shape = SubResource("RectangleShape2D_tmcke")
 [node name="TurnBasedBattleAgent" parent="Player1" instance=ExtResource("3_tbp2h")]
 character_resource = ExtResource("5_jfnju")
 turn_order_value = 55.0
+turnOrderBarIconTexture = ExtResource("7_50ei7")
 
 [node name="Player2" type="StaticBody2D" parent="."]
-position = Vector2(693, 452)
+position = Vector2(822, 436)
 script = ExtResource("2_yehj6")
 
 [node name="Sprite2D" type="Sprite2D" parent="Player2"]
 scale = Vector2(0.75, 0.75)
-texture = ExtResource("2_oxf4v")
+texture = ExtResource("9_nca4s")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player2"]
 shape = SubResource("RectangleShape2D_tmcke")
@@ -92,6 +100,7 @@ shape = SubResource("RectangleShape2D_tmcke")
 [node name="TurnBasedBattleAgent" parent="Player2" instance=ExtResource("3_tbp2h")]
 character_resource = ExtResource("6_2gvv6")
 turn_order_value = 50.0
+turnOrderBarIconTexture = ExtResource("9_nca4s")
 
 [node name="TurnBasedController" parent="." instance=ExtResource("2_08mpt")]
 
