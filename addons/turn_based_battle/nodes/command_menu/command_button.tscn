@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dcwt8h55tclw0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_acv2j"]
+bg_color = Color(0.466667, 0.403922, 1, 0.588235)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wq7fw"]
+bg_color = Color(0.466667, 0.403922, 1, 0.196078)
+
+[node name="Attack" type="Button"]
+custom_minimum_size = Vector2(200, 0)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/focus = SubResource("StyleBoxFlat_acv2j")
+theme_override_styles/normal = SubResource("StyleBoxFlat_wq7fw")
+text = "Attack"

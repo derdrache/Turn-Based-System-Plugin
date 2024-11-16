@@ -1,0 +1,2 @@
+extends CommandResource
+class_name SkillResource

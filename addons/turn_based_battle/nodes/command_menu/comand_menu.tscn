@@ -1,0 +1,83 @@
+[gd_scene load_steps=5 format=3 uid="uid://csjsu65sx7iu5"]
+
+[ext_resource type="Script" path="res://addons/turn_based_battle/nodes/command_menu/comand_menu.gd" id="1_gybsi"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xvk5p"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_acv2j"]
+bg_color = Color(0.466667, 0.403922, 1, 0.588235)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wq7fw"]
+bg_color = Color(0.466667, 0.403922, 1, 0.196078)
+
+[node name="ComandMenu" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xvk5p")
+script = ExtResource("1_gybsi")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="MainCommandContainer" type="VBoxContainer" parent="MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Attack" type="Button" parent="MarginContainer/MainCommandContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+focus_neighbor_top = NodePath("../Run")
+focus_neighbor_bottom = NodePath("../Skill")
+theme_override_font_sizes/font_size = 25
+theme_override_styles/focus = SubResource("StyleBoxFlat_acv2j")
+theme_override_styles/normal = SubResource("StyleBoxFlat_wq7fw")
+text = "Attack"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(0, 145)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="MultiCommandContainer" type="GridContainer" parent="MarginContainer/ScrollContainer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 145)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/h_separation = 15
+theme_override_constants/v_separation = 5
+columns = 2
+
+[node name="Skill 1" type="Button" parent="MarginContainer/ScrollContainer/MultiCommandContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+focus_neighbor_top = NodePath("../Run")
+focus_neighbor_bottom = NodePath("../Skill")
+theme_override_font_sizes/font_size = 25
+theme_override_styles/focus = SubResource("StyleBoxFlat_acv2j")
+theme_override_styles/normal = SubResource("StyleBoxFlat_wq7fw")
+text = "Attack"
+
+[node name="Skill 2" type="Button" parent="MarginContainer/ScrollContainer/MultiCommandContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+focus_neighbor_top = NodePath("../Run")
+focus_neighbor_bottom = NodePath("../Skill")
+theme_override_font_sizes/font_size = 25
+theme_override_styles/focus = SubResource("StyleBoxFlat_acv2j")
+theme_override_styles/normal = SubResource("StyleBoxFlat_wq7fw")
+text = "Attack"

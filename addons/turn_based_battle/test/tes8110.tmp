@@ -1,0 +1,113 @@
+[gd_scene load_steps=11 format=3 uid="uid://bojnuadillejy"]
+
+[ext_resource type="PackedScene" uid="uid://b4la2yqdnumj5" path="res://addons/turn_based_battle/nodes/turnBasedController/turn_based_controller.tscn" id="2_08mpt"]
+[ext_resource type="Texture2D" uid="uid://b2tptysl4d3g" path="res://addons/turn_based_battle/assets/icons/icon.svg" id="2_oxf4v"]
+[ext_resource type="Script" path="res://addons/turn_based_battle/test/character/character.gd" id="2_yehj6"]
+[ext_resource type="PackedScene" uid="uid://c81upvc534ayg" path="res://addons/turn_based_battle/nodes/turnBasedAgent/turn_based_agent.tscn" id="3_tbp2h"]
+[ext_resource type="Resource" uid="uid://dkcvrtj60prfi" path="res://addons/turn_based_battle/test/skills/normal_attack.tres" id="4_0bt1a"]
+[ext_resource type="PackedScene" uid="uid://csjsu65sx7iu5" path="res://addons/turn_based_battle/nodes/commandMenu/comand_menu.tscn" id="4_pl6x7"]
+[ext_resource type="Resource" uid="uid://dgugc04507s8u" path="res://addons/turn_based_battle/test/skills/heal.tres" id="5_y8idk"]
+[ext_resource type="PackedScene" uid="uid://cv1rrda3groo5" path="res://addons/turn_based_battle/nodes/TurnOrderBar/turn_order_bar.tscn" id="6_d0se7"]
+[ext_resource type="Resource" uid="uid://cs372rjskgrh5" path="res://addons/turn_based_battle/test/skills/swipe.tres" id="6_dwctf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tmcke"]
+size = Vector2(96, 96)
+
+[node name="TestScene" type="Node2D"]
+
+[node name="Enemy 1" type="StaticBody2D" parent="."]
+position = Vector2(406, 112)
+script = ExtResource("2_yehj6")
+
+[node name="Sprite2D" type="Sprite2D" parent="Enemy 1"]
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_oxf4v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy 1"]
+shape = SubResource("RectangleShape2D_tmcke")
+
+[node name="TurnBasedBattleAgent" parent="Enemy 1" instance=ExtResource("3_tbp2h")]
+character_type = 1
+basicAttack = ExtResource("4_0bt1a")
+turn_order_value = 45.0
+
+[node name="Enemy 2" type="StaticBody2D" parent="."]
+position = Vector2(583, 160)
+script = ExtResource("2_yehj6")
+
+[node name="Sprite2D" type="Sprite2D" parent="Enemy 2"]
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_oxf4v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy 2"]
+shape = SubResource("RectangleShape2D_tmcke")
+
+[node name="TurnBasedBattleAgent" parent="Enemy 2" instance=ExtResource("3_tbp2h")]
+character_type = 1
+basicAttack = ExtResource("4_0bt1a")
+turn_order_value = 50.0
+
+[node name="Enemy 3" type="StaticBody2D" parent="."]
+position = Vector2(786, 101)
+script = ExtResource("2_yehj6")
+
+[node name="Sprite2D" type="Sprite2D" parent="Enemy 3"]
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_oxf4v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy 3"]
+shape = SubResource("RectangleShape2D_tmcke")
+
+[node name="TurnBasedBattleAgent" parent="Enemy 3" instance=ExtResource("3_tbp2h")]
+character_type = 1
+basicAttack = ExtResource("4_0bt1a")
+turn_order_value = 50.0
+
+[node name="Player1" type="StaticBody2D" parent="."]
+position = Vector2(458, 452)
+script = ExtResource("2_yehj6")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player1"]
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_oxf4v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player1"]
+shape = SubResource("RectangleShape2D_tmcke")
+
+[node name="TurnBasedBattleAgent" parent="Player1" instance=ExtResource("3_tbp2h")]
+basicAttack = ExtResource("4_0bt1a")
+skills = Array[Resource]([ExtResource("5_y8idk")])
+turn_order_value = 55.0
+
+[node name="Player2" type="StaticBody2D" parent="."]
+position = Vector2(693, 452)
+script = ExtResource("2_yehj6")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player2"]
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_oxf4v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player2"]
+shape = SubResource("RectangleShape2D_tmcke")
+
+[node name="TurnBasedBattleAgent" parent="Player2" instance=ExtResource("3_tbp2h")]
+basicAttack = ExtResource("4_0bt1a")
+skills = Array[Resource]([ExtResource("6_dwctf")])
+turn_order_value = 50.0
+
+[node name="TurnBasedController" parent="." instance=ExtResource("2_08mpt")]
+turnOrderType = 2
+endlessOrder = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ComandMenu" parent="CanvasLayer" instance=ExtResource("4_pl6x7")]
+mainCommandList = Array[Dictionary]([{
+"Attack": "basicAttack"
+}, {
+"Skills": "skills"
+}, {
+"Items": "skills"
+}])
+
+[node name="TurnOrderBar" parent="CanvasLayer" instance=ExtResource("6_d0se7")]
