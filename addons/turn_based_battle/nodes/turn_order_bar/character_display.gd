@@ -9,16 +9,14 @@ var characterName := ""
 var icon: CompressedTexture2D
 
 func _ready() -> void:
-	_set_label()
-	_set_icon()
-
+	_setup_label()
+	_setup_icon()
 	
-	
-func _set_label():
+func _setup_label():
 	if not characterName.is_empty(): return
 	
 	label.hide()
 	label.text = characterName
 
-func _set_icon():
+func _setup_icon():
 	texture_rect.texture = icon

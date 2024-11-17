@@ -19,11 +19,9 @@ signal target_changed(targets : Array[TurnBasedAgent], allies)
 @onready var target_icon_node: TextureRect = $targetIconNode
 
 @export var character_type: Character_Type
-
 ## Character resource should be your resource data where are the stats (health, damage, etc), skills and more are saved
 ## This is the reference for the command menu
 @export var character_resource: Resource
-
 @export var turn_order_value : float
 
 @export_category("Icons")
@@ -33,7 +31,7 @@ signal target_changed(targets : Array[TurnBasedAgent], allies)
 @export var targetIconOffSet: Vector2 = Vector2(50,0)
 @export var turnOrderBarIconTexture: CompressedTexture2D
 
-@export_category("Customize")
+@export_category("Customization")
 @export var selectEnemyIconColor: Color = Color(1,0,0)
 @export var selectPlayerIconColor: Color = Color(0, 1, 0)
 
