@@ -6,6 +6,8 @@
 
 [resource]
 script = ExtResource("2_28tgl")
+health = 100
+speed = 55
 basicAttack = ExtResource("1_vq7ry")
 skills = Array[Resource]([ExtResource("3_2x1ou")])
 items = Array[Resource]([])

@@ -22,6 +22,7 @@ size = Vector2(96, 96)
 [node name="Enemy 1" type="StaticBody2D" parent="."]
 position = Vector2(365, 154)
 script = ExtResource("2_yehj6")
+characterResource = ExtResource("4_s0etk")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemy 1"]
 texture = ExtResource("2_tl5g6")
@@ -32,12 +33,12 @@ shape = SubResource("RectangleShape2D_tmcke")
 [node name="TurnBasedBattleAgent" parent="Enemy 1" instance=ExtResource("3_tbp2h")]
 character_type = 1
 character_resource = ExtResource("4_s0etk")
-turn_order_value = 45.0
 turnOrderBarIconTexture = ExtResource("2_tl5g6")
 
 [node name="Enemy 2" type="StaticBody2D" parent="."]
 position = Vector2(418, 342)
 script = ExtResource("2_yehj6")
+characterResource = ExtResource("4_s0etk")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemy 2"]
 texture = ExtResource("5_5tugo")
@@ -48,12 +49,12 @@ shape = SubResource("RectangleShape2D_tmcke")
 [node name="TurnBasedBattleAgent" parent="Enemy 2" instance=ExtResource("3_tbp2h")]
 character_type = 1
 character_resource = ExtResource("4_s0etk")
-turn_order_value = 50.0
 turnOrderBarIconTexture = ExtResource("5_5tugo")
 
 [node name="Enemy 3" type="StaticBody2D" parent="."]
 position = Vector2(385, 514)
 script = ExtResource("2_yehj6")
+characterResource = ExtResource("4_s0etk")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemy 3"]
 texture = ExtResource("6_kb8yp")
@@ -64,12 +65,12 @@ shape = SubResource("RectangleShape2D_tmcke")
 [node name="TurnBasedBattleAgent" parent="Enemy 3" instance=ExtResource("3_tbp2h")]
 character_type = 1
 character_resource = ExtResource("4_s0etk")
-turn_order_value = 50.0
 turnOrderBarIconTexture = ExtResource("6_kb8yp")
 
 [node name="Player1" type="StaticBody2D" parent="."]
 position = Vector2(818, 169)
 script = ExtResource("2_yehj6")
+characterResource = ExtResource("5_jfnju")
 
 [node name="Sprite2D" type="Sprite2D" parent="Player1"]
 texture = ExtResource("7_50ei7")
@@ -79,12 +80,12 @@ shape = SubResource("RectangleShape2D_tmcke")
 
 [node name="TurnBasedBattleAgent" parent="Player1" instance=ExtResource("3_tbp2h")]
 character_resource = ExtResource("5_jfnju")
-turn_order_value = 55.0
 turnOrderBarIconTexture = ExtResource("7_50ei7")
 
 [node name="Player2" type="StaticBody2D" parent="."]
 position = Vector2(822, 436)
 script = ExtResource("2_yehj6")
+characterResource = ExtResource("6_2gvv6")
 
 [node name="Sprite2D" type="Sprite2D" parent="Player2"]
 texture = ExtResource("9_nca4s")
@@ -94,7 +95,6 @@ shape = SubResource("RectangleShape2D_tmcke")
 
 [node name="TurnBasedBattleAgent" parent="Player2" instance=ExtResource("3_tbp2h")]
 character_resource = ExtResource("6_2gvv6")
-turn_order_value = 50.0
 turnOrderBarIconTexture = ExtResource("9_nca4s")
 
 [node name="TurnBasedController" parent="." instance=ExtResource("2_08mpt")]

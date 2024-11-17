@@ -1,10 +1,14 @@
 extends StaticBody2D
 
+@export var characterResource: Resource
+
 @onready var turn_based_battle_agent: TurnBasedAgent = $TurnBasedBattleAgent
 
 func _ready() -> void:
 	if turn_based_battle_agent: 
+		turn_based_battle_agent.set_turn_order_value(characterResource.speed)
 		turn_based_battle_agent.target_selected.connect(_on_character_action)
+		
 	
 func _on_character_action(targets,command):
 	# here you put every interaction between the character and his targets
