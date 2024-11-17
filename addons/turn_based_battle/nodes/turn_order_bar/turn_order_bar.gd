@@ -1,5 +1,7 @@
 extends Control
 
+@export var scrollable := true
+
 @export_category("Customization")
 @export var onTurnIcon: CompressedTexture2D
 @export var targetIcon: CompressedTexture2D
@@ -13,12 +15,16 @@ extends Control
 @onready var target_icons_container: Control = %TargetIconsContainer
 @onready var on_turn_icon_texture_rect: TextureRect = $onTurnIconTextureRect
 
+@onready var scroll_container: ScrollContainer = %ScrollContainer
+
 const CHARACTER_DISPLAY = preload("res://addons/turn_based_battle/nodes/turn_order_bar/character_display.tscn")
 const ON_TURN_ICON = preload("res://addons/turn_based_battle/nodes/turn_order_bar/on_turn_icon.tscn")
 
 var characterTurnOrder: Array[TurnBasedAgent]
 var targetOffSet = Vector2(-50, 10)
 var onTurnNodeOffSet = Vector2(70, 10)
+var currentTargets: Array[TurnBasedAgent]
+var isCurrentTargetAlly
 
 func _ready() -> void:
 	_setup_on_turn_icon()
@@ -55,10 +61,15 @@ func _on_target_changed(targets: Array[TurnBasedAgent], isTargetAlly: bool):
 	_set_target_nodes(targets, isTargetAlly)
 
 func _on_command_undo():
+	currentTargets = []
+	
 	remove_all_target_nodes()
 
 func _set_target_nodes(targets: Array[TurnBasedAgent], isTargetAlly: bool):
 	if targets.is_empty(): return
+	
+	currentTargets = targets
+	isCurrentTargetAlly = isTargetAlly
 
 	remove_all_target_nodes()
 	
@@ -77,7 +88,9 @@ func _create_target_node(target, isTargetAlly):
 		else: targetNode.modulate = enemyTargetColor
 		
 		target_icons_container.add_child(targetNode)
-		targetNode.global_position = character_container.get_children()[barNodeIndex].global_position + targetOffSet	
+		targetNode.global_position = character_container.get_children()[barNodeIndex].global_position + targetOffSet
+		
+		if targetNode.global_position.y < scroll_container.global_position.y: targetNode.hide()
 
 func remove_all_target_nodes():
 	for node in target_icons_container.get_children():
@@ -85,6 +98,7 @@ func remove_all_target_nodes():
 	
 func _on_turn_order_changed(newCharacterOrder : Array[TurnBasedAgent]):
 	remove_all_target_nodes()
+	currentTargets = []
 	characterTurnOrder = newCharacterOrder
 	_refresh_bar()
 	
@@ -107,4 +121,28 @@ func _refresh_bar():
 		
 		character_container.add_child(characterDisplayNode)
 
+func _input(event: InputEvent) -> void:
+	_scroll_bar(event)
 	
+func _scroll_bar(event):
+	var isMouseOver = get_global_rect().has_point(get_global_mouse_position())
+	if not isMouseOver or not scroll_container or not scrollable: return
+	
+	if not event is InputEventMouseButton: return
+	
+	var mouseWheelUp = event.button_index == 4
+	var mouseWheelDown = event.button_index == 5
+	
+	if mouseWheelDown: scroll_container.scroll_vertical += 20
+	elif mouseWheelUp: scroll_container.scroll_vertical -= 20		
+
+	_change_icons_position()
+
+func _change_icons_position():
+	await get_tree().create_timer(0.01).timeout
+	
+	if currentTargets:  _set_target_nodes(currentTargets, isCurrentTargetAlly)
+	
+	on_turn_icon_texture_rect.global_position.y = character_container.get_children()[0].global_position.y + onTurnNodeOffSet.y
+	if on_turn_icon_texture_rect.global_position.y < scroll_container.global_position.y: on_turn_icon_texture_rect.hide()
+	else: on_turn_icon_texture_rect.show()
