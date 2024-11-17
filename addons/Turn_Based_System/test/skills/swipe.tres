@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SkillResource" load_steps=2 format=3 uid="uid://cs372rjskgrh5"]
+
+[ext_resource type="Script" path="res://addons/Turn_Based_System/test/skills/skillResource.gd" id="1_eku76"]
+
+[resource]
+script = ExtResource("1_eku76")
+name = "Swipe"
+commandType = 0
+targetCount = 3

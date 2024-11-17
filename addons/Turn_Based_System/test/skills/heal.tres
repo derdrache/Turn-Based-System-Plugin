@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SkillResource" load_steps=2 format=3 uid="uid://dgugc04507s8u"]
+
+[ext_resource type="Script" path="res://addons/Turn_Based_System/test/skills/skillResource.gd" id="1_l1tg2"]
+
+[resource]
+script = ExtResource("1_l1tg2")
+name = "Heal"
+targetType = 1
+targetCount = 1
