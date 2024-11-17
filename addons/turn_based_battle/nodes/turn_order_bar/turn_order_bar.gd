@@ -5,11 +5,13 @@ extends Control
 @export var targetIcon: CompressedTexture2D
 @export var playerBackgroundColor := Color(0,1,0)
 @export var enemyBackgroundColor := Color(1,0,0)
+@export var onTurnColor := Color.YELLOW
+@export var allyTargetColor := Color.GREEN
+@export var enemyTargetColor := Color.RED
 
 @onready var character_container: VBoxContainer = %CharacterContainer
 @onready var target_icons_container: Control = %TargetIconsContainer
 @onready var on_turn_icon_texture_rect: TextureRect = $onTurnIconTextureRect
-
 
 const CHARACTER_DISPLAY = preload("res://addons/turn_based_battle/nodes/turn_order_bar/character_display.tscn")
 const ON_TURN_ICON = preload("res://addons/turn_based_battle/nodes/turn_order_bar/on_turn_icon.tscn")
@@ -19,13 +21,17 @@ var targetOffSet = Vector2(-50, 10)
 var onTurnNodeOffSet = Vector2(70, 10)
 
 func _ready() -> void:
-	if onTurnIcon: on_turn_icon_texture_rect.texture = onTurnIcon
+	_setup_on_turn_icon()
 	
 	_setup_signals()
 	
 	_setup_late_signals()
 	
 	_refresh_bar()	
+	
+func _setup_on_turn_icon():
+	if onTurnIcon: on_turn_icon_texture_rect.texture = onTurnIcon
+	on_turn_icon_texture_rect.modulate = onTurnColor
 	
 func _clear_data():
 	for child in character_container.get_children():
@@ -67,7 +73,8 @@ func _create_target_node(target, isTargetAlly):
 		var targetNode = ON_TURN_ICON.instantiate()
 		
 		if targetIcon: targetNode.texture = targetIcon
-		if isTargetAlly: targetNode.modulate = Color.GREEN
+		if isTargetAlly: targetNode.modulate = allyTargetColor
+		else: targetNode.modulate = enemyTargetColor
 		
 		target_icons_container.add_child(targetNode)
 		targetNode.global_position = character_container.get_children()[barNodeIndex].global_position + targetOffSet	
