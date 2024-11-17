@@ -46,9 +46,9 @@ At the end it should look like this:
 
 ## 💭 Feedback and Contributing
 You are always welcome to open issues for improvements or bugs:
-https://github.com/derdrache/DragAndDrop3D/issues
+https://github.com/derdrache/Turn-Based-System-Plugin/issues
 
 Let's discuss wishes and improvements:
-https://github.com/derdrache/DragAndDrop3D/discussions
+https://github.com/derdrache/Turn-Based-System-Plugin/discussions
 
 or with a pull request to extend the code (there are no guidelines)
