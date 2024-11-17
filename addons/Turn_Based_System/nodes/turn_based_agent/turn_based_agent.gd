@@ -22,7 +22,7 @@ signal target_changed(targets : Array[TurnBasedAgent], allies)
 ## Character resource should be your resource data where are the stats (health, damage, etc), skills and more are saved
 ## This is the reference for the command menu
 @export var character_resource: Resource
-@export var turn_order_value : float
+@export var turnOrderValue : int
 
 @export_category("Icons")
 @export var onTurnIconTexture: CompressedTexture2D
@@ -205,3 +205,9 @@ func get_targets():
 
 func get_global_position():
 	return get_parent().global_position
+
+func set_turn_order_value(value: int):
+	turnOrderValue = value
+	
+func get_turn_order_value():
+	return turnOrderValue

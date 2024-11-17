@@ -70,7 +70,7 @@ func _set_value_based_turn_order(characterList):
 
 func _set_dynamic_turn_order(characterList):
 	for character: TurnBasedAgent in characterList:
-		var speedValue : float = _get_dynamic_speed_value(character.turn_order_value)
+		var speedValue : float = _get_dynamic_speed_value(character.get_turn_order_value())
 		var turnOrderValue : float = 10 - speedValue
 		
 		while turnOrderValue > 0:
@@ -93,7 +93,7 @@ func _remove_active_character():
 		
 		characterTurnOrder.append({
 			"node": lastCharacterNode,
-			"value":  _get_dynamic_speed_value(lastCharacterNode.turn_order_value)
+			"value":  _get_dynamic_speed_value(lastCharacterNode.get_turn_order_value())
 		})
 		
 		characterTurnOrder.sort_custom(func(a, b): return a.value > b.value)
@@ -129,7 +129,7 @@ func _on_turn_done():
 	_set_next_active_character()
 	
 func _get_dynamic_speed_value(characterTurnValue):
-	var baseSpeed : float = get_tree().get_nodes_in_group("player")[0].turn_order_value
+	var baseSpeed : float = get_tree().get_nodes_in_group("player")[0].get_turn_order_value()
 	var speedFactor :float = characterTurnValue * 100.0 / baseSpeed
 	var speedValue : float = 1.0 / (speedFactor / 100.0)
 	return speedValue
