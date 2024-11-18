@@ -23,7 +23,7 @@ signal target_changed(targets : Array[TurnBasedAgent], allies)
 ## Character resource should be your resource data where are the stats (health, damage, etc), skills and more are saved
 ## This is the reference for the command menu
 @export var character_resource: Resource
-@export var turnOrderValue : int
+@export var turnOrderValue : float
 
 @export_category("Icons")
 @export var onTurnIconTexture: CompressedTexture2D
@@ -38,11 +38,11 @@ signal target_changed(targets : Array[TurnBasedAgent], allies)
 
 enum Character_Type {PLAYER, ENEMY, NEUTRAL}
 
-var isActive = false
+var isActive := false
 var mainTarget: TurnBasedAgent
 var allSelectedTargets: Array[TurnBasedAgent]
 var currentCommand: Resource
-var isTargetAlly = false
+var isTargetAlly := false
 
 func _ready() -> void:
 	_set_group()
@@ -52,7 +52,7 @@ func _ready() -> void:
 	
 	_set_late_signals()
 
-func _set_group():	
+func _set_group() -> void:
 	add_to_group("turnBasedAgents")
 	
 	if character_type == Character_Type.PLAYER:
@@ -62,13 +62,13 @@ func _set_group():
 	elif character_type == Character_Type.NEUTRAL:
 		add_to_group("neutral")
 
-func _set_on_turn_icon():
+func _set_on_turn_icon() -> void:
 	if onTurnIconTexture: on_turn_icon_node.texture = onTurnIconTexture
 	
 	on_turn_icon_node.hide()
 	on_turn_icon_node.global_position = get_parent().global_position - (on_turn_icon_node.get_global_rect().size / 2) + onTurnIconOffSet
 
-func _set_target_icon():
+func _set_target_icon() -> void:
 	if targetIconTexture: target_icon_node.texture = targetIconTexture
 	
 	target_icon_node.hide()
@@ -77,15 +77,15 @@ func _set_target_icon():
 	if character_type == Character_Type.ENEMY: target_icon_node.modulate = selectEnemyIconColor
 	elif character_type == Character_Type.PLAYER: target_icon_node.modulate = selectPlayerIconColor	
 
-func _set_late_signals():
+func _set_late_signals() -> void:
 	await get_tree().current_scene.ready
 	
-	var commandMenu = get_tree().get_first_node_in_group("commandMenu")
+	var commandMenu: CommandMenu = get_tree().get_first_node_in_group("commandMenu")
 	if commandMenu:
 		commandMenu.command_selected.connect(_on_command_selected)
 
-func _on_command_selected(command: CommandResource):
-	var turnBasedController = get_tree().get_first_node_in_group("turnBasedController")
+func _on_command_selected(command: CommandResource) -> void:
+	var turnBasedController: TurnBasedController = get_tree().get_first_node_in_group("turnBasedController")
 	if not isActive or turnBasedController.useOwnTargetingSystem: return
 	
 	currentCommand = command
@@ -104,10 +104,7 @@ func _on_command_selected(command: CommandResource):
 	
 	target_changed.emit(allSelectedTargets, isTargetAlly)
 
-func _on_run_command():
-	get_tree().quit()
-
-func set_active(boolean: bool):
+func set_active(boolean: bool) -> void:
 	isActive = boolean
 	
 	if isActive: on_turn_icon_node.show()
@@ -120,13 +117,13 @@ func set_active(boolean: bool):
 		target_selected.emit(get_tree().get_nodes_in_group("player"), character_resource.basicAttack)
 		set_active(false)
 	
-func set_target():
+func set_target() -> void:
 	target_icon_node.show()
 
-func _deselect_all_targets():
+func _deselect_all_targets() -> void:
 	var allTargets = get_tree().get_nodes_in_group("enemy") + get_tree().get_nodes_in_group("player")
 	
-	for target in allTargets:
+	for target:TurnBasedAgent in allTargets:
 		target.target_icon_node.hide()	
 
 func _input(event: InputEvent) -> void:
@@ -141,13 +138,13 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"): _select_target()
 	elif event.is_action_pressed("ui_cancel"): _undo_command()
 	
-func _select_between_targets(event: InputEvent, targets: Array):
-	var currentTargetIndex = targets.find(mainTarget, 0)
+func _select_between_targets(event: InputEvent, targets: Array) -> void:
+	var currentTargetIndex: int = targets.find(mainTarget, 0)
 	
-	var pressedLeft = event.is_action_pressed("ui_left")
-	var pressedRight = event.is_action_pressed("ui_right")
-	var pressedUp = event.is_action_pressed("ui_up")
-	var pressedDown =  event.is_action_pressed("ui_down")
+	var pressedLeft := event.is_action_pressed("ui_left")
+	var pressedRight := event.is_action_pressed("ui_right")
+	var pressedUp := event.is_action_pressed("ui_up")
+	var pressedDown :=  event.is_action_pressed("ui_down")
 	
 	if pressedLeft or pressedUp:
 		currentTargetIndex -= 1
@@ -165,10 +162,10 @@ func _select_between_targets(event: InputEvent, targets: Array):
 	
 	_check_and_select_multi_target(mainTarget, targets)
 	
-func _check_and_select_multi_target(mainTarget, targets):
-	var targetCount = currentCommand.targetCount
-	var mainTargetIndex = targets.find(mainTarget,0)
-	var targetSize = targets.size()-1
+func _check_and_select_multi_target(mainTarget: TurnBasedAgent, targets: Array[TurnBasedAgent]) -> void:
+	var targetCount: int = currentCommand.targetCount
+	var mainTargetIndex := targets.find(mainTarget,0)
+	var targetSize := targets.size()-1
 	
 	allSelectedTargets = []
 	
@@ -185,30 +182,30 @@ func _check_and_select_multi_target(mainTarget, targets):
 		mainTargetIndex += 1
 		if mainTargetIndex > targetSize: mainTargetIndex = 0
 
-func _select_target():
+func _select_target() -> void:
 	target_selected.emit(allSelectedTargets, currentCommand)
 	_deselect_all_targets()
 	set_active(false)
 	mainTarget = null
 	allSelectedTargets = []
 	
-func _undo_command():
+func _undo_command() -> void:
 	mainTarget = null
 	_deselect_all_targets()
 	allSelectedTargets = []
 	undo_command_selected.emit()
 
-func command_done():
+func command_done() -> void:
 	turn_finished.emit()
 
-func get_targets():
+func get_targets() -> TurnBasedAgent:
 	return mainTarget
 
 func get_global_position():
 	return get_parent().global_position
 
-func set_turn_order_value(value: int):
+func set_turn_order_value(value: int) -> void:
 	turnOrderValue = value
 	
-func get_turn_order_value():
+func get_turn_order_value() -> float:
 	return turnOrderValue

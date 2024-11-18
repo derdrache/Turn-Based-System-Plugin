@@ -15,7 +15,7 @@ signal turn_order_changed(characterTurnOrder)
 
 enum Turn_Order_Type{CLASSIC, VALUE_BASED, DYNAMIC}
 
-var characterTurnOrder: Array[Dictionary] = []
+var turnOrderList: Array[Dictionary] = []
 var activeCharacter: TurnBasedAgent
 
 func _ready() -> void:
@@ -29,11 +29,11 @@ func _ready() -> void:
 	
 	_set_next_active_character()
 
-func _set_late_signals():
+func _set_late_signals() -> void:
 	for player: TurnBasedAgent in get_tree().get_nodes_in_group("turnBasedAgents"):
 		player.turn_finished.connect(_on_turn_done)
 
-func _set_turn_order():
+func _set_turn_order() -> void:
 	var players = get_tree().get_nodes_in_group("player")
 	var enemies = get_tree().get_nodes_in_group("enemy")
 	
@@ -42,76 +42,73 @@ func _set_turn_order():
 		Turn_Order_Type.VALUE_BASED: _set_value_based_turn_order(players + enemies)
 		Turn_Order_Type.DYNAMIC: _set_dynamic_turn_order(players + enemies)
 	
-func _set_classic_turn_order(characterList):
-		var players = get_tree().get_nodes_in_group("player")
-		var enemies = get_tree().get_nodes_in_group("enemy")
-				
-		var rounds = 1
-		if endlessOrder: rounds = round(maxTurnsCalculation / (players + enemies).size())
+func _set_classic_turn_order(characterList) -> void:
+		var rounds := 1
+		if endlessOrder: rounds = round(maxTurnsCalculation / (characterList).size())
 		
-		for round in rounds:
-			for character in players + enemies:
-				characterTurnOrder.append({
+		for i in rounds:
+			for character: TurnBasedAgent in characterList:
+				turnOrderList.append({
 					"node": character
 				})
 		
-func _set_value_based_turn_order(characterList):
-	var rounds = 1
+func _set_value_based_turn_order(characterList) -> void:
+	var rounds := 1
 	if endlessOrder: rounds = round(maxTurnsCalculation / (characterList).size())
 	
-	for round in rounds:
-		for character in characterList:
-			characterTurnOrder.append({
+	for i in rounds:
+		for character: TurnBasedAgent in characterList:
+			turnOrderList.append({
 				"node": character,
 				"value": character.turn_order_value
 			})
 		
-	characterTurnOrder.sort_custom(func(a, b): return a.value > b.value)
+	turnOrderList.sort_custom(func(a, b): return a.value > b.value)
 
-func _set_dynamic_turn_order(characterList):
+func _set_dynamic_turn_order(characterList) -> void:
 	for character: TurnBasedAgent in characterList:
 		var speedValue : float = _get_dynamic_speed_value(character.get_turn_order_value())
 		var turnOrderValue : float = 10 - speedValue
 		
 		while turnOrderValue > 0:
-			characterTurnOrder.append({
+			turnOrderList.append({
 							"node": character,
 							"value": turnOrderValue
 						})
 			turnOrderValue -= speedValue
 
-	characterTurnOrder.sort_custom(func(a, b): return a.value > b.value)
+	turnOrderList.sort_custom(func(a, b): return a.value > b.value)
 	
-func _remove_active_character():
+func _remove_active_character() -> void:
 	if not activeCharacter: return
 	
-	var lastCharacter = characterTurnOrder.pop_front()
-	var lastCharacterNode :TurnBasedAgent = lastCharacter.node
+	var lastCharacter := turnOrderList.pop_front()
+	var lastCharacterNode : TurnBasedAgent = lastCharacter.node
 
 	if turnOrderType == Turn_Order_Type.DYNAMIC:
-		_add_time_to_turn_order(lastCharacter.value - characterTurnOrder[0].value )
+		_add_time_to_turn_order(lastCharacter.value - turnOrderList[0].value )
 		
-		characterTurnOrder.append({
+		turnOrderList.append({
 			"node": lastCharacterNode,
 			"value":  _get_dynamic_speed_value(lastCharacterNode.get_turn_order_value())
 		})
 		
-		characterTurnOrder.sort_custom(func(a, b): return a.value > b.value)
+		turnOrderList.sort_custom(func(a, b): return a.value > b.value)
 	elif endlessOrder:
-		characterTurnOrder.append({
+		turnOrderList.append({
 			"node": lastCharacterNode,
-			"value": lastCharacterNode.turn_order_value
+			"value": lastCharacterNode.get_turn_order_value()
 		})
 
-func _set_next_active_character():
+func _set_next_active_character() -> void:
 	_remove_active_character()
 	
-	if characterTurnOrder.is_empty():
+	if turnOrderList.is_empty():
 		round_finished.emit()
 		_set_turn_order()
 
-	if characterTurnOrder:
-		activeCharacter = characterTurnOrder[0].node
+	if turnOrderList:
+		activeCharacter = turnOrderList[0].node
 		activeCharacter.set_active(true)
 	
 	_send_turn_order_bar()
@@ -119,21 +116,21 @@ func _set_next_active_character():
 func _send_turn_order_bar():
 	var barTurnOrder: Array[TurnBasedAgent] = []
 	
-	for character in characterTurnOrder:
+	for character: Dictionary in turnOrderList:
 		barTurnOrder.append(character.node)
 
 	turn_order_changed.emit(barTurnOrder)		
 	
-func _on_turn_done():
+func _on_turn_done() -> void:
 	_send_turn_order_bar()
 	_set_next_active_character()
 	
-func _get_dynamic_speed_value(characterTurnValue):
+func _get_dynamic_speed_value(characterTurnValue: float) -> float:
 	var baseSpeed : float = get_tree().get_nodes_in_group("player")[0].get_turn_order_value()
 	var speedFactor :float = characterTurnValue * 100.0 / baseSpeed
 	var speedValue : float = 1.0 / (speedFactor / 100.0)
 	return speedValue
 
-func _add_time_to_turn_order(time):
-	for character in characterTurnOrder:
+func _add_time_to_turn_order(time) -> void:
+	for character: Dictionary in turnOrderList:
 		character.value += time

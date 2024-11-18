@@ -32,6 +32,3 @@ custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 texture = ExtResource("1_8qne4")
 expand_mode = 1
-
-[node name="Label" type="Label" parent="VBoxContainer"]
-layout_mode = 2
