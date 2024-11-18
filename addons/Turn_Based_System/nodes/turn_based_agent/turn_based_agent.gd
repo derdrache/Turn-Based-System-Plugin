@@ -1,6 +1,7 @@
 extends Node
 class_name TurnBasedAgent
 
+## Emitted when a player turn started
 signal player_turn_started()
 ## Emitted when the character has made his  is done
 signal turn_finished()

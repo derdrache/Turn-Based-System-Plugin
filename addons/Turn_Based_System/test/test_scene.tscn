@@ -113,8 +113,6 @@ mainCommandList = Array[Dictionary]([{
 }])
 
 [node name="TurnOrderBar" parent="CanvasLayer" instance=ExtResource("6_d0se7")]
-offset_left = 275.0
-offset_top = 4.0
-offset_right = 275.0
-offset_bottom = 4.0
+offset_left = 288.0
+offset_right = 288.0
 scale = Vector2(0.75, 0.75)

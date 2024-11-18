@@ -80,17 +80,17 @@ func _set_target_nodes(targets: Array[TurnBasedAgent], isTargetAlly: bool):
 			_create_target_node(target, isTargetAlly)
 
 func _create_target_node(target, isTargetAlly):
-		var barNodeIndex = characterTurnOrder.find(target)
-		var targetNode = ON_TURN_ICON.instantiate()
-		
-		if targetIcon: targetNode.texture = targetIcon
-		if isTargetAlly: targetNode.modulate = allyTargetColor
-		else: targetNode.modulate = enemyTargetColor
-		
-		target_icons_container.add_child(targetNode)
-		targetNode.global_position = character_container.get_children()[barNodeIndex].global_position + targetOffSet
-		
-		if targetNode.global_position.y < scroll_container.global_position.y: targetNode.hide()
+	var barNodeIndex = characterTurnOrder.find(target)
+	var targetNode = ON_TURN_ICON.instantiate()
+	
+	if targetIcon: targetNode.texture = targetIcon
+	if isTargetAlly: targetNode.modulate = allyTargetColor
+	else: targetNode.modulate = enemyTargetColor
+	
+	target_icons_container.add_child(targetNode)
+	targetNode.global_position = character_container.get_children()[barNodeIndex].global_position + targetOffSet
+	
+	if targetNode.global_position.y < scroll_container.global_position.y: targetNode.hide()
 
 func remove_all_target_nodes():
 	for node in target_icons_container.get_children():
@@ -146,3 +146,5 @@ func _change_icons_position():
 	on_turn_icon_texture_rect.global_position.y = character_container.get_children()[0].global_position.y + onTurnNodeOffSet.y
 	if on_turn_icon_texture_rect.global_position.y < scroll_container.global_position.y: on_turn_icon_texture_rect.hide()
 	else: on_turn_icon_texture_rect.show()
+
+		

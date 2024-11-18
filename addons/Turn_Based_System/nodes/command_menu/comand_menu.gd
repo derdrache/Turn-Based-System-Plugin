@@ -1,5 +1,7 @@
 extends PanelContainer
 ## With it you can setup and select your Commands, Skills or Items in Battle
+## To build Commands, you have to setup the mainCommandList with your created Character Resource
+
 
 signal command_selected(command: Resource)
 
@@ -51,7 +53,7 @@ func _on_multi_command_button_pressed(commandList: Array[Resource]):
 	
 	await get_tree().process_frame
 	await get_tree().process_frame
-	
+	## grab_focus needs more then one physicframe to work
 	multi_command_container.get_children()[0].grab_focus()
 
 func _clear_multi_command_container():
