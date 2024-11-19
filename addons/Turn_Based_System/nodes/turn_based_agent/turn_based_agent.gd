@@ -1,3 +1,4 @@
+@tool
 extends Node
 class_name TurnBasedAgent
 
@@ -27,9 +28,15 @@ signal target_changed(targets : Array[TurnBasedAgent], allies)
 
 @export_category("Icons")
 @export var onTurnIconTexture: CompressedTexture2D
-@export var onTurnIconOffSet: Vector2 = Vector2(0,-50)
+@export var onTurnIconOffSet: Vector2 = Vector2(0,-50):
+	set(value):
+		onTurnIconOffSet = value
+		_refresh_on_turn_icon_position()
 @export var targetIconTexture: CompressedTexture2D
-@export var targetIconOffSet: Vector2 = Vector2(50,0)
+@export var targetIconOffSet: Vector2 = Vector2(50,0):
+	set(value):
+		targetIconOffSet = value
+		_refresh_target_icon_position()
 @export var turnOrderBarIconTexture: CompressedTexture2D
 
 @export_category("Customization")
@@ -50,9 +57,18 @@ func _ready() -> void:
 	_set_on_turn_icon()
 	_set_target_icon()
 	
-	_set_late_signals()
+	if not Engine.is_editor_hint():
+		_set_late_signals()
 
 func _process(delta: float) -> void:
+	_refresh_on_turn_icon_position()
+
+func _refresh_target_icon_position() -> void:
+	if not target_icon_node: return
+	target_icon_node.global_position = get_parent().global_position - (target_icon_node.get_global_rect().size/2) + targetIconOffSet
+	
+func _refresh_on_turn_icon_position()-> void:
+	if not on_turn_icon_node: return
 	on_turn_icon_node.global_position = get_parent().global_position - (on_turn_icon_node.get_global_rect().size / 2) + onTurnIconOffSet
 
 func _set_group() -> void:
@@ -68,16 +84,19 @@ func _set_group() -> void:
 func _set_on_turn_icon() -> void:
 	if onTurnIconTexture: on_turn_icon_node.texture = onTurnIconTexture
 	
-	on_turn_icon_node.hide()
+	if not Engine.is_editor_hint():
+		on_turn_icon_node.hide()
 
 func _set_target_icon() -> void:
 	if targetIconTexture: target_icon_node.texture = targetIconTexture
 	
-	target_icon_node.hide()
-	target_icon_node.global_position = get_parent().global_position - (target_icon_node.get_global_rect().size/2) + targetIconOffSet
+	_refresh_target_icon_position()
 	
 	if character_type == Character_Type.ENEMY: target_icon_node.modulate = selectEnemyIconColor
 	elif character_type == Character_Type.PLAYER: target_icon_node.modulate = selectPlayerIconColor	
+
+	if not Engine.is_editor_hint(): 
+		target_icon_node.hide()
 
 func _set_late_signals() -> void:
 	await get_tree().current_scene.ready
@@ -108,7 +127,7 @@ func _on_command_selected(command: CommandResource) -> void:
 
 func set_active(boolean: bool) -> void:
 	isActive = boolean
-	
+
 	if isActive: on_turn_icon_node.show()
 	else: on_turn_icon_node.hide()
 	
