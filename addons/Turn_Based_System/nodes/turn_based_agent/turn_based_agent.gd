@@ -80,7 +80,7 @@ func _set_target_icon() -> void:
 func _set_late_signals() -> void:
 	await get_tree().current_scene.ready
 	
-	var commandMenu: CommandMenu = get_tree().get_first_node_in_group("commandMenu")
+	var commandMenu = get_tree().get_first_node_in_group("commandMenu")
 	if commandMenu:
 		commandMenu.command_selected.connect(_on_command_selected)
 

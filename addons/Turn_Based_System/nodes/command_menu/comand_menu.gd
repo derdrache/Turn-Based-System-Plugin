@@ -1,8 +1,6 @@
 extends PanelContainer
-class_name CommandMenu
 ## With it you can setup and select your Commands, Skills or Items in Battle
 ## To build Commands, you have to setup the mainCommandList with your created Character Resource
-
 
 signal command_selected(command: Resource)
 

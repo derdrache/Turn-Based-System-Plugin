@@ -1,5 +1,6 @@
 @icon("res://addons/Turn_Based_System/assets/icons/sort.png")
 extends Control
+class_name TurnOrderBar
 
 @export var scrollable := true
 
@@ -28,13 +29,14 @@ var isCurrentTargetAlly: bool
 
 func _ready() -> void:
 	_setup_on_turn_icon()
-	
+		
 	_setup_signals()
-	
+		
 	_setup_late_signals()
-	
+		
 	_refresh_bar()	
 	
+
 func _setup_on_turn_icon() -> void:
 	if onTurnIcon: on_turn_icon_texture_rect.texture = onTurnIcon
 	on_turn_icon_texture_rect.modulate = onTurnColor

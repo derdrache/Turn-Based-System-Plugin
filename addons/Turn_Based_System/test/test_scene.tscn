@@ -9,10 +9,10 @@
 [ext_resource type="Texture2D" uid="uid://sdtjd8j6r3ct" path="res://addons/Turn_Based_System/test/assets/2D/91.png" id="5_5tugo"]
 [ext_resource type="Resource" uid="uid://ccq1ra2k8frfy" path="res://addons/Turn_Based_System/test/resource/player1.tres" id="5_jfnju"]
 [ext_resource type="Resource" uid="uid://cudnqmq33tpnh" path="res://addons/Turn_Based_System/test/resource/player2.tres" id="6_2gvv6"]
-[ext_resource type="PackedScene" uid="uid://cv1rrda3groo5" path="res://addons/Turn_Based_System/nodes/turn_order_bar/turn_order_bar.tscn" id="6_d0se7"]
 [ext_resource type="Texture2D" uid="uid://bmlqrajokytar" path="res://addons/Turn_Based_System/test/assets/2D/99.png" id="6_kb8yp"]
 [ext_resource type="Texture2D" uid="uid://bdbnbh1tbm1e3" path="res://addons/Turn_Based_System/test/assets/2D/87.png" id="7_50ei7"]
 [ext_resource type="Texture2D" uid="uid://brstn62lvwmhj" path="res://addons/Turn_Based_System/test/assets/2D/42.png" id="9_nca4s"]
+[ext_resource type="PackedScene" uid="uid://cv1rrda3groo5" path="res://addons/Turn_Based_System/nodes/turn_order_bar/turn_order_bar.tscn" id="13_ka3q1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tmcke"]
 size = Vector2(96, 96)
@@ -98,7 +98,6 @@ character_resource = ExtResource("6_2gvv6")
 turnOrderBarIconTexture = ExtResource("9_nca4s")
 
 [node name="TurnBasedController" parent="." instance=ExtResource("2_08mpt")]
-turnOrderType = 2
 endlessOrder = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -112,7 +111,4 @@ mainCommandList = Array[Dictionary]([{
 "Items": "items"
 }])
 
-[node name="TurnOrderBar" parent="CanvasLayer" instance=ExtResource("6_d0se7")]
-offset_left = 288.0
-offset_right = 288.0
-scale = Vector2(0.75, 0.75)
+[node name="TurnOrderBar" parent="CanvasLayer" instance=ExtResource("13_ka3q1")]
