@@ -52,6 +52,9 @@ func _ready() -> void:
 	
 	_set_late_signals()
 
+func _process(delta: float) -> void:
+	on_turn_icon_node.global_position = get_parent().global_position - (on_turn_icon_node.get_global_rect().size / 2) + onTurnIconOffSet
+
 func _set_group() -> void:
 	add_to_group("turnBasedAgents")
 	
@@ -66,7 +69,6 @@ func _set_on_turn_icon() -> void:
 	if onTurnIconTexture: on_turn_icon_node.texture = onTurnIconTexture
 	
 	on_turn_icon_node.hide()
-	on_turn_icon_node.global_position = get_parent().global_position - (on_turn_icon_node.get_global_rect().size / 2) + onTurnIconOffSet
 
 func _set_target_icon() -> void:
 	if targetIconTexture: target_icon_node.texture = targetIconTexture
