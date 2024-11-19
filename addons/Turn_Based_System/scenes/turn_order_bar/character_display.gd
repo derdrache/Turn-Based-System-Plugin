@@ -9,4 +9,4 @@ func _ready() -> void:
 	_setup_icon()
 
 func _setup_icon() -> void:
-	texture_rect.texture = icon
+	if icon: texture_rect.texture = icon
