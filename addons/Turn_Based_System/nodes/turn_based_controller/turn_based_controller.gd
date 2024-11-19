@@ -134,3 +134,6 @@ func _get_dynamic_speed_value(characterTurnValue: float) -> float:
 func _add_time_to_turn_order(time) -> void:
 	for character: Dictionary in turnOrderList:
 		character.value += time
+
+func get_active_character():
+	return activeCharacter.get_parent()

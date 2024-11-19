@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://csjsu65sx7iu5"]
+[gd_scene load_steps=6 format=3 uid="uid://csjsu65sx7iu5"]
 
-[ext_resource type="Script" path="res://addons/Turn_Based_System/nodes/command_menu/comand_menu.gd" id="1_gybsi"]
+[ext_resource type="Script" path="res://addons/Turn_Based_System/scenes/classic_command_menu/classic_comand_menu.gd" id="1_gybsi"]
+[ext_resource type="PackedScene" uid="uid://3aq1x782mavu" path="res://addons/Turn_Based_System/test/move_button.tscn" id="2_0ey8r"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xvk5p"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -18,8 +19,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_xvk5p")
 script = ExtResource("1_gybsi")
+extraCommands = Array[PackedScene]([ExtResource("2_0ey8r")])
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -47,6 +50,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_wq7fw")
 text = "Attack"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 145)
 layout_mode = 2
 horizontal_scroll_mode = 0

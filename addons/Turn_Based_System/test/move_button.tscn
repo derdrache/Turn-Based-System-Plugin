@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://3aq1x782mavu"]
+
+[ext_resource type="Script" path="res://addons/Turn_Based_System/test/move_button.gd" id="1_f4muv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_acv2j"]
+bg_color = Color(0.466667, 0.403922, 1, 0.588235)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wq7fw"]
+bg_color = Color(0.466667, 0.403922, 1, 0.196078)
+
+[node name="Move" type="Button"]
+custom_minimum_size = Vector2(200, 0)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/focus = SubResource("StyleBoxFlat_acv2j")
+theme_override_styles/normal = SubResource("StyleBoxFlat_wq7fw")
+text = "Move"
+script = ExtResource("1_f4muv")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://chnm414dcbqlr"]
 
 [ext_resource type="Texture2D" uid="uid://b2tptysl4d3g" path="res://addons/Turn_Based_System/assets/icons/icon.svg" id="1_8qne4"]
-[ext_resource type="Script" path="res://addons/Turn_Based_System/nodes/turn_order_bar/character_display.gd" id="1_cv27x"]
+[ext_resource type="Script" path="res://addons/Turn_Based_System/scenes/turn_order_bar/character_display.gd" id="1_cv27x"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r6qhk"]
 content_margin_left = 5.0

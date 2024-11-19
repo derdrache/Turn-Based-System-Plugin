@@ -1,2 +1,2 @@
 extends CommandResource
-class_name SkillResource
+class_name TestSkillResource

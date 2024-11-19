@@ -4,7 +4,7 @@ extends PanelContainer
 
 signal command_selected(command: Resource)
 
-@export var COMMAND_BUTTON : PackedScene = preload("res://addons/Turn_Based_System/nodes/command_menu/command_button.tscn")
+@export var COMMAND_BUTTON : PackedScene = preload("res://addons/Turn_Based_System/scenes/classic_command_menu/classic_command_button.tscn")
 
 ## Setup the main menu [br]
 ## Array[Dictonary] [br]
@@ -15,14 +15,16 @@ signal command_selected(command: Resource)
 	{"Attack": "basicAttack"},
 	{"Skills": "skills"}
 ]
+@export var extraCommands: Array[PackedScene]
 ## test
 
 @onready var main_command_container: VBoxContainer = %MainCommandContainer
+@onready var scroll_container: ScrollContainer = %ScrollContainer
 @onready var multi_command_container: GridContainer = %MultiCommandContainer
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel") and multi_command_container.visible:
-		multi_command_container.hide()
+		scroll_container.hide()
 		main_command_container.show()
 		
 		main_command_container.get_children()[0].grab_focus()
@@ -40,7 +42,7 @@ func _on_command_pressed(commandResource: Resource):
 	command_selected.emit(commandResource)
 	
 	main_command_container.show()
-	multi_command_container.hide()
+	scroll_container.hide()
 
 func _on_multi_command_button_pressed(commandList: Array[Resource]):
 	_clear_multi_command_container()
@@ -48,7 +50,7 @@ func _on_multi_command_button_pressed(commandList: Array[Resource]):
 	_set_multi_command_container(commandList)
 	
 	main_command_container.hide()
-	multi_command_container.show()
+	scroll_container.show()
 	
 	await get_tree().process_frame
 	await get_tree().process_frame
@@ -114,3 +116,6 @@ func _set_command_options(character: TurnBasedAgent):
 			newMainCommandButton.text = mainCommandName
 			main_command_container.add_child(newMainCommandButton)
 			newMainCommandButton.pressed.connect(_on_multi_command_button_pressed.bind(mainCommand))
+			
+	for button in extraCommands:
+		main_command_container.add_child(button.instantiate())

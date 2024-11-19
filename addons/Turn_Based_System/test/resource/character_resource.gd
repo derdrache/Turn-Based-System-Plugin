@@ -1,5 +1,5 @@
 extends Resource
-class_name CharacterResource
+class_name TestCharacterResource
 
 ## Here you setup your stats, skills, items and what you want
 @export var health := 100

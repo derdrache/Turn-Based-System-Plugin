@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://cv1rrda3groo5"]
 
-[ext_resource type="Script" path="res://addons/Turn_Based_System/nodes/turn_order_bar/turn_order_bar.gd" id="1_0555k"]
-[ext_resource type="PackedScene" uid="uid://chnm414dcbqlr" path="res://addons/Turn_Based_System/nodes/turn_order_bar/character_display.tscn" id="2_vflxu"]
+[ext_resource type="Script" path="res://addons/Turn_Based_System/scenes/turn_order_bar/turn_order_bar.gd" id="1_0555k"]
+[ext_resource type="PackedScene" uid="uid://chnm414dcbqlr" path="res://addons/Turn_Based_System/scenes/turn_order_bar/character_display.tscn" id="2_vflxu"]
 [ext_resource type="Texture2D" uid="uid://jvgay0s5alo6" path="res://addons/Turn_Based_System/assets/icons/Icon_Left.png" id="3_e6igx"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p8yfu"]
@@ -23,6 +23,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 script = ExtResource("1_0555k")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -97,3 +98,4 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1

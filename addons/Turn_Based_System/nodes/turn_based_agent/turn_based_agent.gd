@@ -162,7 +162,7 @@ func _select_between_targets(event: InputEvent, targets: Array) -> void:
 	
 	_check_and_select_multi_target(mainTarget, targets)
 	
-func _check_and_select_multi_target(mainTarget: TurnBasedAgent, targets: Array[TurnBasedAgent]) -> void:
+func _check_and_select_multi_target(mainTarget: TurnBasedAgent, targets: Array[Node]) -> void:
 	var targetCount: int = currentCommand.targetCount
 	var mainTargetIndex := targets.find(mainTarget,0)
 	var targetSize := targets.size()-1
