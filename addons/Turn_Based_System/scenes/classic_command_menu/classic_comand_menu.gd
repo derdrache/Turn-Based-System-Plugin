@@ -128,6 +128,8 @@ func _on_player_turn(character) -> void:
 	show()
 
 func _reset_main_commands():
+	if not main_command_container: return
+	
 	for node in main_command_container.get_children():
 		node.queue_free()
 

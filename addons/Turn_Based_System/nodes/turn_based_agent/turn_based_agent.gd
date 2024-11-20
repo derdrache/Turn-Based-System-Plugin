@@ -65,6 +65,8 @@ func _ready() -> void:
 		_set_late_signals()
 
 func _process(delta: float) -> void:
+	if Engine.is_editor_hint(): return
+	
 	_refresh_on_turn_icon_position()
 
 func _set_group() -> void:
