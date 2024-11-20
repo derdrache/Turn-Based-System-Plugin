@@ -23,6 +23,8 @@ mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_xvk5p")
 script = ExtResource("1_gybsi")
 extraMainCommands = Array[PackedScene]([ExtResource("2_0ey8r")])
+mainCommandIcons = Array[CompressedTexture2D]([null, null, null])
+mainCommandActions = Array[String](["", "", ""])
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -38,16 +40,6 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 theme_override_constants/separation = 5
-
-[node name="Attack" type="Button" parent="MarginContainer/MainCommandContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-focus_neighbor_top = NodePath("../Run")
-focus_neighbor_bottom = NodePath("../Skill")
-theme_override_font_sizes/font_size = 25
-theme_override_styles/focus = SubResource("StyleBoxFlat_acv2j")
-theme_override_styles/normal = SubResource("StyleBoxFlat_wq7fw")
-text = "Attack"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
 unique_name_in_owner = true
@@ -85,3 +77,5 @@ theme_override_font_sizes/font_size = 25
 theme_override_styles/focus = SubResource("StyleBoxFlat_acv2j")
 theme_override_styles/normal = SubResource("StyleBoxFlat_wq7fw")
 text = "Attack"
+
+[connection signal="pressed" from="MarginContainer/MainCommandContainer/@Button@61120" to="MarginContainer/MainCommandContainer/@Button@61120" method="_on_pressed"]

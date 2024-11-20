@@ -63,6 +63,8 @@ func _ready() -> void:
 	
 	if not Engine.is_editor_hint():
 		_set_late_signals()
+		
+	
 
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint(): return
@@ -108,7 +110,7 @@ func _create_target_icon() -> void:
 		targetIconNode.hide()
 
 func _refresh_target_icon_position() -> void:
-	if not targetIconNode or Engine.is_editor_hint(): return
+	if not targetIconNode: return
 	targetIconNode.global_position = get_parent().global_position - (targetIconNode.get_global_rect().size/2) + targetIconOffSet
 	
 func _refresh_on_turn_icon_position()-> void:

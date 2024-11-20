@@ -35,6 +35,8 @@ script = ExtResource("4_hy2bi")
 character_type = 1
 character_resource = ExtResource("4_s0etk")
 turnOrderValue = 50.0
+onTurnIconOffSet = Vector2(0, -49.925)
+targetIconOffSet = Vector2(49.945, 0)
 
 [node name="Enemy 2" type="StaticBody2D" parent="."]
 position = Vector2(418, 342)
@@ -114,11 +116,11 @@ mainCommandList = Array[Dictionary]([{
 "Items": "items"
 }])
 mainCommandIcons = Array[CompressedTexture2D]([null, null, null, null])
-mainCommandActions = Array[String](["ui_up", "ui_down", "ui_left", ""])
+mainCommandActions = Array[String](["", "", "", ""])
 
 [node name="TurnOrderBar" parent="CanvasLayer" instance=ExtResource("13_ka3q1")]
 visible = false
 
-[connection signal="pressed" from="CanvasLayer/ComandMenu/MarginContainer/MainCommandContainer/@Button@40095" to="CanvasLayer/ComandMenu/MarginContainer/MainCommandContainer/@Button@40095" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/ComandMenu/MarginContainer/MainCommandContainer/Move" to="CanvasLayer/ComandMenu/MarginContainer/MainCommandContainer/Move" method="_on_pressed"]
 
 [editable path="CanvasLayer/ComandMenu"]

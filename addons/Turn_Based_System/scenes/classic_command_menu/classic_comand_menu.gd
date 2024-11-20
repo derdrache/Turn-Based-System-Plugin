@@ -7,6 +7,8 @@ signal command_selected(command: Resource)
 
 @export var COMMAND_BUTTON : PackedScene = preload("res://addons/Turn_Based_System/scenes/classic_command_menu/classic_command_button.tscn")
 
+
+@export_category("Command Settings")
 ## Setup the main menu [br]
 ## Array[Dictonary] [br]
 ## Dictonary Key is the name of the CommandButton [br]
@@ -39,15 +41,20 @@ signal command_selected(command: Resource)
 		var arraySize = mainCommandList.size() + extraMainCommands.size()
 		if value.size() == arraySize:
 			mainCommandIcons = value
+		elif value.is_empty():
+			value.resize(arraySize)
+			mainCommandIcons = value
 		
 		if not Engine.is_editor_hint(): return
 		_reset_main_commands()
 		_set_command_options()
-
 @export var mainCommandActions: Array[String]:
 	set(value):
 		var arraySize = mainCommandList.size() + extraMainCommands.size()
 		if value.size() == arraySize:
+			mainCommandActions = value
+		elif value.is_empty():
+			value.resize(arraySize)
 			mainCommandActions = value
 			
 		if not Engine.is_editor_hint(): return
@@ -60,7 +67,9 @@ signal command_selected(command: Resource)
 
 func _input(event: InputEvent) -> void:
 	if main_command_container.visible:
-		for action in mainCommandActions:
+		for action: String in mainCommandActions:
+			if action.is_empty(): continue
+			
 			var index = mainCommandActions.find(action)
 			if event.is_action_pressed(action): main_command_container.get_children()[index].pressed.emit()
 		
@@ -68,10 +77,12 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel") and multi_command_container.visible:
 		scroll_container.hide()
 		main_command_container.show()
+		main_command_container.get_children()[0].grab_focus()
+		
 
 func _ready() -> void:
 	add_to_group("commandMenu")
-	
+
 	if not Engine.is_editor_hint(): 
 		hide()
 		_set_late_signals()
@@ -169,6 +180,9 @@ func _set_command_options(character: TurnBasedAgent = null):
 			newMainCommandButton.text = mainCommandName
 			main_command_container.add_child(newMainCommandButton)
 			newMainCommandButton.pressed.connect(_on_multi_command_button_pressed.bind(mainCommand))
+		
+		var index = mainCommandList.find(mainCommandDict)
+		if index == 0: newMainCommandButton.grab_focus()
 			
 	for button in extraMainCommands:
 		var newButton = button.instantiate()
