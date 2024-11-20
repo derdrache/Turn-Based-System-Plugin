@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://dg7dkgco046qx"]
+
+[ext_resource type="Texture2D" uid="uid://d3fkdfjvneujr" path="res://addons/Turn_Based_System/assets/icons/Icon_Down.png" id="1_ya4d0"]
+
+[node name="onTurnIconNode" type="TextureRect"]
+visible = false
+custom_minimum_size = Vector2(25, 25)
+offset_left = -12.5
+offset_top = -12.5
+offset_right = 12.5
+offset_bottom = 12.5
+texture = ExtResource("1_ya4d0")
+expand_mode = 1

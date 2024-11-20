@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://ccbqvvcf3bti0"]
+
+[ext_resource type="Texture2D" uid="uid://jvgay0s5alo6" path="res://addons/Turn_Based_System/assets/icons/Icon_Left.png" id="1_0tcfa"]
+
+[node name="targetIconNode" type="TextureRect"]
+custom_minimum_size = Vector2(25, 25)
+offset_left = -12.5
+offset_top = -12.5
+offset_right = 12.5
+offset_bottom = 12.5
+texture = ExtResource("1_0tcfa")
+expand_mode = 1

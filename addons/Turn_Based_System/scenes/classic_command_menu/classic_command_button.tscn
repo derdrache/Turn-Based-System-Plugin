@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dcwt8h55tclw0"]
+[gd_scene load_steps=4 format=3 uid="uid://dcwt8h55tclw0"]
+
+[ext_resource type="Script" path="res://addons/Turn_Based_System/scenes/classic_command_menu/classic_command_button.gd" id="1_ercgh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_acv2j"]
 bg_color = Color(0.466667, 0.403922, 1, 0.588235)
@@ -10,5 +12,23 @@ bg_color = Color(0.466667, 0.403922, 1, 0.196078)
 custom_minimum_size = Vector2(200, 0)
 theme_override_font_sizes/font_size = 25
 theme_override_styles/focus = SubResource("StyleBoxFlat_acv2j")
+theme_override_styles/hover = SubResource("StyleBoxFlat_acv2j")
 theme_override_styles/normal = SubResource("StyleBoxFlat_wq7fw")
 text = "Attack"
+script = ExtResource("1_ercgh")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -12.0
+offset_right = 54.0
+offset_bottom = 12.0
+grow_vertical = 2
+theme_override_constants/margin_left = 30
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+expand_mode = 1

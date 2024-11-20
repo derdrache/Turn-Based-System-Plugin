@@ -2,12 +2,12 @@ extends StaticBody2D
 
 @export var characterResource: Resource
 
-@onready var turn_based_battle_agent: TurnBasedAgent = $TurnBasedBattleAgent
+@onready var turn_based_agent: TurnBasedAgent = $TurnBasedAgent
 
 func _ready() -> void:
-	if turn_based_battle_agent: 
-		turn_based_battle_agent.set_turn_order_value(characterResource.speed)
-		turn_based_battle_agent.target_selected.connect(_on_character_action)
+	if turn_based_agent: 
+		turn_based_agent.set_turn_order_value(characterResource.speed)
+		turn_based_agent.target_selected.connect(_on_character_action)
 		
 	
 func _on_character_action(targets,command):
@@ -20,14 +20,14 @@ func _on_character_action(targets,command):
 	
 	await _animation_example(targets)
 	
-	turn_based_battle_agent.command_done()
+	turn_based_agent.command_done()
 
 func _animation_example(targets):
 	var startPosition = global_position
 	var targetPosition
 	
-	if turn_based_battle_agent.get_targets():
-		targetPosition = turn_based_battle_agent.get_targets().get_global_position()
+	if turn_based_agent.get_targets():
+		targetPosition = turn_based_agent.get_targets().get_global_position()
 	else: 
 		var randomTarget = get_tree().get_nodes_in_group("player").pick_random()
 		targetPosition = randomTarget.get_global_position()

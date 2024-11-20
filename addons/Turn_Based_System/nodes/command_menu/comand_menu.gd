@@ -1,11 +1,11 @@
-@tool
 extends PanelContainer
+class_name CommandMenu
 ## With it you can setup and select your Commands, Skills or Items in Battle
 ## To build Commands, you have to setup the mainCommandList with your created Character Resource
 
 signal command_selected(command: Resource)
 
-@export var COMMAND_BUTTON : PackedScene = preload("res://addons/Turn_Based_System/scenes/classic_command_menu/classic_command_button.tscn")
+@export var COMMAND_BUTTON : PackedScene = preload("res://addons/Turn_Based_System/nodes/command_menu/command_button.tscn")
 
 ## Setup the main menu [br]
 ## Array[Dictonary] [br]
@@ -15,70 +15,30 @@ signal command_selected(command: Resource)
 @export var mainCommandList: Array[Dictionary] = [
 	{"Attack": "basicAttack"},
 	{"Skills": "skills"}
-]:
-	set(value):
-		mainCommandList = value
-		var newSize = mainCommandList.size() + extraMainCommands.size()
-		mainCommandIcons.resize(newSize)
-		mainCommandActions.resize(newSize)
-		if not Engine.is_editor_hint(): return
-		_reset_main_commands()
-		_set_command_options()
-
-@export var extraMainCommands: Array[PackedScene]:
-	set(value):
-		extraMainCommands = value
-		var newSize = mainCommandList.size() + extraMainCommands.size()
-		mainCommandIcons.resize(newSize)
-		mainCommandActions.resize(newSize)
-		if not Engine.is_editor_hint(): return
-		_reset_main_commands()
-		_set_command_options()	
-@export var mainCommandIcons: Array[CompressedTexture2D]:
-	set(value):
-		var arraySize = mainCommandList.size() + extraMainCommands.size()
-		if value.size() == arraySize:
-			mainCommandIcons = value
-		
-		if not Engine.is_editor_hint(): return
-		_reset_main_commands()
-		_set_command_options()
-
-@export var mainCommandActions: Array[String]:
-	set(value):
-		var arraySize = mainCommandList.size() + extraMainCommands.size()
-		if value.size() == arraySize:
-			mainCommandActions = value
-			
-		if not Engine.is_editor_hint(): return
-		_reset_main_commands()
-		_set_command_options()
+]
+## test
 
 @onready var main_command_container: VBoxContainer = %MainCommandContainer
 @onready var scroll_container: ScrollContainer = %ScrollContainer
 @onready var multi_command_container: GridContainer = %MultiCommandContainer
 
 func _input(event: InputEvent) -> void:
-	if main_command_container.visible:
-		for action in mainCommandActions:
-			var index = mainCommandActions.find(action)
-			if event.is_action_pressed(action): main_command_container.get_children()[index].pressed.emit()
-		
-		
 	if event.is_action_pressed("ui_cancel") and multi_command_container.visible:
 		scroll_container.hide()
 		main_command_container.show()
+		
+		main_command_container.get_children()[0].grab_focus()
 
 func _ready() -> void:
 	add_to_group("commandMenu")
 	
-	if not Engine.is_editor_hint(): 
-		hide()
-		_set_late_signals()
+	hide()
+	
+	_set_late_signals()
 
 func _on_command_pressed(commandResource: Resource):
 	hide()
-
+	
 	command_selected.emit(commandResource)
 	
 	main_command_container.show()
@@ -92,9 +52,9 @@ func _on_multi_command_button_pressed(commandList: Array[Resource]):
 	main_command_container.hide()
 	scroll_container.show()
 	
-	await get_tree().physics_frame
-	await get_tree().physics_frame
-	
+	await get_tree().process_frame
+	await get_tree().process_frame
+	## grab_focus needs more then one physicframe to work
 	multi_command_container.get_children()[0].grab_focus()
 
 func _clear_multi_command_container():
@@ -126,36 +86,25 @@ func _on_player_turn(character) -> void:
 	await get_tree().create_timer(0.01).timeout
 	
 	show()
+	
+	if main_command_container.get_children(): 
+		main_command_container.get_children()[0].grab_focus()
 
 func _reset_main_commands():
 	for node in main_command_container.get_children():
 		node.queue_free()
 
-func _set_command_options(character: TurnBasedAgent = null):
+func _set_command_options(character: TurnBasedAgent):
 	for mainCommandDict in mainCommandList:
-		if mainCommandDict.keys().is_empty(): 
-			if not Engine.is_editor_hint():
-				var index = mainCommandList.find(mainCommandDict)
-				push_warning("entry "+str(index) + " in mainCommandList is empty")
-			continue
-
 		var mainCommandName = mainCommandDict.keys()[0]
 		var mainCommandReference = mainCommandDict[mainCommandDict.keys()[0]]
-		var mainCommand = null
-		
-		if character: mainCommand = character.character_resource[mainCommandReference]
+		var mainCommand = character.character_resource[mainCommandReference]
 
 		var singleCommand = not mainCommand is Array
 		var newMainCommandButton = COMMAND_BUTTON.instantiate()
-		newMainCommandButton.buttonIcon = mainCommandIcons[mainCommandList.find(mainCommandDict)]
 		
-		if not mainCommand:
-			newMainCommandButton.text = mainCommandName
-			main_command_container.add_child(newMainCommandButton)
-			continue
-	
-		if not singleCommand and mainCommand.is_empty(): continue
-		
+		if not mainCommand and mainCommand.is_empty(): continue
+
 		if singleCommand:
 			newMainCommandButton.text = mainCommandName
 			main_command_container.add_child(newMainCommandButton)
@@ -167,10 +116,3 @@ func _set_command_options(character: TurnBasedAgent = null):
 			newMainCommandButton.text = mainCommandName
 			main_command_container.add_child(newMainCommandButton)
 			newMainCommandButton.pressed.connect(_on_multi_command_button_pressed.bind(mainCommand))
-			
-	for button in extraMainCommands:
-		var newButton = button.instantiate()
-		newButton.buttonIcon = mainCommandIcons[mainCommandList.size() - 1 + extraMainCommands.find(button)]
-		
-		main_command_container.add_child(newButton)
-		

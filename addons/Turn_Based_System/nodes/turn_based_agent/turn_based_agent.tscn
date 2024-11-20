@@ -17,6 +17,7 @@ texture = ExtResource("2_4ylcb")
 expand_mode = 1
 
 [node name="targetIconNode" type="TextureRect" parent="."]
+modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(25, 25)
 offset_left = -12.5
 offset_top = -12.5

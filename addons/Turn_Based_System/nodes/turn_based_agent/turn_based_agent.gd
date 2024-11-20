@@ -17,9 +17,6 @@ signal undo_command_selected()
 signal target_selected(targets: Array[TurnBasedAgent], command:Resource)
 signal target_changed(targets : Array[TurnBasedAgent], allies)
 
-@onready var on_turn_icon_node: TextureRect = $onTurnIconNode
-@onready var target_icon_node: TextureRect = $targetIconNode
-
 @export var character_type: Character_Type
 ## Character resource should be your resource data where are the stats (health, damage, etc), skills and more are saved
 ## This is the reference for the command menu
@@ -31,12 +28,14 @@ signal target_changed(targets : Array[TurnBasedAgent], allies)
 @export var onTurnIconOffSet: Vector2 = Vector2(0,-50):
 	set(value):
 		onTurnIconOffSet = value
-		_refresh_on_turn_icon_position()
+		if Engine.is_editor_hint():
+			_refresh_on_turn_icon_position()
 @export var targetIconTexture: CompressedTexture2D
 @export var targetIconOffSet: Vector2 = Vector2(50,0):
 	set(value):
 		targetIconOffSet = value
-		_refresh_target_icon_position()
+		if Engine.is_editor_hint():
+			_refresh_target_icon_position()
 @export var turnOrderBarIconTexture: CompressedTexture2D
 
 @export_category("Customization")
@@ -45,6 +44,11 @@ signal target_changed(targets : Array[TurnBasedAgent], allies)
 
 enum Character_Type {PLAYER, ENEMY, NEUTRAL}
 
+const ON_TURON_ICON = preload("res://addons/Turn_Based_System/assets/icons/Icon_Down.png")
+const Target_ICON = preload("res://addons/Turn_Based_System/assets/icons/Icon_Left.png")
+
+var onTurnIconNode := TextureRect.new()
+var targetIconNode := TextureRect.new()
 var isActive := false
 var mainTarget: TurnBasedAgent
 var allSelectedTargets: Array[TurnBasedAgent]
@@ -54,22 +58,14 @@ var isTargetAlly := false
 func _ready() -> void:
 	_set_group()
 	
-	_set_on_turn_icon()
-	_set_target_icon()
+	_create_on_turn_icon()
+	_create_target_icon()
 	
 	if not Engine.is_editor_hint():
 		_set_late_signals()
 
 func _process(delta: float) -> void:
 	_refresh_on_turn_icon_position()
-
-func _refresh_target_icon_position() -> void:
-	if not target_icon_node: return
-	target_icon_node.global_position = get_parent().global_position - (target_icon_node.get_global_rect().size/2) + targetIconOffSet
-	
-func _refresh_on_turn_icon_position()-> void:
-	if not on_turn_icon_node: return
-	on_turn_icon_node.global_position = get_parent().global_position - (on_turn_icon_node.get_global_rect().size / 2) + onTurnIconOffSet
 
 func _set_group() -> void:
 	add_to_group("turnBasedAgents")
@@ -81,22 +77,42 @@ func _set_group() -> void:
 	elif character_type == Character_Type.NEUTRAL:
 		add_to_group("neutral")
 
-func _set_on_turn_icon() -> void:
-	if onTurnIconTexture: on_turn_icon_node.texture = onTurnIconTexture
+func _create_on_turn_icon() -> void:
+	onTurnIconNode.texture = ON_TURON_ICON
+	onTurnIconNode.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	onTurnIconNode.custom_minimum_size = Vector2(25,25)
+	add_child(onTurnIconNode)
 	
-	if not Engine.is_editor_hint():
-		on_turn_icon_node.hide()
+	if onTurnIconTexture: onTurnIconNode.texture = onTurnIconTexture
+	
+	if not Engine.is_editor_hint(): onTurnIconNode.hide()
 
-func _set_target_icon() -> void:
-	if targetIconTexture: target_icon_node.texture = targetIconTexture
+func _create_target_icon() -> void:
+	targetIconNode.texture = Target_ICON
+	targetIconNode.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	targetIconNode.custom_minimum_size = Vector2(25,25)
+	add_child(targetIconNode)
 	
 	_refresh_target_icon_position()
 	
-	if character_type == Character_Type.ENEMY: target_icon_node.modulate = selectEnemyIconColor
-	elif character_type == Character_Type.PLAYER: target_icon_node.modulate = selectPlayerIconColor	
+	if targetIconTexture: targetIconNode.texture = targetIconTexture
+	
+	_refresh_target_icon_position()
+	
+	if character_type == Character_Type.ENEMY: targetIconNode.modulate = selectEnemyIconColor
+	elif character_type == Character_Type.PLAYER: targetIconNode.modulate = selectPlayerIconColor	
 
 	if not Engine.is_editor_hint(): 
-		target_icon_node.hide()
+		targetIconNode.hide()
+
+func _refresh_target_icon_position() -> void:
+	if not targetIconNode or Engine.is_editor_hint(): return
+	targetIconNode.global_position = get_parent().global_position - (targetIconNode.get_global_rect().size/2) + targetIconOffSet
+	
+func _refresh_on_turn_icon_position()-> void:
+	if not onTurnIconNode: return
+	onTurnIconNode.global_position = get_global_position() - (onTurnIconNode.get_global_rect().size / 2) + onTurnIconOffSet
+
 
 func _set_late_signals() -> void:
 	await get_tree().current_scene.ready
@@ -128,24 +144,24 @@ func _on_command_selected(command: CommandResource) -> void:
 func set_active(boolean: bool) -> void:
 	isActive = boolean
 
-	if isActive: on_turn_icon_node.show()
-	else: on_turn_icon_node.hide()
+	if isActive: onTurnIconNode.show()
+	else: onTurnIconNode.hide()
 	
 	if character_type == Character_Type.PLAYER and isActive: 
 		player_turn_started.emit()
 	elif character_type == Character_Type.ENEMY and isActive: 
-		on_turn_icon_node.hide()
+		onTurnIconNode.hide()
 		target_selected.emit(get_tree().get_nodes_in_group("player"), character_resource.basicAttack)
 		set_active(false)
 	
 func set_target() -> void:
-	target_icon_node.show()
+	targetIconNode.show()
 
 func _deselect_all_targets() -> void:
 	var allTargets = get_tree().get_nodes_in_group("enemy") + get_tree().get_nodes_in_group("player")
 	
 	for target:TurnBasedAgent in allTargets:
-		target.target_icon_node.hide()	
+		target.targetIconNode.hide()	
 
 func _input(event: InputEvent) -> void:
 	if not mainTarget or not event is InputEventKey: return
