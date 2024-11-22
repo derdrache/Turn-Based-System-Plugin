@@ -158,17 +158,14 @@ func _set_command_options(character: TurnBasedAgent = null):
 		var mainCommandReference = mainCommandDict[mainCommandDict.keys()[0]]
 		var mainCommand = null
 		
-		if character: mainCommand = character.character_resource[mainCommandReference]
+		if character: 
+			mainCommand = character.character_resource[mainCommandReference]
 
+		if not mainCommand: continue
+		
 		var singleCommand = not mainCommand is Array
 		var newMainCommandButton = COMMAND_BUTTON.instantiate()
 		newMainCommandButton.buttonIcon = mainCommandIcons[mainCommandList.find(mainCommandDict)]
-		
-		if not mainCommand:
-			print(mainCommandName)
-			newMainCommandButton.text = mainCommandName
-			main_command_container.add_child(newMainCommandButton)
-			continue
 		
 		if not singleCommand and mainCommand.is_empty(): continue
 		
