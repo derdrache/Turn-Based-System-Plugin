@@ -26,7 +26,7 @@ signal command_selected(command: Resource)
 		if not Engine.is_editor_hint(): return
 		_reset_main_commands()
 		_set_command_options()
-
+## Add a custom CommandButton for a unique press function
 @export var extraMainCommands: Array[PackedScene]:
 	set(value):
 		extraMainCommands = value
@@ -36,6 +36,8 @@ signal command_selected(command: Resource)
 		if not Engine.is_editor_hint(): return
 		_reset_main_commands()
 		_set_command_options()	
+## Add a Icon for the CommandButton. [br]
+## It appears to the left of the text
 @export var mainCommandIcons: Array[CompressedTexture2D]:
 	set(value):
 		var arraySize = mainCommandList.size() + extraMainCommands.size()
@@ -48,6 +50,7 @@ signal command_selected(command: Resource)
 		if not Engine.is_editor_hint(): return
 		_reset_main_commands()
 		_set_command_options()
+## Add a action to press the button 
 @export var mainCommandActions: Array[String]:
 	set(value):
 		var arraySize = mainCommandList.size() + extraMainCommands.size()
