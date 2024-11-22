@@ -29,7 +29,7 @@ func _animation_example(targets):
 	if turn_based_agent.get_targets():
 		targetPosition = turn_based_agent.get_targets().get_global_position()
 	else: 
-		var randomTarget = get_tree().get_nodes_in_group("player").pick_random()
+		var randomTarget = get_tree().get_nodes_in_group("turnBasedPlayer").pick_random()
 		targetPosition = randomTarget.get_global_position()
 	
 	var tween = get_tree().create_tween()

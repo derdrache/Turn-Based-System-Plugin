@@ -81,7 +81,7 @@ func _input(event: InputEvent) -> void:
 		
 
 func _ready() -> void:
-	add_to_group("commandMenu")
+	add_to_group("turnBasedCommandMenu")
 
 	if not Engine.is_editor_hint(): 
 		hide()
@@ -125,7 +125,7 @@ func _on_run_button_pressed():
 func _set_late_signals():
 	await get_tree().current_scene.ready
 	
-	for character: TurnBasedAgent in get_tree().get_nodes_in_group("player"):
+	for character: TurnBasedAgent in get_tree().get_nodes_in_group("turnBasedPlayer"):
 		character.player_turn_started.connect(_on_player_turn.bind(character))
 		character.undo_command_selected.connect(_on_player_turn.bind(null))
 

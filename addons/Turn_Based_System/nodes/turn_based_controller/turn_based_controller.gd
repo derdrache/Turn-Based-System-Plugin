@@ -34,8 +34,8 @@ func _set_late_signals() -> void:
 		player.turn_finished.connect(_on_turn_done)
 
 func _set_turn_order() -> void:
-	var players = get_tree().get_nodes_in_group("player")
-	var enemies = get_tree().get_nodes_in_group("enemy")
+	var players = get_tree().get_nodes_in_group("turnBasedPlayer")
+	var enemies = get_tree().get_nodes_in_group("turnBasedEnemy")
 	
 	match turnOrderType:
 		Turn_Order_Type.CLASSIC: _set_classic_turn_order(players + enemies)
@@ -126,7 +126,7 @@ func _on_turn_done() -> void:
 	_set_next_active_character()
 	
 func _get_dynamic_speed_value(characterTurnValue: float) -> float:
-	var baseSpeed : float = get_tree().get_nodes_in_group("player")[0].get_turn_order_value()
+	var baseSpeed : float = get_tree().get_nodes_in_group("turnBasedPlayer")[0].get_turn_order_value()
 	var speedFactor :float = characterTurnValue * 100.0 / baseSpeed
 	var speedValue : float = 1.0 / (speedFactor / 100.0)
 	return speedValue

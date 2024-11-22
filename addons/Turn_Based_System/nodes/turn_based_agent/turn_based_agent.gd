@@ -75,11 +75,11 @@ func _set_group() -> void:
 	add_to_group("turnBasedAgents")
 	
 	if character_type == Character_Type.PLAYER:
-		add_to_group("player")
+		add_to_group("turnBasedPlayer")
 	elif character_type == Character_Type.ENEMY:
-		add_to_group("enemy")
+		add_to_group("turnBasedEnemy")
 	elif character_type == Character_Type.NEUTRAL:
-		add_to_group("neutral")
+		add_to_group("turnBasedNeutral")
 
 func _create_on_turn_icon() -> void:
 	onTurnIconNode.texture = ON_TURON_ICON
@@ -121,7 +121,7 @@ func _refresh_on_turn_icon_position()-> void:
 func _set_late_signals() -> void:
 	await get_tree().current_scene.ready
 	
-	var commandMenu = get_tree().get_first_node_in_group("commandMenu")
+	var commandMenu = get_tree().get_first_node_in_group("turnBasedCommandMenu")
 	if commandMenu:
 		commandMenu.command_selected.connect(_on_command_selected)
 
@@ -133,10 +133,10 @@ func _on_command_selected(command: CommandResource) -> void:
 
 	var targets: Array
 	if command.targetType == CommandResource.Target_Type.ENEMIES:
-		targets = get_tree().get_nodes_in_group("enemy")
+		targets = get_tree().get_nodes_in_group("turnBasedEnemy")
 	elif command.targetType == CommandResource.Target_Type.PLAYERS:
 		isTargetAlly = true
-		targets = get_tree().get_nodes_in_group("player")
+		targets = get_tree().get_nodes_in_group("turnBasedPlayer")
 	
 	mainTarget = targets[0]
 	mainTarget.set_target()
@@ -155,14 +155,14 @@ func set_active(boolean: bool) -> void:
 		player_turn_started.emit()
 	elif character_type == Character_Type.ENEMY and isActive: 
 		onTurnIconNode.hide()
-		target_selected.emit(get_tree().get_nodes_in_group("player"), character_resource.basicAttack)
+		target_selected.emit(get_tree().get_nodes_in_group("turnBasedPlayer"), character_resource.basicAttack)
 		set_active(false)
 	
 func set_target() -> void:
 	targetIconNode.show()
 
 func _deselect_all_targets() -> void:
-	var allTargets = get_tree().get_nodes_in_group("enemy") + get_tree().get_nodes_in_group("player")
+	var allTargets = get_tree().get_nodes_in_group("turnBasedEnemy") + get_tree().get_nodes_in_group("turnBasedPlayer")
 	
 	for target:TurnBasedAgent in allTargets:
 		target.targetIconNode.hide()	
@@ -170,8 +170,8 @@ func _deselect_all_targets() -> void:
 func _input(event: InputEvent) -> void:
 	if not mainTarget or not event is InputEventKey: return
 	
-	var enemies = get_tree().get_nodes_in_group("enemy")
-	var players = get_tree().get_nodes_in_group("player")
+	var enemies = get_tree().get_nodes_in_group("turnBasedEnemy")
+	var players = get_tree().get_nodes_in_group("turnBasedPlayer")
 	
 	if mainTarget in enemies: _select_between_targets(event, enemies)
 	else: _select_between_targets(event, players)

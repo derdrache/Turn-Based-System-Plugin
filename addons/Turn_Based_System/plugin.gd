@@ -19,5 +19,3 @@ func _enter_tree() -> void:
 func _exit_tree() -> void:
 	remove_custom_type("TurnBasedController")
 	remove_custom_type("TurnBasedAgent")
-	remove_custom_type("CommandMenu")
-	remove_custom_type("TurnOrderBar")
