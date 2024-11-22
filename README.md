@@ -22,6 +22,16 @@ Like this:<br />
 <img src="documentation/images/Character_resource_example.png" width="400" />
 <br />
 
+### Command Resource:
+For the targeting system and the command menu to work, the skill resource must have certain variables.
+There are 2 options for this:
+
+1. you extend your skill with the CommandResource:
+<img src="documentation/images/setup_own_skills_1.png" width="200"/>
+2. you put the variables in your skill resource:
+<img src="documentation/images/setup_own_skills_2.png" width="200"/>
+
+
 ### Premade Scenes:
 
 #### Command Menu Scene - Add it in a Canvas Layer at the end of the main scene
