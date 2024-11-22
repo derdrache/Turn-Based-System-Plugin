@@ -82,7 +82,6 @@ func _input(event: InputEvent) -> void:
 		main_command_container.show()
 		main_command_container.get_children()[0].grab_focus()
 		
-
 func _ready() -> void:
 	add_to_group("turnBasedCommandMenu")
 
@@ -151,6 +150,7 @@ func _set_command_options(character: TurnBasedAgent = null):
 	if not main_command_container: return
 	
 	for mainCommandDict in mainCommandList:
+		
 		if mainCommandDict.keys().is_empty(): 
 			if not Engine.is_editor_hint():
 				var index = mainCommandList.find(mainCommandDict)
@@ -161,17 +161,17 @@ func _set_command_options(character: TurnBasedAgent = null):
 		var mainCommandReference = mainCommandDict[mainCommandDict.keys()[0]]
 		var mainCommand = null
 		
-		if character: 
-			mainCommand = character.character_resource[mainCommandReference]
-
-		if not mainCommand: continue
+		if character: mainCommand = character.character_resource[mainCommandReference]
+		else: 
+			if not Engine.is_editor_hint():
+				push_warning("MainCommandList: " + mainCommandName + " doenst have a reference in character resource")
 		
 		var singleCommand = not mainCommand is Array
 		var newMainCommandButton = COMMAND_BUTTON.instantiate()
 		newMainCommandButton.buttonIcon = mainCommandIcons[mainCommandList.find(mainCommandDict)]
 		
 		if not singleCommand and mainCommand.is_empty(): continue
-		
+	
 		if singleCommand:
 			newMainCommandButton.text = mainCommandName
 			main_command_container.add_child(newMainCommandButton)
@@ -186,6 +186,7 @@ func _set_command_options(character: TurnBasedAgent = null):
 		
 		var index = mainCommandList.find(mainCommandDict)
 		if index == 0: newMainCommandButton.grab_focus()
+		
 			
 	for button in extraMainCommands:
 		var newButton = button.instantiate()
