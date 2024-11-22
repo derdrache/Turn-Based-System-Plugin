@@ -110,11 +110,11 @@ func _create_target_icon() -> void:
 		targetIconNode.hide()
 
 func _refresh_target_icon_position() -> void:
-	if not targetIconNode: return
-	targetIconNode.global_position = get_parent().global_position - (targetIconNode.get_global_rect().size/2) + targetIconOffSet
+	if not targetIconNode or not get_global_position(): return
+	targetIconNode.global_position = get_global_position() - (targetIconNode.get_global_rect().size/2) + targetIconOffSet
 	
 func _refresh_on_turn_icon_position()-> void:
-	if not onTurnIconNode: return
+	if not onTurnIconNode or not get_global_position(): return
 	onTurnIconNode.global_position = get_global_position() - (onTurnIconNode.get_global_rect().size / 2) + onTurnIconOffSet
 
 
@@ -243,6 +243,7 @@ func get_targets() -> TurnBasedAgent:
 	return mainTarget
 
 func get_global_position():
+	if not get_parent() or get_parent() is SubViewport: return
 	return get_parent().global_position
 
 func set_turn_order_value(value: int) -> void:

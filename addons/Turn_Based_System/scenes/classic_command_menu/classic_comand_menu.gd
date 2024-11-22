@@ -65,7 +65,7 @@ signal command_selected(command: Resource)
 @onready var scroll_container: ScrollContainer = %ScrollContainer
 @onready var multi_command_container: GridContainer = %MultiCommandContainer
 
-func _input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:	
 	if main_command_container.visible:
 		for action: String in mainCommandActions:
 			if action.is_empty(): continue
@@ -145,6 +145,8 @@ func _reset_main_commands():
 		node.queue_free()
 
 func _set_command_options(character: TurnBasedAgent = null):
+	if not main_command_container: return
+	
 	for mainCommandDict in mainCommandList:
 		if mainCommandDict.keys().is_empty(): 
 			if not Engine.is_editor_hint():
@@ -163,10 +165,11 @@ func _set_command_options(character: TurnBasedAgent = null):
 		newMainCommandButton.buttonIcon = mainCommandIcons[mainCommandList.find(mainCommandDict)]
 		
 		if not mainCommand:
+			print(mainCommandName)
 			newMainCommandButton.text = mainCommandName
 			main_command_container.add_child(newMainCommandButton)
 			continue
-	
+		
 		if not singleCommand and mainCommand.is_empty(): continue
 		
 		if singleCommand:

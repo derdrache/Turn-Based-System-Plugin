@@ -77,5 +77,3 @@ theme_override_font_sizes/font_size = 25
 theme_override_styles/focus = SubResource("StyleBoxFlat_acv2j")
 theme_override_styles/normal = SubResource("StyleBoxFlat_wq7fw")
 text = "Attack"
-
-[connection signal="pressed" from="MarginContainer/MainCommandContainer/@Button@61120" to="MarginContainer/MainCommandContainer/@Button@61120" method="_on_pressed"]
