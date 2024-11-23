@@ -4,12 +4,13 @@ class_name TurnBasedAgent
 
 ## Emitted when a player turn started
 signal player_turn_started()
-## Emitted when the character has made his  is done
+
+## Emitted when the character has used his command [br]
+## For this you have to use command_done
 signal turn_finished()
+
 ## Emitted when the target selection is canceled
 signal undo_command_selected()
-## Emitted when the command is selected [br]
-## This signal should emitted from the command menu
 
 ## Emitted when the target is selected [br]
 ## Connect to your character to use the selected Command. [br]
@@ -17,13 +18,19 @@ signal undo_command_selected()
 signal target_selected(targets: Array[TurnBasedAgent], command:Resource)
 signal target_changed(targets : Array[TurnBasedAgent], allies)
 
-@export var character_type: Character_Type
+## Important setting
+@export var character_type: Character_Type:
+	set(value):
+		character_type = value
+		notify_property_list_changed()
 ## Character resource should be your resource data where are the stats (health, damage, etc), skills and more are saved
 ## This is the reference for the command menu
 @export var character_resource: Resource
+## Determines who goes first depending on turnOrderType in TurnBasedController
 @export var turnOrderValue : float
 
 @export_category("Icons")
+## Indication icon if the character is on turn [br]
 @export var onTurnIconTexture: CompressedTexture2D
 @export var onTurnIconOffSet: Vector2 = Vector2(0,-50):
 	set(value):
@@ -36,13 +43,34 @@ signal target_changed(targets : Array[TurnBasedAgent], allies)
 		targetIconOffSet = value
 		if Engine.is_editor_hint():
 			_refresh_target_icon_position()
+		
 @export var turnOrderBarIconTexture: CompressedTexture2D
 
 @export_category("Customization")
 @export var selectEnemyIconColor: Color = Color(1,0,0)
 @export var selectPlayerIconColor: Color = Color(0, 1, 0)
 
-enum Character_Type {PLAYER, ENEMY, NEUTRAL}
+func _validate_property(property: Dictionary):
+	var hideList = []
+	
+	if character_type == Character_Type.ENEMY: 
+		hideList.append("onTurnIconTexture")
+		hideList.append("onTurnIconOffSet")
+		hideList.append("targetIconTexture")
+		hideList.append("targetIconOffSet")
+		hideList.append("selectEnemyIconColor")
+		hideList.append("selectPlayerIconColor")
+	
+	if property.name in hideList: 
+		property.usage = PROPERTY_USAGE_NO_EDITOR 
+
+
+enum Character_Type {
+	## Controllable friendly unit
+	PLAYER, 
+	## Non-controllable enemy unit
+	ENEMY
+	}
 
 const ON_TURON_ICON = preload("res://addons/Turn_Based_System/assets/icons/Icon_Down.png")
 const Target_ICON = preload("res://addons/Turn_Based_System/assets/icons/Icon_Left.png")
@@ -78,8 +106,6 @@ func _set_group() -> void:
 		add_to_group("turnBasedPlayer")
 	elif character_type == Character_Type.ENEMY:
 		add_to_group("turnBasedEnemy")
-	elif character_type == Character_Type.NEUTRAL:
-		add_to_group("turnBasedNeutral")
 
 func _create_on_turn_icon() -> void:
 	onTurnIconNode.texture = ON_TURON_ICON

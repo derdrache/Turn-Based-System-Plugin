@@ -150,13 +150,12 @@ func _set_command_options(character: TurnBasedAgent = null):
 	if not main_command_container: return
 	
 	for mainCommandDict in mainCommandList:
-		
 		if mainCommandDict.keys().is_empty(): 
 			if not Engine.is_editor_hint():
 				var index = mainCommandList.find(mainCommandDict)
 				push_warning("entry "+str(index) + " in mainCommandList is empty")
 			continue
-
+		
 		var mainCommandName = mainCommandDict.keys()[0]
 		var mainCommandReference = mainCommandDict[mainCommandDict.keys()[0]]
 		var mainCommand = null
@@ -171,7 +170,7 @@ func _set_command_options(character: TurnBasedAgent = null):
 		newMainCommandButton.buttonIcon = mainCommandIcons[mainCommandList.find(mainCommandDict)]
 		
 		if not singleCommand and mainCommand.is_empty(): continue
-	
+		
 		if singleCommand:
 			newMainCommandButton.text = mainCommandName
 			main_command_container.add_child(newMainCommandButton)
