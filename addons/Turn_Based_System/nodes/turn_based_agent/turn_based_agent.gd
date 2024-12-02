@@ -32,13 +32,13 @@ signal target_changed(targets : Array[TurnBasedAgent], allies)
 @export_category("Icons")
 ## Indication icon if the character is on turn [br]
 @export var onTurnIconTexture: CompressedTexture2D
-@export var onTurnIconOffSet: Vector2 = Vector2(0,-50):
+@export var onTurnIconOffSet: Vector3 = Vector3.ZERO:
 	set(value):
 		onTurnIconOffSet = value
 		if Engine.is_editor_hint():
 			_refresh_on_turn_icon_position()
 @export var targetIconTexture: CompressedTexture2D
-@export var targetIconOffSet: Vector2 = Vector2(50,0):
+@export var targetIconOffSet: Vector3 = Vector3.ZERO:
 	set(value):
 		targetIconOffSet = value
 		if Engine.is_editor_hint():
@@ -50,21 +50,6 @@ signal target_changed(targets : Array[TurnBasedAgent], allies)
 @export var selectEnemyIconColor: Color = Color(1,0,0)
 @export var selectPlayerIconColor: Color = Color(0, 1, 0)
 
-func _validate_property(property: Dictionary):
-	var hideList = []
-	
-	if character_type == Character_Type.ENEMY: 
-		hideList.append("onTurnIconTexture")
-		hideList.append("onTurnIconOffSet")
-		hideList.append("targetIconTexture")
-		hideList.append("targetIconOffSet")
-		hideList.append("selectEnemyIconColor")
-		hideList.append("selectPlayerIconColor")
-	
-	if property.name in hideList: 
-		property.usage = PROPERTY_USAGE_NO_EDITOR 
-
-
 enum Character_Type {
 	## Controllable friendly unit
 	PLAYER, 
@@ -75,8 +60,9 @@ enum Character_Type {
 const ON_TURON_ICON = preload("res://addons/Turn_Based_System/assets/icons/Icon_Down.png")
 const Target_ICON = preload("res://addons/Turn_Based_System/assets/icons/Icon_Left.png")
 
-var onTurnIconNode := TextureRect.new()
-var targetIconNode := TextureRect.new()
+var is3DScene
+var onTurnIconNode
+var targetIconNode
 var isActive := false
 var mainTarget: TurnBasedAgent
 var allSelectedTargets: Array[TurnBasedAgent]
@@ -85,6 +71,8 @@ var isTargetAlly := false
 
 func _ready() -> void:
 	_set_group()
+	
+	is3DScene = get_parent() is Node3D
 	
 	_create_on_turn_icon()
 	_create_target_icon()
@@ -108,9 +96,17 @@ func _set_group() -> void:
 		add_to_group("turnBasedEnemy")
 
 func _create_on_turn_icon() -> void:
+	if is3DScene:
+		onTurnIconNode = Sprite3D.new()
+		onTurnIconNode.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+		onTurnIconNode.scale *= 0.5
+	else:
+		onTurnIconNode = TextureRect.new()
+		onTurnIconNode.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		onTurnIconNode.custom_minimum_size = Vector2(25,25)
+	
 	onTurnIconNode.texture = ON_TURON_ICON
-	onTurnIconNode.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	onTurnIconNode.custom_minimum_size = Vector2(25,25)
+
 	add_child(onTurnIconNode)
 	
 	if onTurnIconTexture: onTurnIconNode.texture = onTurnIconTexture
@@ -118,9 +114,17 @@ func _create_on_turn_icon() -> void:
 	if not Engine.is_editor_hint(): onTurnIconNode.hide()
 
 func _create_target_icon() -> void:
+	if is3DScene:
+		targetIconNode = Sprite3D.new()
+		targetIconNode.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+		targetIconNode.scale *= 0.5
+	else:
+		targetIconNode = TextureRect.new()
+		targetIconNode.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		targetIconNode.custom_minimum_size = Vector2(25,25)
+		
 	targetIconNode.texture = Target_ICON
-	targetIconNode.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	targetIconNode.custom_minimum_size = Vector2(25,25)
+	
 	add_child(targetIconNode)
 	
 	_refresh_target_icon_position()
@@ -137,11 +141,20 @@ func _create_target_icon() -> void:
 
 func _refresh_target_icon_position() -> void:
 	if not targetIconNode or not get_global_position(): return
-	targetIconNode.global_position = get_global_position() - (targetIconNode.get_global_rect().size/2) + targetIconOffSet
 	
+	if is3DScene: 
+		targetIconNode.global_position = get_global_position() +  targetIconOffSet
+	else:
+		
+		targetIconNode.global_position = get_global_position() + Vector2(targetIconOffSet.x, targetIconOffSet.y)
+
 func _refresh_on_turn_icon_position()-> void:
 	if not onTurnIconNode or not get_global_position(): return
-	onTurnIconNode.global_position = get_global_position() - (onTurnIconNode.get_global_rect().size / 2) + onTurnIconOffSet
+	
+	if is3DScene: 
+		onTurnIconNode.global_position = get_global_position() + onTurnIconOffSet
+	else:
+		onTurnIconNode.global_position = get_global_position() + Vector2(onTurnIconOffSet.x, onTurnIconOffSet.y)
 
 
 func _set_late_signals() -> void:
@@ -277,3 +290,15 @@ func set_turn_order_value(value: int) -> void:
 	
 func get_turn_order_value() -> float:
 	return turnOrderValue
+
+func _validate_property(property: Dictionary):
+	var hideList = []
+	
+	if character_type == Character_Type.ENEMY: 
+		hideList.append("onTurnIconTexture")
+		hideList.append("onTurnIconOffSet")
+		hideList.append("selectEnemyIconColor")
+		hideList.append("selectPlayerIconColor")
+	
+	if property.name in hideList: 
+		property.usage = PROPERTY_USAGE_NO_EDITOR 
