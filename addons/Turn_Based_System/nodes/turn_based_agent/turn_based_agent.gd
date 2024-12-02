@@ -95,7 +95,7 @@ func _set_group() -> void:
 	elif character_type == Character_Type.ENEMY:
 		add_to_group("turnBasedEnemy")
 
-func _create_on_turn_icon() -> void:
+func _create_on_turn_icon() -> void:	
 	if is3DScene:
 		onTurnIconNode = Sprite3D.new()
 		onTurnIconNode.billboard = BaseMaterial3D.BILLBOARD_ENABLED
@@ -122,7 +122,7 @@ func _create_target_icon() -> void:
 		targetIconNode = TextureRect.new()
 		targetIconNode.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		targetIconNode.custom_minimum_size = Vector2(25,25)
-		
+	
 	targetIconNode.texture = Target_ICON
 	
 	add_child(targetIconNode)

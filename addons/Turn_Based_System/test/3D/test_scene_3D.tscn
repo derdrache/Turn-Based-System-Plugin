@@ -71,6 +71,8 @@ mesh = SubResource("PlaneMesh_3gjfx")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="ComandMenu" parent="CanvasLayer" instance=ExtResource("6_ey1a5")]
+mainCommandIcons = Array[CompressedTexture2D]([null, null, null])
+mainCommandActions = Array[String](["", "", ""])
 
 [editable path="Knight"]
 [editable path="Knight/Knight"]

@@ -35,7 +35,7 @@ script = ExtResource("4_hy2bi")
 character_type = 1
 character_resource = ExtResource("4_s0etk")
 turnOrderValue = 50.0
-targetIconOffSet = Vector3(53.09, -8.195, 0)
+targetIconOffSet = Vector3(53.09, -9.2, 0)
 
 [node name="Enemy 2" type="StaticBody2D" parent="."]
 position = Vector2(418, 342)
@@ -53,7 +53,7 @@ script = ExtResource("4_hy2bi")
 character_type = 1
 character_resource = ExtResource("4_s0etk")
 turnOrderValue = 50.0
-targetIconOffSet = Vector3(53.09, -8.195, 0)
+targetIconOffSet = Vector3(53.09, -9.355, 0)
 
 [node name="Enemy 3" type="StaticBody2D" parent="."]
 position = Vector2(385, 514)
@@ -71,7 +71,7 @@ script = ExtResource("4_hy2bi")
 character_type = 1
 character_resource = ExtResource("4_s0etk")
 turnOrderValue = 50.0
-targetIconOffSet = Vector3(53.09, -8.195, 0)
+targetIconOffSet = Vector3(53.09, -9.355, 0)
 
 [node name="Player1" type="StaticBody2D" parent="."]
 position = Vector2(818, 169)
@@ -88,7 +88,7 @@ shape = SubResource("RectangleShape2D_tmcke")
 script = ExtResource("4_hy2bi")
 character_resource = ExtResource("5_jfnju")
 onTurnIconOffSet = Vector3(-11.295, -65.255, 0)
-targetIconOffSet = Vector3(27.91, -6.94, 0)
+targetIconOffSet = Vector3(27.91, -9.355, 0)
 
 [node name="Player2" type="StaticBody2D" parent="."]
 position = Vector2(822, 436)
@@ -105,7 +105,7 @@ shape = SubResource("RectangleShape2D_tmcke")
 script = ExtResource("4_hy2bi")
 character_resource = ExtResource("6_2gvv6")
 onTurnIconOffSet = Vector3(0, -65.255, 0)
-targetIconOffSet = Vector3(40.27, -7.47, 0)
+targetIconOffSet = Vector3(40.27, -9.355, 0)
 
 [node name="TurnBasedController" parent="." instance=ExtResource("2_08mpt")]
 endlessOrder = true
@@ -123,8 +123,5 @@ mainCommandList = Array[Dictionary]([{
 
 [node name="TurnOrderBar" parent="CanvasLayer" instance=ExtResource("13_ka3q1")]
 visible = false
-
-[node name="TurnBasedAgent" type="Node" parent="."]
-script = ExtResource("4_hy2bi")
 
 [editable path="CanvasLayer/ComandMenu"]
