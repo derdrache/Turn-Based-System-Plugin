@@ -1,17 +1,17 @@
 [gd_scene load_steps=15 format=3 uid="uid://bojnuadillejy"]
 
 [ext_resource type="PackedScene" uid="uid://b4la2yqdnumj5" path="res://addons/Turn_Based_System/nodes/turn_based_controller/turn_based_controller.tscn" id="2_08mpt"]
-[ext_resource type="Texture2D" uid="uid://80nu5nqla587" path="res://addons/Turn_Based_System/test/assets/2D/83.png" id="2_tl5g6"]
-[ext_resource type="Script" path="res://addons/Turn_Based_System/test/character/character.gd" id="2_yehj6"]
+[ext_resource type="Texture2D" uid="uid://80nu5nqla587" path="res://addons/Turn_Based_System/test/2D/assets/83.png" id="2_tl5g6"]
+[ext_resource type="Script" path="res://addons/Turn_Based_System/test/2D/character/character.gd" id="2_yehj6"]
 [ext_resource type="Script" path="res://addons/Turn_Based_System/nodes/turn_based_agent/turn_based_agent.gd" id="4_hy2bi"]
 [ext_resource type="PackedScene" uid="uid://csjsu65sx7iu5" path="res://addons/Turn_Based_System/scenes/classic_command_menu/classic_comand_menu.tscn" id="4_pl6x7"]
 [ext_resource type="Resource" uid="uid://cwjljuoc83jn0" path="res://addons/Turn_Based_System/test/resource/enemy.tres" id="4_s0etk"]
-[ext_resource type="Texture2D" uid="uid://sdtjd8j6r3ct" path="res://addons/Turn_Based_System/test/assets/2D/91.png" id="5_5tugo"]
+[ext_resource type="Texture2D" uid="uid://sdtjd8j6r3ct" path="res://addons/Turn_Based_System/test/2D/assets/91.png" id="5_5tugo"]
 [ext_resource type="Resource" uid="uid://ccq1ra2k8frfy" path="res://addons/Turn_Based_System/test/resource/player1.tres" id="5_jfnju"]
 [ext_resource type="Resource" uid="uid://cudnqmq33tpnh" path="res://addons/Turn_Based_System/test/resource/player2.tres" id="6_2gvv6"]
-[ext_resource type="Texture2D" uid="uid://bmlqrajokytar" path="res://addons/Turn_Based_System/test/assets/2D/99.png" id="6_kb8yp"]
-[ext_resource type="Texture2D" uid="uid://bdbnbh1tbm1e3" path="res://addons/Turn_Based_System/test/assets/2D/87.png" id="7_50ei7"]
-[ext_resource type="Texture2D" uid="uid://brstn62lvwmhj" path="res://addons/Turn_Based_System/test/assets/2D/42.png" id="9_nca4s"]
+[ext_resource type="Texture2D" uid="uid://bmlqrajokytar" path="res://addons/Turn_Based_System/test/2D/assets/99.png" id="6_kb8yp"]
+[ext_resource type="Texture2D" uid="uid://bdbnbh1tbm1e3" path="res://addons/Turn_Based_System/test/2D/assets/87.png" id="7_50ei7"]
+[ext_resource type="Texture2D" uid="uid://brstn62lvwmhj" path="res://addons/Turn_Based_System/test/2D/assets/42.png" id="9_nca4s"]
 [ext_resource type="PackedScene" uid="uid://cv1rrda3groo5" path="res://addons/Turn_Based_System/scenes/turn_order_bar/turn_order_bar.tscn" id="13_ka3q1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tmcke"]
@@ -35,8 +35,7 @@ script = ExtResource("4_hy2bi")
 character_type = 1
 character_resource = ExtResource("4_s0etk")
 turnOrderValue = 50.0
-onTurnIconOffSet = Vector2(0, -49.925)
-targetIconOffSet = Vector2(49.945, 0)
+targetIconOffSet = Vector3(53.09, -8.195, 0)
 
 [node name="Enemy 2" type="StaticBody2D" parent="."]
 position = Vector2(418, 342)
@@ -54,6 +53,7 @@ script = ExtResource("4_hy2bi")
 character_type = 1
 character_resource = ExtResource("4_s0etk")
 turnOrderValue = 50.0
+targetIconOffSet = Vector3(53.09, -8.195, 0)
 
 [node name="Enemy 3" type="StaticBody2D" parent="."]
 position = Vector2(385, 514)
@@ -71,6 +71,7 @@ script = ExtResource("4_hy2bi")
 character_type = 1
 character_resource = ExtResource("4_s0etk")
 turnOrderValue = 50.0
+targetIconOffSet = Vector3(53.09, -8.195, 0)
 
 [node name="Player1" type="StaticBody2D" parent="."]
 position = Vector2(818, 169)
@@ -86,6 +87,8 @@ shape = SubResource("RectangleShape2D_tmcke")
 [node name="TurnBasedAgent" type="Node" parent="Player1"]
 script = ExtResource("4_hy2bi")
 character_resource = ExtResource("5_jfnju")
+onTurnIconOffSet = Vector3(-11.295, -65.255, 0)
+targetIconOffSet = Vector3(27.91, -6.94, 0)
 
 [node name="Player2" type="StaticBody2D" parent="."]
 position = Vector2(822, 436)
@@ -101,6 +104,8 @@ shape = SubResource("RectangleShape2D_tmcke")
 [node name="TurnBasedAgent" type="Node" parent="Player2"]
 script = ExtResource("4_hy2bi")
 character_resource = ExtResource("6_2gvv6")
+onTurnIconOffSet = Vector3(0, -65.255, 0)
+targetIconOffSet = Vector3(40.27, -7.47, 0)
 
 [node name="TurnBasedController" parent="." instance=ExtResource("2_08mpt")]
 endlessOrder = true
@@ -115,12 +120,11 @@ mainCommandList = Array[Dictionary]([{
 }, {
 "Items": "items"
 }])
-mainCommandIcons = Array[CompressedTexture2D]([null, null, null, null])
-mainCommandActions = Array[String](["", "", "", ""])
 
 [node name="TurnOrderBar" parent="CanvasLayer" instance=ExtResource("13_ka3q1")]
 visible = false
 
-[connection signal="pressed" from="CanvasLayer/ComandMenu/MarginContainer/MainCommandContainer/Move" to="CanvasLayer/ComandMenu/MarginContainer/MainCommandContainer/Move" method="_on_pressed"]
+[node name="TurnBasedAgent" type="Node" parent="."]
+script = ExtResource("4_hy2bi")
 
 [editable path="CanvasLayer/ComandMenu"]

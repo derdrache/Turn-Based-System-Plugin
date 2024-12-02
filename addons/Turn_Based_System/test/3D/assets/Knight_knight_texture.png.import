@@ -2,17 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jvgay0s5alo6"
-path.s3tc="res://.godot/imported/Icon_Left.png-bd793cde28f5195f23048ad65087c0df.s3tc.ctex"
+uid="uid://bvjncc4eq1pje"
+path.s3tc="res://.godot/imported/Knight_knight_texture.png-f6330726a52fed36169f1b01f617010a.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
+generator_parameters={
+"md5": "af4707185c3e9844f7ed166c1a2e24f8"
+}
 
 [deps]
 
-source_file="res://addons/Turn_Based_System/assets/icons/Icon_Left.png"
-dest_files=["res://.godot/imported/Icon_Left.png-bd793cde28f5195f23048ad65087c0df.s3tc.ctex"]
+source_file="res://addons/Turn_Based_System/test/3D/assets/Knight_knight_texture.png"
+dest_files=["res://.godot/imported/Knight_knight_texture.png-f6330726a52fed36169f1b01f617010a.s3tc.ctex"]
 
 [params]
 

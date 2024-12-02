@@ -9,6 +9,9 @@ func _ready() -> void:
 		turn_based_agent.set_turn_order_value(characterResource.speed)
 		turn_based_agent.target_selected.connect(_on_character_action)
 		
+		turn_based_agent.character_resource = characterResource
+		turn_based_agent.turnOrderValue = characterResource.speed
+		
 	
 func _on_character_action(targets,command):
 	# here you put every interaction between the character and his targets
