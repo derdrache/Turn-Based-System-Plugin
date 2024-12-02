@@ -1,0 +1,84 @@
+[gd_scene load_steps=11 format=3 uid="uid://cbt8gfsu1cl6k"]
+
+[ext_resource type="Script" path="res://addons/Turn_Based_System/nodes/turn_based_controller/turn_based_controller.gd" id="1_fmmsn"]
+[ext_resource type="PackedScene" uid="uid://c1dggmu6uu8ab" path="res://addons/Turn_Based_System/test/3D/characters/knight.tscn" id="1_w2g8u"]
+[ext_resource type="Resource" uid="uid://ccq1ra2k8frfy" path="res://addons/Turn_Based_System/test/resource/player1.tres" id="2_1hdhv"]
+[ext_resource type="Resource" uid="uid://cudnqmq33tpnh" path="res://addons/Turn_Based_System/test/resource/player2.tres" id="3_4p5j1"]
+[ext_resource type="Resource" uid="uid://cwjljuoc83jn0" path="res://addons/Turn_Based_System/test/resource/enemy.tres" id="4_5vw8o"]
+[ext_resource type="PackedScene" uid="uid://csjsu65sx7iu5" path="res://addons/Turn_Based_System/scenes/classic_command_menu/classic_comand_menu.tscn" id="6_ey1a5"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qtck8"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_upqwq"]
+sky_material = SubResource("ProceduralSkyMaterial_qtck8")
+
+[sub_resource type="Environment" id="Environment_0v0ct"]
+background_mode = 2
+sky = SubResource("Sky_upqwq")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_3gjfx"]
+size = Vector2(50, 50)
+
+[node name="TestScene3d" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_0v0ct")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="TurnBasedController" type="Node" parent="."]
+script = ExtResource("1_fmmsn")
+
+[node name="Knight" parent="." instance=ExtResource("1_w2g8u")]
+transform = Transform3D(-0.00366512, 0, -0.999993, 0, 1, 0, 0.999993, 0, -0.00366512, 1.71205, 0, -0.255412)
+characterResource = ExtResource("2_1hdhv")
+
+[node name="Knight2" parent="." instance=ExtResource("1_w2g8u")]
+transform = Transform3D(-0.00366512, 0, -0.999993, 0, 1, 0, 0.999993, 0, -0.00366512, 5.09338, 0, -2.21003)
+characterResource = ExtResource("3_4p5j1")
+
+[node name="Knight3" parent="." instance=ExtResource("1_w2g8u")]
+transform = Transform3D(-0.00366512, 0, -0.999993, 0, 1, 0, 0.999993, 0, -0.00366512, 4.39612, 0, 2.67334)
+characterResource = ExtResource("2_1hdhv")
+
+[node name="Knight4" parent="." instance=ExtResource("1_w2g8u")]
+transform = Transform3D(-0.0406201, 0, 0.999175, 0, 1, 0, -0.999175, 0, -0.0406201, -10.9455, 0, -2.21003)
+characterResource = ExtResource("4_5vw8o")
+
+[node name="TurnBasedAgent" parent="Knight4" index="1"]
+character_type = 1
+
+[node name="Knight5" parent="." instance=ExtResource("1_w2g8u")]
+transform = Transform3D(-0.0406201, 0, 0.999175, 0, 1, 0, -0.999175, 0, -0.0406201, -10.9455, 0, 3.16177)
+characterResource = ExtResource("4_5vw8o")
+
+[node name="TurnBasedAgent" parent="Knight5" index="1"]
+character_type = 1
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.861629, 0.507539, 0, -0.507539, 0.861629, -2.76, 24.745, 41.285)
+fov = 15.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_3gjfx")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ComandMenu" parent="CanvasLayer" instance=ExtResource("6_ey1a5")]
+
+[editable path="Knight"]
+[editable path="Knight/Knight"]
+[editable path="Knight2"]
+[editable path="Knight2/Knight"]
+[editable path="Knight3"]
+[editable path="Knight3/Knight"]
+[editable path="Knight4"]
+[editable path="Knight4/Knight"]
+[editable path="Knight5"]
+[editable path="Knight5/Knight"]
