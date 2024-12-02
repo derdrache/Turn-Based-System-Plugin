@@ -80,8 +80,6 @@ func _ready() -> void:
 	if not Engine.is_editor_hint():
 		_set_late_signals()
 		
-	
-
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint(): return
 	
@@ -156,13 +154,13 @@ func _refresh_on_turn_icon_position()-> void:
 	else:
 		onTurnIconNode.global_position = get_global_position() + Vector2(onTurnIconOffSet.x, onTurnIconOffSet.y)
 
-
 func _set_late_signals() -> void:
 	await get_tree().current_scene.ready
 	
 	var commandMenu = get_tree().get_first_node_in_group("turnBasedCommandMenu")
 	if commandMenu:
 		commandMenu.command_selected.connect(_on_command_selected)
+
 
 func _on_command_selected(command: CommandResource) -> void:
 	var turnBasedController: TurnBasedController = get_tree().get_first_node_in_group("turnBasedController")
@@ -245,7 +243,7 @@ func _select_between_targets(event: InputEvent, targets: Array) -> void:
 func _check_and_select_multi_target(mainTarget: TurnBasedAgent, targets: Array[Node]) -> void:
 	var targetCount: int = currentCommand.targetCount
 	var mainTargetIndex := targets.find(mainTarget,0)
-	var targetSize := targets.size()-1
+	var targetSize := targets.size()
 	
 	allSelectedTargets = []
 	
@@ -253,14 +251,15 @@ func _check_and_select_multi_target(mainTarget: TurnBasedAgent, targets: Array[N
 		allSelectedTargets.append(mainTarget)
 		return
 	
-	if targetCount > targets.size() or targetCount == -1: targetCount = targetSize
-
+	if targetCount > targetSize or targetCount == -1: targetCount = targetSize
+	
 	for i in targetCount:
-		targets[mainTargetIndex].set_target()
-		allSelectedTargets.append(targets[mainTargetIndex])
-		
+		targets[i].set_target()
+		allSelectedTargets.append(targets[i])
+
 		mainTargetIndex += 1
 		if mainTargetIndex > targetSize: mainTargetIndex = 0
+		
 
 func _select_target() -> void:
 	target_selected.emit(allSelectedTargets, currentCommand)
