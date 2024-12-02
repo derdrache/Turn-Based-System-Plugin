@@ -80,7 +80,6 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel") and multi_command_container.visible:
 		scroll_container.hide()
 		main_command_container.show()
-		main_command_container.get_children()[0].grab_focus()
 		
 func _ready() -> void:
 	add_to_group("turnBasedCommandMenu")
@@ -136,9 +135,9 @@ func _on_player_turn(character) -> void:
 		_reset_main_commands()
 		_set_command_options(character)
 	
-	await get_tree().create_timer(0.01).timeout
-	
 	show()
+	
+	main_command_container.get_children()[0].grab_focus()
 
 func _reset_main_commands():
 	if not main_command_container: return
