@@ -137,6 +137,9 @@ func _on_player_turn(character) -> void:
 	
 	show()
 	
+	# needed for grab_focus
+	await get_tree().create_timer(0.01).timeout
+	
 	main_command_container.get_children()[0].grab_focus()
 
 func _reset_main_commands():
