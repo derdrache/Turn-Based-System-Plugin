@@ -7,7 +7,6 @@ signal command_selected(command: Resource)
 
 @export var COMMAND_BUTTON : PackedScene = preload("res://addons/Turn_Based_System/scenes/classic_command_menu/classic_command_button.tscn")
 
-
 @export_category("Command Settings")
 ## Setup the main menu [br]
 ## Array[Dictonary] [br]
@@ -88,7 +87,7 @@ func _ready() -> void:
 		hide()
 		_set_late_signals()
 
-func _on_command_pressed(commandResource: Resource):
+func _on_command_pressed(commandResource: Resource) -> void:
 	hide()
 
 	command_selected.emit(commandResource)
@@ -96,7 +95,7 @@ func _on_command_pressed(commandResource: Resource):
 	main_command_container.show()
 	scroll_container.hide()
 
-func _on_multi_command_button_pressed(commandList: Array[Resource]):
+func _on_multi_command_button_pressed(commandList: Array[Resource]) -> void:
 	_clear_multi_command_container()
 
 	_set_multi_command_container(commandList)
@@ -109,21 +108,21 @@ func _on_multi_command_button_pressed(commandList: Array[Resource]):
 	
 	multi_command_container.get_children()[0].grab_focus()
 
-func _clear_multi_command_container():
+func _clear_multi_command_container() -> void:
 	for node in multi_command_container.get_children():
 		node.queue_free()
 
-func _set_multi_command_container(commandList: Array[Resource]):
-	for command in commandList:
+func _set_multi_command_container(commandList: Array[Resource]) -> void:
+	for command:Resource in commandList:
 		var newCommandButton = COMMAND_BUTTON.instantiate()
 		newCommandButton.text = command.name
 		newCommandButton.pressed.connect(_on_command_pressed.bind(command))
 		multi_command_container.add_child(newCommandButton)
 
-func _on_run_button_pressed():
+func _on_run_button_pressed() -> void:
 	get_tree().quit()
 
-func _set_late_signals():
+func _set_late_signals() -> void:
 	await get_tree().current_scene.ready
 	
 	for character: TurnBasedAgent in get_tree().get_nodes_in_group("turnBasedPlayer"):
@@ -142,16 +141,16 @@ func _on_player_turn(character) -> void:
 	
 	main_command_container.get_children()[0].grab_focus()
 
-func _reset_main_commands():
+func _reset_main_commands() -> void:
 	if not main_command_container: return
 	
 	for node in main_command_container.get_children():
 		node.queue_free()
 
-func _set_command_options(character: TurnBasedAgent = null):
+func _set_command_options(character: TurnBasedAgent = null) -> void:
 	if not main_command_container: return
 	
-	for mainCommandDict in mainCommandList:
+	for mainCommandDict: Dictionary in mainCommandList:
 		if mainCommandDict.keys().is_empty(): 
 			if not Engine.is_editor_hint():
 				var index = mainCommandList.find(mainCommandDict)
