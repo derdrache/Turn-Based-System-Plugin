@@ -2,6 +2,7 @@
 extends Control
 class_name TurnOrderBar
 
+@export var showTargets := true
 @export var scrollable := true
 
 @export_category("Customization")
@@ -68,13 +69,13 @@ func _on_command_undo() -> void:
 	remove_all_target_nodes()
 
 func _set_target_nodes(targets: Array[TurnBasedAgent], isTargetAlly: bool) -> void:
-	if targets.is_empty(): return
+	if targets.is_empty() or not showTargets : return
 	
 	currentTargets = targets
 	isCurrentTargetAlly = isTargetAlly
 
 	remove_all_target_nodes()
-	
+
 	if targets.size() == 1: 
 		_create_target_node(targets[0], isTargetAlly)
 	else:
@@ -82,6 +83,11 @@ func _set_target_nodes(targets: Array[TurnBasedAgent], isTargetAlly: bool) -> vo
 			_create_target_node(target, isTargetAlly)
 
 func _create_target_node(target, isTargetAlly) -> void:
+	var turnBasedController: TurnBasedController = get_tree().get_first_node_in_group("turnBasedController")
+	var isDynamicType = turnBasedController.turnOrderType  == turnBasedController.Turn_Order_Type.DYNAMIC
+	
+	if not turnBasedController.endlessOrder and not isDynamicType: return
+	
 	var index: int = characterTurnOrder.find(target)
 	var targetNode = ON_TURN_ICON.instantiate()
 	
