@@ -113,6 +113,7 @@ endlessOrder = true
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="ComandMenu" parent="CanvasLayer" instance=ExtResource("4_pl6x7")]
+withFocus = null
 mainCommandList = Array[Dictionary]([{
 "Attack": "basicAttack"
 }, {
