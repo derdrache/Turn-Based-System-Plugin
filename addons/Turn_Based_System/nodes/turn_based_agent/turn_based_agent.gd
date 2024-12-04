@@ -61,7 +61,7 @@ enum Character_Type {
 const ON_TURON_ICON = preload("res://addons/Turn_Based_System/assets/icons/Icon_Down.png")
 const Target_ICON = preload("res://addons/Turn_Based_System/assets/icons/Icon_Left.png")
 
-var is3DScene
+var is3DScene: bool
 var onTurnIconNode
 var targetIconNode
 var isActive := false
@@ -126,17 +126,15 @@ func _create_target_icon() -> void:
 	
 	add_child(targetIconNode)
 	
-	_refresh_target_icon_position()
-	
 	if targetIconTexture: targetIconNode.texture = targetIconTexture
-	
-	_refresh_target_icon_position()
 	
 	if character_type == Character_Type.ENEMY: targetIconNode.modulate = selectEnemyIconColor
 	elif character_type == Character_Type.PLAYER: targetIconNode.modulate = selectPlayerIconColor	
 
 	if not Engine.is_editor_hint(): 
 		targetIconNode.hide()
+		
+	_refresh_target_icon_position()
 
 func _refresh_target_icon_position() -> void:
 	if not targetIconNode or not get_global_position(): return
@@ -144,7 +142,6 @@ func _refresh_target_icon_position() -> void:
 	if is3DScene: 
 		targetIconNode.global_position = get_global_position() +  targetIconOffSet
 	else:
-		
 		targetIconNode.global_position = get_global_position() + Vector2(targetIconOffSet.x, targetIconOffSet.y)
 
 func _refresh_on_turn_icon_position()-> void:

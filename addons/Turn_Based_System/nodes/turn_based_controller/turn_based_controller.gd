@@ -7,7 +7,7 @@ class_name TurnBasedController extends Node
 ## Doesn't fire if endlessOrder is true
 signal round_finished()
 ## Emit every time when the order has changed
-signal turn_order_changed(characterTurnOrder)
+signal turn_order_changed(characterTurnOrder: Array[TurnBasedAgent])
 
 ## Different turn order calculations
 @export var turnOrderType : Turn_Order_Type:
@@ -27,8 +27,8 @@ enum Turn_Order_Type{
 	DYNAMIC
 	}
 
-var turnOrderList: Array[Dictionary] = []
-var dynamicTimeOrderList: Array[Dictionary] = []
+var turnOrderList: Array[TimeEntry] = []
+var dynamicTimeOrderList: Array[TimeEntry] = []
 var activeCharacter: TurnBasedAgent
 
 func _ready() -> void:
@@ -58,29 +58,30 @@ func _set_turn_order() -> void:
 		Turn_Order_Type.DYNAMIC: _set_dynamic_turn_order(players + enemies)
 	
 func _set_classic_turn_order(characterList) -> void:
-		for character: TurnBasedAgent in characterList:
+		for agent: TurnBasedAgent in characterList:
 			turnOrderList.append({
-				"node": character
+				"agent": agent
 			})
 		
 func _set_value_based_turn_order(characterList) -> void:
 	for agent: TurnBasedAgent in characterList:
 		turnOrderList.append({
-			"node": agent,
+			"agent": agent,
 			"value": agent.get_turn_order_value()
 		})
 	
-	turnOrderList.sort_custom(func(a, b): return a.value > b.value)
+	
+	turnOrderList.sort_custom(func(a, b): return a.currentTime > b.currentTime)
 
 
 func _set_dynamic_turn_order(characterList) -> void:
 	for agent: TurnBasedAgent in characterList:
 		var speedValue : float = _get_dynamic_speed_value(agent.get_turn_order_value())
-		
-		dynamicTimeOrderList.append({
-			"agent": agent,
-			"currentTime": 10 - speedValue
-		})
+		var timeEntry := TimeEntry.new()
+		timeEntry.agent = agent
+		timeEntry.currentTime = 10 - speedValue
+	
+		dynamicTimeOrderList.append(timeEntry)
 	
 	_refresh_dynamic_turn_order()
 
@@ -108,51 +109,50 @@ func _refresh_dynamic_turn_order() -> void:
 			
 		if not found: 
 			var speedValue : float = _get_dynamic_speed_value(agent.get_turn_order_value())
+			var timeEntry := TimeEntry.new()
 			
-			dynamicTimeOrderList.append({
-				"agent": agent,
-				"currentTime": 10 - 2 * speedValue
-			})
-	
+			timeEntry.agent = agent
+			timeEntry.currentTime = 10 - 2 * speedValue
+			
+			dynamicTimeOrderList.append(timeEntry)
 	
 	for entry in dynamicTimeOrderList:
 		var speedValue : float = _get_dynamic_speed_value(entry.agent.get_turn_order_value())
 		var currentTime : float = entry.currentTime
 		
 		while currentTime > 0:
-			turnOrderList.append(
-				{
-				"name": entry.agent.get_parent().name,
-				"node": entry.agent,
-				"value": currentTime
-			})
+			var timeEntry := TimeEntry.new()
+			timeEntry.agent = entry.agent
+			timeEntry.currentTime = currentTime
+			
+			turnOrderList.append(timeEntry)
+			
 			currentTime -= speedValue
 	
-	turnOrderList.sort_custom(func(a, b): return a.value > b.value)
-
+	turnOrderList.sort_custom(func(a, b): return a.currentTime > b.currentTime)
 	
 func _remove_active_character() -> void:
 	if not activeCharacter: return
 	
 	var lastCharacter := turnOrderList.pop_front()
-	var lastCharacterNode : TurnBasedAgent = lastCharacter.node
+	var lastCharacterNode : TurnBasedAgent = lastCharacter.agent
 
 func _set_next_active_character() -> void:		
-	activeCharacter = turnOrderList[0].node
+	activeCharacter = turnOrderList[0].agent
 	activeCharacter.set_active(true)
 
 func _refresh_turn_order_bar():
 	var barTurnOrder: Array[TurnBasedAgent] = []
 	
-	for character: Dictionary in turnOrderList:
-		barTurnOrder.append(character.node)
+	for entry: TimeEntry in turnOrderList:
+		barTurnOrder.append(entry.agent)
 
 	turn_order_changed.emit(barTurnOrder)		
 	
 func _on_turn_done() -> void:
 	_add_time_to_turn_order()
 	
-	_reduce_dynamic_time(turnOrderList[0].node)
+	_reduce_dynamic_time(turnOrderList[0].agent)
 	
 	_refresh_turn_order()
 	
@@ -175,11 +175,11 @@ func _reduce_dynamic_time(agent: TurnBasedAgent):
 			entry.currentTime -= speedValue
 
 func _add_time_to_turn_order() -> void:
-	var firstCharacterTime = turnOrderList[0].value
-	var secondsCharacterTime = turnOrderList[1].value
+	var firstCharacterTime = turnOrderList[0].currentTime
+	var secondsCharacterTime = turnOrderList[1].currentTime
 	var timeChange = firstCharacterTime - secondsCharacterTime
 	
-	for entry: Dictionary in dynamicTimeOrderList:
+	for entry: TimeEntry in dynamicTimeOrderList:
 		entry.currentTime += timeChange
 		
 
