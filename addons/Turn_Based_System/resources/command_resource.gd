@@ -3,7 +3,7 @@ class_name CommandResource
 
 ##ENEMIES: tagret only enemies [br]
 ##PLAYERS: target only players
-enum Target_Type {ENEMIES, PLAYERS}
+enum Target_Type {ENEMIES, PLAYERS, SELF}
 
 @export var name : String
 
