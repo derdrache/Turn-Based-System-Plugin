@@ -130,9 +130,8 @@ func _set_late_signals() -> void:
 		character.undo_command_selected.connect(_on_player_turn.bind(null))
 
 func _on_player_turn(character) -> void:
-	_check_resource_setup(character)
-	
 	if character:
+		_check_resource_setup(character)
 		_reset_main_commands()
 		_set_command_options(character)
 	
