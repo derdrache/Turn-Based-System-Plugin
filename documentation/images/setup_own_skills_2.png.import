@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ny5lw6llebyp"
-path="res://.godot/imported/setup_own_skills_2.png-d9d60c204a0c303d1f01fe6426afc86b.ctex"
+uid="uid://dqnb56j00mmnq"
+path="res://.godot/imported/setup_own_skills_2.png-29a7c834e30bc065dcad1141c76fff7f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://documentation/setup_own_skills_2.png"
-dest_files=["res://.godot/imported/setup_own_skills_2.png-d9d60c204a0c303d1f01fe6426afc86b.ctex"]
+source_file="res://documentation/images/setup_own_skills_2.png"
+dest_files=["res://.godot/imported/setup_own_skills_2.png-29a7c834e30bc065dcad1141c76fff7f.ctex"]
 
 [params]
 

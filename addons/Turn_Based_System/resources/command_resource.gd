@@ -1,13 +1,11 @@
 extends Resource
 class_name CommandResource
 
-##ENEMIES: tagret only enemies [br]
-##PLAYERS: target only players
 enum Target_Type {ENEMIES, PLAYERS, SELF}
 
 @export var name : String
 
-##Command type is used to determine which group the ability can be targeted at [br]
+##Command type is used to determine which group the ability can be targeted at
 @export var targetType: Target_Type
 
 ## TargetCount specify how many targets the command should affect [br]
