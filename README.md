@@ -27,9 +27,9 @@ For the targeting system and the command menu to work, the skill resource must h
 There are 2 options for this:
 
 1. you extend your skill with the CommandResource:
-<img src="documentation/images/setup_own_skills_1.png" width="200"/>
+<img src="documentation/images/setup_own_skills_1.png" width="400"/>
 2. you put the variables in your skill resource:
-<img src="documentation/images/setup_own_skills_2.png" width="200"/>
+<img src="documentation/images/setup_own_skills_2.png" width="400"/>
 
 
 ### Premade Scenes:
