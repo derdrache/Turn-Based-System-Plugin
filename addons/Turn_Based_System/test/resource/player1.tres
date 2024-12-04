@@ -1,15 +1,16 @@
-[gd_resource type="Resource" script_class="TestCharacterResource" load_steps=6 format=3 uid="uid://ccq1ra2k8frfy"]
+[gd_resource type="Resource" script_class="TestCharacterResource" load_steps=7 format=3 uid="uid://ccq1ra2k8frfy"]
 
 [ext_resource type="Resource" uid="uid://dkcvrtj60prfi" path="res://addons/Turn_Based_System/test/skills/normal_attack.tres" id="1_vq7ry"]
 [ext_resource type="Script" path="res://addons/Turn_Based_System/test/resource/character_resource.gd" id="2_28tgl"]
 [ext_resource type="Resource" uid="uid://dgugc04507s8u" path="res://addons/Turn_Based_System/test/skills/heal.tres" id="3_2x1ou"]
 [ext_resource type="Resource" uid="uid://cs372rjskgrh5" path="res://addons/Turn_Based_System/test/skills/swipe.tres" id="4_lfj0f"]
 [ext_resource type="Resource" uid="uid://bu4pb7s5kojnt" path="res://addons/Turn_Based_System/test/skills/haste.tres" id="5_akmas"]
+[ext_resource type="Resource" uid="uid://cul5888o2m313" path="res://addons/Turn_Based_System/test/skills/summon.tres" id="6_j0fkd"]
 
 [resource]
 script = ExtResource("2_28tgl")
 health = 100
 speed = 55
 basicAttack = ExtResource("1_vq7ry")
-skills = Array[Resource]([ExtResource("3_2x1ou"), ExtResource("4_lfj0f"), ExtResource("5_akmas")])
+skills = Array[Resource]([ExtResource("3_2x1ou"), ExtResource("4_lfj0f"), ExtResource("5_akmas"), ExtResource("6_j0fkd")])
 items = Array[Resource]([])

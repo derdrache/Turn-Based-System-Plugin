@@ -4,6 +4,8 @@ extends StaticBody3D
 
 @onready var turn_based_agent: TurnBasedAgent = $TurnBasedAgent
 
+const KNIGHT = preload("res://addons/Turn_Based_System/test/3D/characters/knight.tscn")
+const AGENT = preload("res://addons/Turn_Based_System/assets/icons/agent.png")
 func _ready() -> void:
 	if turn_based_agent: 
 		turn_based_agent.target_selected.connect(_on_character_action)
@@ -21,6 +23,12 @@ func _on_character_action(targets,command):
 	if command.name == "Haste":
 		for target in targets:
 			target.character_resource.speed *=2
+	if command.name == "Summon":
+		var knightNode = KNIGHT.instantiate()
+		knightNode.characterResource = characterResource.duplicate()
+		get_tree().current_scene.add_child(knightNode)
+		knightNode.global_position = global_position + Vector3(-5,0,0)
+		knightNode.turn_based_agent.turnOrderBarIconTexture = AGENT
 
 	await _animation_example(targets)
 	
