@@ -67,18 +67,16 @@ signal command_selected(command: Resource)
 @onready var scroll_container: ScrollContainer = %ScrollContainer
 @onready var multi_command_container: GridContainer = %MultiCommandContainer
 
+var commandCanceled := false
+
 func _input(event: InputEvent) -> void:	
-	if main_command_container.visible:
-		for action: String in mainCommandActions:
-			if action.is_empty(): continue
-			
-			var index = mainCommandActions.find(action)
-			if event.is_action_pressed(action): main_command_container.get_children()[index].pressed.emit()
-		
-		
-	if event.is_action_pressed("ui_cancel") and multi_command_container.visible:
+	if event.is_action_pressed("ui_cancel") and visible:
 		scroll_container.hide()
 		main_command_container.show()
+		main_command_container.get_children()[0].grab_focus()
+		
+	if event.is_action_pressed("ui_cancel") and not visible:
+		commandCanceled = true
 		
 func _ready() -> void:
 	add_to_group("turnBasedCommandMenu")
@@ -91,9 +89,6 @@ func _on_command_pressed(commandResource: Resource) -> void:
 	hide()
 
 	command_selected.emit(commandResource)
-	
-	main_command_container.show()
-	scroll_container.hide()
 
 func _on_multi_command_button_pressed(commandList: Array[Resource]) -> void:
 	_clear_multi_command_container()
@@ -134,13 +129,18 @@ func _on_player_turn(character) -> void:
 		_check_resource_setup(character)
 		_reset_main_commands()
 		_set_command_options(character)
-	
+
 	show()
+	
+	if not commandCanceled: main_command_container.show()
 	
 	# needed for grab_focus
 	await get_tree().create_timer(0.01).timeout
 	
-	main_command_container.get_children()[0].grab_focus()
+	if scroll_container.visible:
+		multi_command_container.get_children()[0].grab_focus()
+	else:
+		main_command_container.get_children()[0].grab_focus()
 
 func _reset_main_commands() -> void:
 	if not main_command_container: return
