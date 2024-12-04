@@ -65,6 +65,7 @@ var is3DScene: bool
 var onTurnIconNode
 var targetIconNode
 var isActive := false
+var possibleTargets: Array
 var mainTarget: TurnBasedAgent
 var allSelectedTargets: Array[TurnBasedAgent]
 var currentCommand: Resource
@@ -166,17 +167,20 @@ func _on_command_selected(command: CommandResource) -> void:
 	
 	currentCommand = command
 
-	var targets: Array
-	if command.targetType == CommandResource.Target_Type.ENEMIES:
-		targets = get_tree().get_nodes_in_group("turnBasedEnemy")
-	elif command.targetType == CommandResource.Target_Type.PLAYERS:
-		isTargetAlly = true
-		targets = get_tree().get_nodes_in_group("turnBasedPlayer")
+	match command.targetType:
+		CommandResource.Target_Type.ENEMIES:
+			possibleTargets = get_tree().get_nodes_in_group("turnBasedEnemy")
+		CommandResource.Target_Type.PLAYERS:
+			isTargetAlly = true
+			possibleTargets = get_tree().get_nodes_in_group("turnBasedPlayer")
+		CommandResource.Target_Type.SELF:
+			isTargetAlly = true
+			possibleTargets = [self]
 	
-	mainTarget = targets[0]
+	mainTarget = possibleTargets[0]
 	mainTarget.set_target()
 	
-	_check_and_select_multi_target(mainTarget, targets)
+	_check_and_select_multi_target(mainTarget, possibleTargets)
 	
 	target_changed.emit(allSelectedTargets, isTargetAlly)
 
@@ -205,17 +209,13 @@ func _deselect_all_targets() -> void:
 func _input(event: InputEvent) -> void:
 	if not mainTarget or not event is InputEventKey: return
 	
-	var enemies = get_tree().get_nodes_in_group("turnBasedEnemy")
-	var players = get_tree().get_nodes_in_group("turnBasedPlayer")
-	
-	if mainTarget in enemies: _select_between_targets(event, enemies)
-	else: _select_between_targets(event, players)
+	_select_between_targets(event)
 	
 	if event.is_action_pressed("ui_accept"): _select_target()
 	elif event.is_action_pressed("ui_cancel"): _undo_command()
 	
-func _select_between_targets(event: InputEvent, targets: Array) -> void:
-	var currentTargetIndex: int = targets.find(mainTarget, 0)
+func _select_between_targets(event: InputEvent) -> void:
+	var currentTargetIndex: int = possibleTargets.find(mainTarget, 0)
 	
 	var pressedLeft := event.is_action_pressed("ui_left")
 	var pressedRight := event.is_action_pressed("ui_right")
@@ -224,21 +224,21 @@ func _select_between_targets(event: InputEvent, targets: Array) -> void:
 	
 	if pressedLeft or pressedUp:
 		currentTargetIndex -= 1
-		if currentTargetIndex < 0: currentTargetIndex = targets.size() - 1
+		if currentTargetIndex < 0: currentTargetIndex = possibleTargets.size() - 1
 	elif pressedRight or pressedDown:
 		currentTargetIndex += 1
-		if currentTargetIndex > targets.size() - 1: currentTargetIndex = 0
+		if currentTargetIndex > possibleTargets.size() - 1: currentTargetIndex = 0
 	
 	target_changed.emit(allSelectedTargets, isTargetAlly)
 	
 	_deselect_all_targets()
 	
-	mainTarget = targets[currentTargetIndex]
+	mainTarget = possibleTargets[currentTargetIndex]
 	mainTarget.set_target()
 	
-	_check_and_select_multi_target(mainTarget, targets)
+	_check_and_select_multi_target(mainTarget, possibleTargets)
 	
-func _check_and_select_multi_target(mainTarget: TurnBasedAgent, targets: Array[Node]) -> void:
+func _check_and_select_multi_target(mainTarget: TurnBasedAgent, targets: Array) -> void:
 	var targetCount: int = currentCommand.targetCount
 	var mainTargetIndex := targets.find(mainTarget,0)
 	var targetSize := targets.size()

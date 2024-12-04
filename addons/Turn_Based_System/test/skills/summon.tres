@@ -5,5 +5,5 @@
 [resource]
 script = ExtResource("1_j2flj")
 name = "Summon"
-targetType = 1
+targetType = 2
 targetCount = 1
