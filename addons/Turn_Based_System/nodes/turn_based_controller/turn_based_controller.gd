@@ -98,23 +98,38 @@ func _refresh_dynamic_turn_order() -> void:
 	var players = get_tree().get_nodes_in_group("turnBasedPlayer")
 	var enemies = get_tree().get_nodes_in_group("turnBasedEnemy")
 	var agentList = players + enemies
-	
 	turnOrderList = []
+
+	for agent in agentList:
+		var found = false
+		
+		for entry in dynamicTimeOrderList:
+			if entry.agent == agent: found = true
+			
+		if not found: 
+			var speedValue : float = _get_dynamic_speed_value(agent.get_turn_order_value())
+			
+			dynamicTimeOrderList.append({
+				"agent": agent,
+				"currentTime": 10 - 2 * speedValue
+			})
 	
-	for i in dynamicTimeOrderList.size():
-		var speedValue : float = _get_dynamic_speed_value(dynamicTimeOrderList[i].agent.get_turn_order_value())
-		var currentTime : float = dynamicTimeOrderList[i].currentTime
+	
+	for entry in dynamicTimeOrderList:
+		var speedValue : float = _get_dynamic_speed_value(entry.agent.get_turn_order_value())
+		var currentTime : float = entry.currentTime
 		
 		while currentTime > 0:
 			turnOrderList.append(
 				{
-				"name": agentList[i].get_parent().name,
-				"node": agentList[i],
+				"name": entry.agent.get_parent().name,
+				"node": entry.agent,
 				"value": currentTime
 			})
 			currentTime -= speedValue
 	
 	turnOrderList.sort_custom(func(a, b): return a.value > b.value)
+
 	
 func _remove_active_character() -> void:
 	if not activeCharacter: return
@@ -135,9 +150,9 @@ func _refresh_turn_order_bar():
 	turn_order_changed.emit(barTurnOrder)		
 	
 func _on_turn_done() -> void:
-	_reduce_dynamic_time(turnOrderList[0].node)
+	_add_time_to_turn_order()
 	
-	_add_time_to_turn_order(-1)
+	_reduce_dynamic_time(turnOrderList[0].node)
 	
 	_refresh_turn_order()
 	
@@ -159,9 +174,13 @@ func _reduce_dynamic_time(agent: TurnBasedAgent):
 		if entry.agent == agent:
 			entry.currentTime -= speedValue
 
-func _add_time_to_turn_order(time) -> void:
+func _add_time_to_turn_order() -> void:
+	var firstCharacterTime = turnOrderList[0].value
+	var secondsCharacterTime = turnOrderList[1].value
+	var timeChange = firstCharacterTime - secondsCharacterTime
+	
 	for entry: Dictionary in dynamicTimeOrderList:
-		entry.currentTime += time
+		entry.currentTime += timeChange
 		
 
 ## returns the parent of the TurnBasedAgent
