@@ -42,6 +42,8 @@ func _ready() -> void:
 	
 	_set_next_active_character()
 
+	_refresh_turn_order_bar()
+
 func _set_signals() -> void:
 	for agent: TurnBasedAgent in get_tree().get_nodes_in_group("turnBasedAgents"):
 		agent.turn_finished.connect(_on_turn_done)
@@ -81,7 +83,17 @@ func _set_dynamic_turn_order(characterList) -> void:
 		})
 	
 	_refresh_dynamic_turn_order()
+
+func _refresh_turn_order():
+	if turnOrderType == Turn_Order_Type.DYNAMIC: 
+		_refresh_dynamic_turn_order()
+	else: 
+		_remove_active_character()
 	
+	if turnOrderList.is_empty():
+		round_finished.emit()
+		_set_turn_order()
+
 func _refresh_dynamic_turn_order() -> void:
 	var players = get_tree().get_nodes_in_group("turnBasedPlayer")
 	var enemies = get_tree().get_nodes_in_group("turnBasedEnemy")
@@ -110,20 +122,11 @@ func _remove_active_character() -> void:
 	var lastCharacter := turnOrderList.pop_front()
 	var lastCharacterNode : TurnBasedAgent = lastCharacter.node
 
-func _set_next_active_character() -> void:
-	if turnOrderType == Turn_Order_Type.DYNAMIC: _refresh_dynamic_turn_order()
-	else: _remove_active_character()
-	
-	if turnOrderList.is_empty():
-		round_finished.emit()
-		_set_turn_order()
-		
+func _set_next_active_character() -> void:		
 	activeCharacter = turnOrderList[0].node
 	activeCharacter.set_active(true)
-	
-	_send_turn_order_bar()
 
-func _send_turn_order_bar():
+func _refresh_turn_order_bar():
 	var barTurnOrder: Array[TurnBasedAgent] = []
 	
 	for character: Dictionary in turnOrderList:
@@ -132,13 +135,15 @@ func _send_turn_order_bar():
 	turn_order_changed.emit(barTurnOrder)		
 	
 func _on_turn_done() -> void:
-	_send_turn_order_bar()
-	
 	_reduce_dynamic_time(turnOrderList[0].node)
 	
 	_add_time_to_turn_order(-1)
 	
+	_refresh_turn_order()
+	
 	_set_next_active_character()
+	
+	_refresh_turn_order_bar()
 	
 func _get_dynamic_speed_value(characterTurnValue: float) -> float:
 	var baseSpeed : float = get_tree().get_nodes_in_group("turnBasedPlayer")[0].get_turn_order_value()

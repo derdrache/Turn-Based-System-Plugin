@@ -285,6 +285,10 @@ func get_global_position():
 	return get_parent().global_position
 	
 func get_turn_order_value() -> float:
+	if not turnOrderValueName: 
+		push_warning("No turnOrderValueName set in the agend from: " + str(get_parent()))
+		return 0
+	
 	return character_resource[turnOrderValueName]
 
 func _validate_property(property: Dictionary):

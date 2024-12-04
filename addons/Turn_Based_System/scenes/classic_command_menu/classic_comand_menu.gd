@@ -82,7 +82,7 @@ func _input(event: InputEvent) -> void:
 		
 func _ready() -> void:
 	add_to_group("turnBasedCommandMenu")
-
+	
 	if not Engine.is_editor_hint(): 
 		hide()
 		_set_late_signals()
@@ -130,6 +130,8 @@ func _set_late_signals() -> void:
 		character.undo_command_selected.connect(_on_player_turn.bind(null))
 
 func _on_player_turn(character) -> void:
+	_check_resource_setup(character)
+	
 	if character:
 		_reset_main_commands()
 		_set_command_options(character)
@@ -193,4 +195,8 @@ func _set_command_options(character: TurnBasedAgent = null) -> void:
 		newButton.buttonIcon = mainCommandIcons[mainCommandList.size() - 1 + extraMainCommands.find(button)]
 		
 		main_command_container.add_child(newButton)
-		
+
+func _check_resource_setup(character):
+	if not character.character_resource: 
+		push_error("TurnBasedAgent from " + str(character.get_parent()) + " doesn't have set: character.character_resource ")
+		return
