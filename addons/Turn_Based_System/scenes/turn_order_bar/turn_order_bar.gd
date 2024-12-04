@@ -37,7 +37,6 @@ func _ready() -> void:
 		
 	_refresh_bar()	
 	
-
 func _setup_on_turn_icon() -> void:
 	if onTurnIcon: on_turn_icon_texture_rect.texture = onTurnIcon
 	on_turn_icon_texture_rect.modulate = onTurnColor
@@ -68,6 +67,7 @@ func _on_command_undo() -> void:
 	
 	remove_all_target_nodes()
 
+
 func _set_target_nodes(targets: Array[TurnBasedAgent], isTargetAlly: bool) -> void:
 	if targets.is_empty() or not showTargets : return
 	
@@ -86,7 +86,7 @@ func _create_target_node(target, isTargetAlly) -> void:
 	var turnBasedController: TurnBasedController = get_tree().get_first_node_in_group("turnBasedController")
 	var isDynamicType = turnBasedController.turnOrderType  == turnBasedController.Turn_Order_Type.DYNAMIC
 	
-	if not turnBasedController.endlessOrder and not isDynamicType: return
+	if not isDynamicType: return
 	
 	var index: int = characterTurnOrder.find(target)
 	var targetNode = ON_TURN_ICON.instantiate()

@@ -26,8 +26,9 @@ signal target_changed(targets : Array[TurnBasedAgent], allies)
 ## Character resource should be your resource data where are the stats (health, damage, etc), skills and more are saved
 ## This is the reference for the command menu
 @export var character_resource: Resource
-## Determines who goes first depending on turnOrderType in TurnBasedController
-@export var turnOrderValue : float
+## the name of the variable in the character resource that is to determine the turnorder
+## example: speed
+@export var turnOrderValueName : String
 
 @export_category("Icons")
 ## Indication icon if the character is on turn [br]
@@ -258,8 +259,7 @@ func _check_and_select_multi_target(mainTarget: TurnBasedAgent, targets: Array[N
 		allSelectedTargets.append(targets[i])
 
 		mainTargetIndex += 1
-		if mainTargetIndex > targetSize: mainTargetIndex = 0
-		
+		if mainTargetIndex > targetSize: mainTargetIndex = 0		
 
 func _select_target() -> void:
 	target_selected.emit(allSelectedTargets, currentCommand)
@@ -283,12 +283,9 @@ func get_targets() -> TurnBasedAgent:
 func get_global_position():
 	if not get_parent() or get_parent() is SubViewport: return
 	return get_parent().global_position
-
-func set_turn_order_value(value: int) -> void:
-	turnOrderValue = value
 	
 func get_turn_order_value() -> float:
-	return turnOrderValue
+	return character_resource[turnOrderValueName]
 
 func _validate_property(property: Dictionary):
 	var hideList = []

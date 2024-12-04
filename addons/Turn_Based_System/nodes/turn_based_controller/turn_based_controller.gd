@@ -15,28 +15,8 @@ signal turn_order_changed(characterTurnOrder)
 		turnOrderType = value
 		notify_property_list_changed()
 
-@export_category("Endless Turn Modus")
-## if true, turnOrderList saved more then one round on character turns
-@export var endlessOrder := false:
-	set(value):
-		endlessOrder = value
-		notify_property_list_changed()
-## Number of turns that calculate in turnOrderList
-@export var endlessTurnDisplay := 15
-
 @export_category("targeting system")
 @export var useOwnTargetingSystem := false
-
-func _validate_property(property: Dictionary):
-	var hideList = []
-	
-	if turnOrderType == Turn_Order_Type.CLASSIC:
-		hideList.append("endlessTurnDisplay")
-	if not endlessOrder: 
-		hideList.append("endlessTurnDisplay")
-	
-	if property.name in hideList: 
-		property.usage = PROPERTY_USAGE_NO_EDITOR 
 
 enum Turn_Order_Type{
 	## first the players then the enemies, each character has one turn per round
@@ -47,8 +27,8 @@ enum Turn_Order_Type{
 	DYNAMIC
 	}
 
-
 var turnOrderList: Array[Dictionary] = []
+var dynamicTimeOrderList: Array[Dictionary] = []
 var activeCharacter: TurnBasedAgent
 
 func _ready() -> void:
@@ -63,8 +43,8 @@ func _ready() -> void:
 	_set_next_active_character()
 
 func _set_signals() -> void:
-	for player: TurnBasedAgent in get_tree().get_nodes_in_group("turnBasedAgents"):
-		player.turn_finished.connect(_on_turn_done)
+	for agent: TurnBasedAgent in get_tree().get_nodes_in_group("turnBasedAgents"):
+		agent.turn_finished.connect(_on_turn_done)
 
 func _set_turn_order() -> void:
 	var players = get_tree().get_nodes_in_group("turnBasedPlayer")
@@ -76,40 +56,52 @@ func _set_turn_order() -> void:
 		Turn_Order_Type.DYNAMIC: _set_dynamic_turn_order(players + enemies)
 	
 func _set_classic_turn_order(characterList) -> void:
-		var rounds := 1
-		if endlessOrder: rounds = round(endlessTurnDisplay / (characterList).size())
-		
-		for i in rounds:
-			for character: TurnBasedAgent in characterList:
-				turnOrderList.append({
-					"node": character
-				})
-		
-func _set_value_based_turn_order(characterList) -> void:
-	var rounds := 1
-	if endlessOrder: rounds = round(endlessTurnDisplay / (characterList).size())
-	
-	for i in rounds:
 		for character: TurnBasedAgent in characterList:
 			turnOrderList.append({
-				"node": character,
-				"value": character.turn_order_value
+				"node": character
 			})
 		
+func _set_value_based_turn_order(characterList) -> void:
+	for agent: TurnBasedAgent in characterList:
+		turnOrderList.append({
+			"node": agent,
+			"value": agent.get_turn_order_value()
+		})
+	
 	turnOrderList.sort_custom(func(a, b): return a.value > b.value)
 
-func _set_dynamic_turn_order(characterList) -> void:
-	for character: TurnBasedAgent in characterList:
-		var speedValue : float = _get_dynamic_speed_value(character.get_turn_order_value())
-		var turnOrderValue : float = 10 - speedValue
-		
-		while turnOrderValue > 0:
-			turnOrderList.append({
-							"node": character,
-							"value": turnOrderValue
-						})
-			turnOrderValue -= speedValue
 
+func _set_dynamic_turn_order(characterList) -> void:
+	for agent: TurnBasedAgent in characterList:
+		var speedValue : float = _get_dynamic_speed_value(agent.get_turn_order_value())
+		
+		dynamicTimeOrderList.append({
+			"agent": agent,
+			"currentTime": 10 - speedValue
+		})
+	
+	_refresh_dynamic_turn_order()
+	
+func _refresh_dynamic_turn_order() -> void:
+	var players = get_tree().get_nodes_in_group("turnBasedPlayer")
+	var enemies = get_tree().get_nodes_in_group("turnBasedEnemy")
+	var agentList = players + enemies
+	
+	turnOrderList = []
+	
+	for i in dynamicTimeOrderList.size():
+		var speedValue : float = _get_dynamic_speed_value(dynamicTimeOrderList[i].agent.get_turn_order_value())
+		var currentTime : float = dynamicTimeOrderList[i].currentTime
+		
+		while currentTime > 0:
+			turnOrderList.append(
+				{
+				"name": agentList[i].get_parent().name,
+				"node": agentList[i],
+				"value": currentTime
+			})
+			currentTime -= speedValue
+	
 	turnOrderList.sort_custom(func(a, b): return a.value > b.value)
 	
 func _remove_active_character() -> void:
@@ -118,31 +110,16 @@ func _remove_active_character() -> void:
 	var lastCharacter := turnOrderList.pop_front()
 	var lastCharacterNode : TurnBasedAgent = lastCharacter.node
 
-	if turnOrderType == Turn_Order_Type.DYNAMIC:
-		_add_time_to_turn_order(lastCharacter.value - turnOrderList[0].value )
-		
-		turnOrderList.append({
-			"node": lastCharacterNode,
-			"value":  _get_dynamic_speed_value(lastCharacterNode.get_turn_order_value())
-		})
-		
-		turnOrderList.sort_custom(func(a, b): return a.value > b.value)
-	elif endlessOrder:
-		turnOrderList.append({
-			"node": lastCharacterNode,
-			"value": lastCharacterNode.get_turn_order_value()
-		})
-
 func _set_next_active_character() -> void:
-	_remove_active_character()
+	if turnOrderType == Turn_Order_Type.DYNAMIC: _refresh_dynamic_turn_order()
+	else: _remove_active_character()
 	
 	if turnOrderList.is_empty():
 		round_finished.emit()
 		_set_turn_order()
-
-	if turnOrderList:
-		activeCharacter = turnOrderList[0].node
-		activeCharacter.set_active(true)
+		
+	activeCharacter = turnOrderList[0].node
+	activeCharacter.set_active(true)
 	
 	_send_turn_order_bar()
 
@@ -156,18 +133,39 @@ func _send_turn_order_bar():
 	
 func _on_turn_done() -> void:
 	_send_turn_order_bar()
+	
+	_reduce_dynamic_time(turnOrderList[0].node)
+	
+	_add_time_to_turn_order(-1)
+	
 	_set_next_active_character()
 	
 func _get_dynamic_speed_value(characterTurnValue: float) -> float:
 	var baseSpeed : float = get_tree().get_nodes_in_group("turnBasedPlayer")[0].get_turn_order_value()
 	var speedFactor :float = characterTurnValue * 100.0 / baseSpeed
 	var speedValue : float = 1.0 / (speedFactor / 100.0)
-	return speedValue
+	
+	return snapped(speedValue, 0.01)
+
+func _reduce_dynamic_time(agent: TurnBasedAgent):
+	var speedValue : float = _get_dynamic_speed_value(agent.get_turn_order_value())
+	
+	for entry in dynamicTimeOrderList:
+		if entry.agent == agent:
+			entry.currentTime -= speedValue
 
 func _add_time_to_turn_order(time) -> void:
-	for character: Dictionary in turnOrderList:
-		character.value += time
+	for entry: Dictionary in dynamicTimeOrderList:
+		entry.currentTime += time
+		
 
 ## returns the parent of the TurnBasedAgent
 func get_active_character():
 	return activeCharacter.get_parent()
+
+## dynamic inspector
+func _validate_property(property: Dictionary):
+	var hideList = []
+	
+	if property.name in hideList: 
+		property.usage = PROPERTY_USAGE_NO_EDITOR 
