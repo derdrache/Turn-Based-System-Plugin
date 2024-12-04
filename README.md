@@ -4,6 +4,8 @@ A flexible Turn Based System for Godot version 4.x
 
 ## 🌟 Highlights
 - 2D and 3D Support
+- flexible system:<br />
+use the full system with command menu and turn order bar or connect it with your own
 - Different turn based combat systems:
 	- classic
 	- value based
