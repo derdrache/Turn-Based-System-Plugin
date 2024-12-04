@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="TestSkillResource" load_steps=2 format=3 uid="uid://bu4pb7s5kojnt"]
+
+[ext_resource type="Script" path="res://addons/Turn_Based_System/test/skills/skillResource.gd" id="1_qdk74"]
+
+[resource]
+script = ExtResource("1_qdk74")
+name = "Haste"
+targetType = 1
+targetCount = 1

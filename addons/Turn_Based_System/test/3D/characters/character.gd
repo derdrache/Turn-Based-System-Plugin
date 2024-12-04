@@ -6,12 +6,9 @@ extends StaticBody3D
 
 func _ready() -> void:
 	if turn_based_agent: 
-		turn_based_agent.set_turn_order_value(characterResource.speed)
 		turn_based_agent.target_selected.connect(_on_character_action)
-		
 		turn_based_agent.character_resource = characterResource
-		turn_based_agent.turnOrderValue = characterResource.speed
-		
+		turn_based_agent.turnOrderValueName = "speed"
 	
 func _on_character_action(targets,command):
 	# here you put every interaction between the character and his targets
@@ -20,7 +17,11 @@ func _on_character_action(targets,command):
 	# damage/heal/buffs
 	# interaction with Hp Bars
 	# and more
-	
+
+	if command.name == "Haste":
+		for target in targets:
+			target.character_resource.speed *=2
+
 	await _animation_example(targets)
 	
 	turn_based_agent.command_done()
