@@ -132,8 +132,10 @@ func _on_player_turn(character) -> void:
 
 	show()
 	
-	if not commandCanceled: main_command_container.show()
-	
+	if not commandCanceled: 
+		scroll_container.hide()
+		main_command_container.show()
+		
 	# needed for grab_focus
 	await get_tree().create_timer(0.01).timeout
 	
