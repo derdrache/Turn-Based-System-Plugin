@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6dd25yaobs1l"]
+
+[ext_resource type="Script" path="res://addons/Turn_Based_System/scenes/classic_status_container/classic_status_container.gd" id="1_4n6y7"]
+[ext_resource type="PackedScene" uid="uid://bqoai2wavcsv8" path="res://addons/Turn_Based_System/scenes/classic_status_container/player_stats_container.tscn" id="2_he73c"]
+
+[node name="ClassicStatusContainer" type="Control"]
+custom_minimum_size = Vector2(500, 200)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_4n6y7")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -472.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="PlayerContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="PlayerStatsContainer" parent="MarginContainer/PlayerContainer" instance=ExtResource("2_he73c")]
+layout_mode = 2
+
+[node name="PlayerStatsContainer2" parent="MarginContainer/PlayerContainer" instance=ExtResource("2_he73c")]
+layout_mode = 2

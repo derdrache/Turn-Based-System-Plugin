@@ -1,0 +1,73 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqoai2wavcsv8"]
+
+[ext_resource type="StyleBox" uid="uid://dht0kdyh7xrrk" path="res://addons/Turn_Based_System/scenes/classic_status_container/style_box_player_stats_container.tres" id="1_8vcj3"]
+[ext_resource type="Script" path="res://addons/Turn_Based_System/scenes/classic_status_container/player_stats_container.gd" id="1_risdc"]
+
+[node name="PlayerStatsContainer" type="PanelContainer"]
+offset_left = -1.0
+offset_right = 471.0
+offset_bottom = 35.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("1_8vcj3")
+script = ExtResource("1_risdc")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="hBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="NameLabel" type="Label" parent="MarginContainer/hBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.847474, 0.847474, 0.847474, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 25
+text = "Name"
+
+[node name="HPLabel1" type="Label" parent="MarginContainer/hBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.964706, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 25
+text = "HP"
+
+[node name="HPLabel2" type="Label" parent="MarginContainer/hBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(71, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.847474, 0.847474, 0.847474, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 25
+text = "00000
+"
+horizontal_alignment = 2
+visible_characters = -3
+visible_ratio = -0.5
+
+[node name="MPLabel3" type="Label" parent="MarginContainer/hBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.298039, 0, 0.898039, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 25
+text = "MP"
+
+[node name="MPLabel4" type="Label" parent="MarginContainer/hBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(57, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.847474, 0.847474, 0.847474, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 25
+text = "3000"
+horizontal_alignment = 2
