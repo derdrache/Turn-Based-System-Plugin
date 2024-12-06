@@ -17,12 +17,12 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [node name="TurnOrderBar" type="Control"]
+custom_minimum_size = Vector2(200, 600)
 layout_mode = 3
-anchors_preset = 15
+anchors_preset = 1
+anchor_left = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+grow_horizontal = 0
 mouse_filter = 1
 script = ExtResource("1_0555k")
 
