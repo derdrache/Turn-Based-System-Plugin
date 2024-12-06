@@ -3,10 +3,10 @@
 [ext_resource type="Script" path="res://addons/Turn_Based_System/scenes/classic_command_menu/classic_command_button.gd" id="1_ercgh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_acv2j"]
-bg_color = Color(0.466667, 0.403922, 1, 0.588235)
+bg_color = Color(0.466667, 0.403922, 1, 0.666667)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wq7fw"]
-bg_color = Color(0.466667, 0.403922, 1, 0.196078)
+bg_color = Color(0.466667, 0.403922, 1, 0.294118)
 
 [node name="Attack" type="Button"]
 custom_minimum_size = Vector2(200, 0)

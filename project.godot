@@ -14,6 +14,10 @@ config/name="Plugin Turn Based Battle"
 config/features=PackedStringArray("4.3", "Mobile")
 config/icon="res://addons/Turn_Based_System/assets/icons/groupControl.png"
 
+[display]
+
+window/stretch/mode="canvas_items"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/Turn_Based_System/plugin.cfg")

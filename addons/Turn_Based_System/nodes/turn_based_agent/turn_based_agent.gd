@@ -1,6 +1,5 @@
 @tool
-extends Node
-class_name TurnBasedAgent
+class_name TurnBasedAgent extends Node
 
 ## Emitted when a player turn started
 signal player_turn_started()
@@ -194,7 +193,7 @@ func set_active(boolean: bool) -> void:
 		player_turn_started.emit()
 	elif character_type == Character_Type.ENEMY and isActive: 
 		onTurnIconNode.hide()
-		target_selected.emit(get_tree().get_nodes_in_group("turnBasedPlayer"), character_resource.basicAttack)
+		target_selected.emit([get_tree().get_nodes_in_group("turnBasedPlayer").pick_random()], character_resource.basicAttack)
 		set_active(false)
 	
 func set_target() -> void:
