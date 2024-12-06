@@ -9,6 +9,7 @@ class_name TestCharacterResource
 @export var maxMana := 50
 @export var currentMana := 50
 @export var speed := 50
+@export var overDriveValue := 0
 
 @export var basicAttack: Resource
 @export var skills: Array[Resource]

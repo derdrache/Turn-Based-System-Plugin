@@ -35,6 +35,8 @@ func _on_character_action(targets ,command):
 	else:
 		for target: TurnBasedAgent in targets:
 			target.character_resource.take_damage(10)
+			
+	characterResource.overDriveValue += 5
 	
 	turn_based_agent.command_done()
 
