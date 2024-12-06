@@ -4,8 +4,12 @@ A flexible Turn Based System for Godot version 4.x
 
 ## 🌟 Highlights
 - 2D and 3D Support
-- flexible system:<br />
-use the full system with command menu and turn order bar or connect it with your own
+- Full system:
+  	- Turn Combat Control
+	- Targeting System
+	- Command menu
+	- Player Stats Container
+   	- Turn Order Bar
 - Different turn based combat systems:
 	- classic
 	- value based
@@ -36,13 +40,17 @@ There are 2 options for this:
 
 ### Premade Scenes:
 
-#### Command Menu Scene - Add it in a Canvas Layer at the end of the main scene
+#### Classic Command Menu - Add it in a Canvas Layer at the end of the main scene
 The main command list have to be filled to get the Commands in the menu. It's a little complicated
 In this List you set a Dictonary with the shown Command name (dict key) and the reference to your character resource (dict value)<br />
 Example: [{"Attack": "basicAttack"}, {"Skills": "skills"}, {"Items": "items"}]<br />
 <img src="documentation/images/CommandMenu_MainCommandList_example.png" width="200"/>
 
-#### Turn Order Bar Scene *optional* - Add it in a Canvas Layer at the end of the main scene<br />
+#### Turn Order Bar *optional*
+Add it in a Canvas Layer at the end of the main scene<br />
+
+#### Classic Player Stats Container *optional*
+Add it in a Canvas Layer at the end of the main scene<br />
 
 #### Character Setup:<br />
 <img src="documentation/images/Character_code_example.png" width="400"/>
