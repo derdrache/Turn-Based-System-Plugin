@@ -34,7 +34,6 @@ shape = SubResource("RectangleShape2D_tmcke")
 script = ExtResource("4_hy2bi")
 character_type = 1
 character_resource = ExtResource("4_s0etk")
-turnOrderValueName = null
 targetIconOffSet = Vector3(53.09, -9.2, 0)
 
 [node name="Enemy 2" type="StaticBody2D" parent="."]
@@ -52,7 +51,6 @@ shape = SubResource("RectangleShape2D_tmcke")
 script = ExtResource("4_hy2bi")
 character_type = 1
 character_resource = ExtResource("4_s0etk")
-turnOrderValueName = null
 targetIconOffSet = Vector3(53.09, -9.355, 0)
 
 [node name="Enemy 3" type="StaticBody2D" parent="."]
@@ -70,7 +68,6 @@ shape = SubResource("RectangleShape2D_tmcke")
 script = ExtResource("4_hy2bi")
 character_type = 1
 character_resource = ExtResource("4_s0etk")
-turnOrderValueName = null
 targetIconOffSet = Vector3(53.09, -9.355, 0)
 
 [node name="Player1" type="StaticBody2D" parent="."]
@@ -87,7 +84,6 @@ shape = SubResource("RectangleShape2D_tmcke")
 [node name="TurnBasedAgent" type="Node" parent="Player1"]
 script = ExtResource("4_hy2bi")
 character_resource = ExtResource("5_jfnju")
-turnOrderValueName = null
 onTurnIconOffSet = Vector3(-11.295, -65.255, 0)
 targetIconOffSet = Vector3(27.91, -9.355, 0)
 
@@ -105,7 +101,6 @@ shape = SubResource("RectangleShape2D_tmcke")
 [node name="TurnBasedAgent" type="Node" parent="Player2"]
 script = ExtResource("4_hy2bi")
 character_resource = ExtResource("6_2gvv6")
-turnOrderValueName = null
 onTurnIconOffSet = Vector3(0, -65.255, 0)
 targetIconOffSet = Vector3(40.27, -9.355, 0)
 

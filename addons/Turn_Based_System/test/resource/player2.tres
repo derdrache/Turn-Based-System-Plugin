@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="CharacterResource" load_steps=4 format=3 uid="uid://cudnqmq33tpnh"]
+[gd_resource type="Resource" script_class="TestCharacterResource" load_steps=4 format=3 uid="uid://cudnqmq33tpnh"]
 
 [ext_resource type="Resource" uid="uid://dkcvrtj60prfi" path="res://addons/Turn_Based_System/test/skills/normal_attack.tres" id="1_6ka3f"]
 [ext_resource type="Script" path="res://addons/Turn_Based_System/test/resource/character_resource.gd" id="2_oah03"]
@@ -6,7 +6,11 @@
 
 [resource]
 script = ExtResource("2_oah03")
-health = 100
+name = "Player 2"
+maxHealth = 100
+currentHealth = 100
+maxMana = 50
+currentMana = 50
 speed = 45
 basicAttack = ExtResource("1_6ka3f")
 skills = Array[Resource]([ExtResource("3_ug636")])

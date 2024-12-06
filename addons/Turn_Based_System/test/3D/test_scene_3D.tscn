@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cbt8gfsu1cl6k"]
+[gd_scene load_steps=15 format=3 uid="uid://cbt8gfsu1cl6k"]
 
 [ext_resource type="Script" path="res://addons/Turn_Based_System/nodes/turn_based_controller/turn_based_controller.gd" id="1_fmmsn"]
 [ext_resource type="PackedScene" uid="uid://c1dggmu6uu8ab" path="res://addons/Turn_Based_System/test/3D/characters/knight.tscn" id="1_w2g8u"]
@@ -7,7 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://dljn2224yiggx" path="res://addons/Turn_Based_System/assets/icons/knight.png" id="4_3iimj"]
 [ext_resource type="Resource" uid="uid://cwjljuoc83jn0" path="res://addons/Turn_Based_System/test/resource/enemy.tres" id="4_5vw8o"]
 [ext_resource type="PackedScene" uid="uid://csjsu65sx7iu5" path="res://addons/Turn_Based_System/scenes/classic_command_menu/classic_comand_menu.tscn" id="6_7botm"]
+[ext_resource type="Resource" uid="uid://delbk02myb5yq" path="res://addons/Turn_Based_System/test/resource/player3.tres" id="6_ikelw"]
 [ext_resource type="PackedScene" uid="uid://cv1rrda3groo5" path="res://addons/Turn_Based_System/scenes/turn_order_bar/turn_order_bar.tscn" id="7_27ueo"]
+[ext_resource type="PackedScene" uid="uid://b6dd25yaobs1l" path="res://addons/Turn_Based_System/scenes/classic_status_container/classic_status_container.tscn" id="9_hbt02"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qtck8"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -36,7 +38,7 @@ shadow_enabled = true
 
 [node name="TurnBasedController" type="Node" parent="."]
 script = ExtResource("1_fmmsn")
-turnOrderType = 1
+turnOrderType = 2
 
 [node name="Knight" parent="." instance=ExtResource("1_w2g8u")]
 transform = Transform3D(-0.00366512, 0, -0.999993, 0, 1, 0, 0.999993, 0, -0.00366512, 1.71205, 0, -0.255412)
@@ -105,7 +107,7 @@ transform = Transform3D(0.996275, -5.14962e-09, 0.0862354, 5.13044e-09, 1, 4.440
 
 [node name="Knight3" parent="." instance=ExtResource("1_w2g8u")]
 transform = Transform3D(-0.00366512, 0, -0.999993, 0, 1, 0, 0.999993, 0, -0.00366512, 4.39612, 0, 2.67334)
-characterResource = ExtResource("2_1hdhv")
+characterResource = ExtResource("6_ikelw")
 
 [node name="1H_Sword_Offhand" parent="Knight3/Knight/Rig/Skeleton3D" index="0"]
 transform = Transform3D(2.65221e-08, 0.262865, 0.964832, 0.999999, -5.33634e-07, 5.38426e-07, 8.70782e-07, 0.964832, -0.262865, 0.51224, 0.636705, -0.00210785)
@@ -214,6 +216,13 @@ mesh = SubResource("PlaneMesh_3gjfx")
 [node name="ComandMenu" parent="CanvasLayer" instance=ExtResource("6_7botm")]
 
 [node name="TurnOrderBar" parent="CanvasLayer" instance=ExtResource("7_27ueo")]
+offset_left = -140.0
+offset_top = -2.0
+offset_right = 60.0002
+offset_bottom = 598.0
+scale = Vector2(0.7, 0.7)
+
+[node name="ClassicStatusContainer" parent="CanvasLayer" instance=ExtResource("9_hbt02")]
 
 [editable path="Knight"]
 [editable path="Knight/Knight"]
