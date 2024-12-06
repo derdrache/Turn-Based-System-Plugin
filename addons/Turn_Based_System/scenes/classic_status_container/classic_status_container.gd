@@ -1,8 +1,11 @@
 extends Control
 
-@onready var player_container: VBoxContainer = $MarginContainer/PlayerContainer
+@export_category("Player Stats Container")
+@export var playerStatsContainer := preload("res://addons/Turn_Based_System/scenes/classic_status_container/player_stats_container.tscn")
+@export var player_stats_with_focus := preload("res://addons/Turn_Based_System/scenes/classic_status_container/style_box_player_stats_container.tres")
+@export var player_stats_without_focus : StyleBox = StyleBoxEmpty.new()
 
-const PLAYER_STATS_CONTAINER = preload("res://addons/Turn_Based_System/scenes/classic_status_container/player_stats_container.tscn")
+@onready var player_container: VBoxContainer = $MarginContainer/PlayerContainer
 
 var players: Array[TurnBasedAgent] = []
 
@@ -40,7 +43,9 @@ func _activate_player(player: TurnBasedAgent):
 	
 func _setup_player_stats_container():
 	for player: TurnBasedAgent in players:
-		var playerStatsContainer = PLAYER_STATS_CONTAINER.instantiate()
+		var playerStatsContainer = playerStatsContainer.instantiate()
+		playerStatsContainer.styleBoxWithFocus = player_stats_with_focus
+		playerStatsContainer.styleBoxWithoutFocus = player_stats_without_focus
 		playerStatsContainer.character_resource = player.character_resource
 		player_container.add_child(playerStatsContainer)
 		
