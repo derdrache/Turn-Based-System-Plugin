@@ -5,68 +5,77 @@ extends PanelContainer
 
 signal command_selected(command: Resource)
 
-@export var COMMAND_BUTTON : PackedScene = preload("res://addons/Turn_Based_System/scenes/classic_command_menu/classic_command_button.tscn")
+@export_category("Main Command Buttons")
 
-@export_category("Command Settings")
-## Setup the main menu [br]
-## Array[Dictonary] [br]
-## Dictonary Key is the name of the CommandButton [br]
-## Diconary Value is the reference of the TurnBasedAgent resource, it can be a single resource or a array of resources [br]
-## the Array leads to a second Menu where you can select the resources as commands
-@export var mainCommandList: Array[Dictionary] = [
-	{"Attack": "basicAttack"},
-	{"Skills": "skills"}
-]:
+## Name of the Command Buttons on the Main Menu [br]
+## This list controls the size of the other lists in this group
+@export var mainCommandButtonNames: Array[String] = ["Attack"]:
 	set(value):
-		mainCommandList = value
-		var newSize = mainCommandList.size() + extraMainCommands.size()
+		mainCommandButtonNames = value
+		var newSize = mainCommandButtonNames.size()
 		mainCommandIcons.resize(newSize)
-		mainCommandActions.resize(newSize)
+		mainCommandButtonReference.resize(newSize)
+		
+		if not Engine.is_editor_hint(): return
+		
+		_reset_main_commands()
+		_set_command_options()
+
+## Put in the reference variable of the character resource for the commands
+@export var mainCommandButtonReference: Array[String] = []:
+	set(value):
+		var arraySize = mainCommandButtonNames.size()
+		
+		if value.size() == arraySize:
+			mainCommandButtonReference = value
+		elif value.is_empty():
+			value.resize(arraySize)
+			mainCommandButtonReference = value
+
 		if not Engine.is_editor_hint(): return
 		_reset_main_commands()
 		_set_command_options()
-## Add a custom CommandButton for a unique press function
-@export var extraMainCommands: Array[PackedScene]:
+
+@export var withButtonIcons := false:
 	set(value):
-		extraMainCommands = value
-		var newSize = mainCommandList.size() + extraMainCommands.size()
-		mainCommandIcons.resize(newSize)
-		mainCommandActions.resize(newSize)
-		if not Engine.is_editor_hint(): return
-		_reset_main_commands()
-		_set_command_options()	
+		withButtonIcons = value
+		notify_property_list_changed()
+		
 ## Add a Icon for the CommandButton. [br]
 ## It appears to the left of the text
 @export var mainCommandIcons: Array[CompressedTexture2D]:
 	set(value):
-		var arraySize = mainCommandList.size() + extraMainCommands.size()
-		if value.size() == arraySize:
-			mainCommandIcons = value
-		elif value.is_empty():
+		if value.is_empty():
+			var arraySize = mainCommandButtonNames.size()
 			value.resize(arraySize)
 			mainCommandIcons = value
+			
+		mainCommandIcons = value
 		
 		if not Engine.is_editor_hint(): return
 		_reset_main_commands()
 		_set_command_options()
-## Add a action to press the button 
-@export var mainCommandActions: Array[String]:
-	set(value):
-		var arraySize = mainCommandList.size() + extraMainCommands.size()
-		if value.size() == arraySize:
-			mainCommandActions = value
-		elif value.is_empty():
-			value.resize(arraySize)
-			mainCommandActions = value
-			
-		if not Engine.is_editor_hint(): return
-		_reset_main_commands()
-		_set_command_options()
 
+@export_category("Own Command Buttons")
+## Add custom CommandButtons [br]
+## if you want a press function that doesn't go trough character, this is your way
+@export var extraMainCommands: Array[PackedScene]:
+	set(value):
+		extraMainCommands = value
+		var newSize = mainCommandButtonNames.size() + extraMainCommands.size()
+		mainCommandIcons.resize(newSize)
+		mainCommandButtonReference.resize(newSize)
+		
+		if not Engine.is_editor_hint(): return
+		
+		_reset_main_commands()
+		_set_command_options()	
+		
 @onready var main_command_container: VBoxContainer = %MainCommandContainer
 @onready var scroll_container: ScrollContainer = %ScrollContainer
 @onready var multi_command_container: GridContainer = %MultiCommandContainer
 
+const COMMAND_BUTTON = preload("res://addons/Turn_Based_System/scenes/classic_command_menu/classic_command_button.tscn")
 const COMMAND_RESOURCE = preload("res://addons/Turn_Based_System/resources/command_resource.gd")
 
 var commandCanceled := false
@@ -157,20 +166,20 @@ func _reset_main_commands() -> void:
 func _set_command_options(character: TurnBasedAgent = null) -> void:
 	if not main_command_container: return
 	
-	for mainCommandDict: Dictionary in mainCommandList:
-		if mainCommandDict.keys().is_empty(): 
-			if not Engine.is_editor_hint():
-				var index = mainCommandList.find(mainCommandDict)
-				push_warning("entry "+str(index) + " in mainCommandList is empty")
-			continue
+	for commandName: String in mainCommandButtonNames:
+		var index = mainCommandButtonNames.find(commandName)
 		
-		var mainCommandName = mainCommandDict.keys()[0]
-		var mainCommandReference = mainCommandDict[mainCommandDict.keys()[0]]
+		#if mainCommandDict.keys().is_empty(): 
+			#if not Engine.is_editor_hint():
+				#var index = mainCommandList.find(mainCommandDict)
+				#push_warning("entry "+str(index) + " in mainCommandList is empty")
+			#continue
+		var commandReference = mainCommandButtonReference[index]
 		var mainCommand = null
 		
 		if character: 
-			if mainCommandReference in character.character_resource:
-				mainCommand = character.character_resource[mainCommandReference]
+			if commandReference in character.character_resource:
+				mainCommand = character.character_resource[commandReference]
 			else:
 				var commandResource: CommandResource = COMMAND_RESOURCE.new()
 				commandResource.name = "Attack"
@@ -178,37 +187,50 @@ func _set_command_options(character: TurnBasedAgent = null) -> void:
 				mainCommand = commandResource	
 		else: 
 			if not Engine.is_editor_hint():
-				push_warning("MainCommandList: " + mainCommandName + " doenst have a reference in character resource")
+				push_warning("MainCommandList: " + commandName + " doenst have a reference in character resource")
 		
 		var singleCommand = not mainCommand is Array
 		var newMainCommandButton = COMMAND_BUTTON.instantiate()
-		newMainCommandButton.buttonIcon = mainCommandIcons[mainCommandList.find(mainCommandDict)]
+		newMainCommandButton.buttonIcon = mainCommandIcons[index]
 		
 		if not singleCommand and mainCommand.is_empty(): continue
 		
 		if singleCommand:
-			newMainCommandButton.text = mainCommandName
+			newMainCommandButton.text = commandName
 			main_command_container.add_child(newMainCommandButton)
+			
+			if index > 0 && not commandReference: continue
 			
 			if newMainCommandButton.is_connected("pressed", _on_command_pressed): 
 				newMainCommandButton.pressed.disconnect(_on_command_pressed.bind(mainCommand))
 			newMainCommandButton.pressed.connect(_on_command_pressed.bind(mainCommand))
 		else:
-			newMainCommandButton.text = mainCommandName
+			newMainCommandButton.text = commandName
 			main_command_container.add_child(newMainCommandButton)
 			newMainCommandButton.pressed.connect(_on_multi_command_button_pressed.bind(mainCommand))
-		
-		var index = mainCommandList.find(mainCommandDict)
-		if index == 0: newMainCommandButton.grab_focus()
+
+		if index == 0 and not Engine.is_editor_hint(): 
+			newMainCommandButton.grab_focus()
 		
 			
 	for button in extraMainCommands:
 		var newButton = button.instantiate()
-		newButton.buttonIcon = mainCommandIcons[mainCommandList.size() - 1 + extraMainCommands.find(button)]
+		newButton.buttonIcon = mainCommandIcons[mainCommandButtonNames.size() - 1 + extraMainCommands.find(button)]
 		
-		main_command_container.add_child(newButton)
+		main_command_container.add_child(newButton)	
 
 func _check_resource_setup(character):
 	if not character.character_resource: 
 		push_error("TurnBasedAgent from " + str(character.get_parent()) + " doesn't have set: character.character_resource ")
 		return
+
+
+## dynamic inspector
+func _validate_property(property: Dictionary):
+	var hideList = []
+	
+	if not withButtonIcons:
+		hideList.append("mainCommandIcons")
+	
+	if property.name in hideList: 
+		property.usage = PROPERTY_USAGE_NO_EDITOR 

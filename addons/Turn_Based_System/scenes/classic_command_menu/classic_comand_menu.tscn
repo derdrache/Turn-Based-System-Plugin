@@ -21,8 +21,7 @@ grow_vertical = 2
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_xvk5p")
 script = ExtResource("1_gybsi")
-mainCommandIcons = Array[CompressedTexture2D]([null, null])
-mainCommandActions = Array[String](["", ""])
+mainCommandButtonNames = Array[String]([])
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
