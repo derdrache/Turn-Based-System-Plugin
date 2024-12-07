@@ -34,6 +34,9 @@ var activeCharacter: TurnBasedAgent
 func _ready() -> void:
 	add_to_group("turnBasedController")
 	
+	_setup()
+
+func _setup():
 	await get_tree().create_timer(0.1).timeout
 	
 	_set_signals()
@@ -42,7 +45,7 @@ func _ready() -> void:
 	
 	_set_next_active_character()
 
-	_refresh_turn_order_bar()
+	_refresh_turn_order_bar()	
 
 func _set_signals() -> void:
 	for agent: TurnBasedAgent in get_tree().get_nodes_in_group("turnBasedAgents"):
@@ -51,37 +54,46 @@ func _set_signals() -> void:
 func _set_turn_order() -> void:
 	var players = get_tree().get_nodes_in_group("turnBasedPlayer")
 	var enemies = get_tree().get_nodes_in_group("turnBasedEnemy")
+	var allCharactersList = players + enemies
 	
 	match turnOrderType:
-		Turn_Order_Type.CLASSIC: _set_classic_turn_order(players + enemies)
-		Turn_Order_Type.VALUE_BASED: _set_value_based_turn_order(players + enemies)
-		Turn_Order_Type.DYNAMIC: _set_dynamic_turn_order(players + enemies)
+		Turn_Order_Type.CLASSIC: _set_classic_turn_order(allCharactersList)
+		Turn_Order_Type.VALUE_BASED: _set_value_based_turn_order(allCharactersList)
+		Turn_Order_Type.DYNAMIC: _set_dynamic_turn_order(allCharactersList)
 	
-func _set_classic_turn_order(characterList) -> void:
+func _set_classic_turn_order(characterList: Array) -> void:
 		for agent: TurnBasedAgent in characterList:
-			turnOrderList.append({
-				"agent": agent
-			})
+			var timeEntry := TimeEntry.new()
+			timeEntry.agent = agent
+			
+			turnOrderList.append(timeEntry)
 		
-func _set_value_based_turn_order(characterList) -> void:
+func _set_value_based_turn_order(characterList: Array) -> void:
 	for agent: TurnBasedAgent in characterList:
-		turnOrderList.append({
-			"agent": agent,
-			"value": agent.get_turn_order_value()
-		})
-	
+		var timeEntry := TimeEntry.new()
+		timeEntry.agent = agent
+		timeEntry.currentTime = agent.get_turn_order_value()
+		
+		turnOrderList.append(timeEntry)
+
 	_sort_turn_order_list_by_time()
 
 func _set_dynamic_turn_order(characterList) -> void:
 	for agent: TurnBasedAgent in characterList:
+		const TIME_ANKER = 10.0
 		var speedValue : float = _get_dynamic_speed_value(agent.get_turn_order_value())
+		
 		var timeEntry := TimeEntry.new()
 		timeEntry.agent = agent
-		timeEntry.currentTime = 10 - speedValue
+		timeEntry.currentTime = TIME_ANKER - speedValue
 	
 		dynamicTimeOrderList.append(timeEntry)
 	
 	_refresh_dynamic_turn_order()
+
+func _set_next_active_character() -> void:		
+	activeCharacter = turnOrderList[0].agent
+	activeCharacter.set_active(true)
 
 func _refresh_turn_order():
 	if turnOrderType == Turn_Order_Type.DYNAMIC: 
@@ -135,10 +147,6 @@ func _remove_active_character() -> void:
 	var lastCharacter := turnOrderList.pop_front()
 	var lastCharacterNode : TurnBasedAgent = lastCharacter.agent
 
-func _set_next_active_character() -> void:		
-	activeCharacter = turnOrderList[0].agent
-	activeCharacter.set_active(true)
-
 func _refresh_turn_order_bar():
 	var barTurnOrder: Array[TurnBasedAgent] = []
 	
@@ -148,7 +156,8 @@ func _refresh_turn_order_bar():
 	turn_order_changed.emit(barTurnOrder)		
 	
 func _on_turn_done() -> void:
-	_add_time_to_turn_order()
+	if turnOrderType == Turn_Order_Type.DYNAMIC:
+		_add_time_to_turn_order()
 	
 	_reduce_dynamic_time(turnOrderList[0].agent)
 	

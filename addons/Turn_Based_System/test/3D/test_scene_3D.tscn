@@ -38,7 +38,6 @@ shadow_enabled = true
 
 [node name="TurnBasedController" type="Node" parent="."]
 script = ExtResource("1_fmmsn")
-turnOrderType = 2
 
 [node name="Knight" parent="." instance=ExtResource("1_w2g8u")]
 transform = Transform3D(-0.00366512, 0, -0.999993, 0, 1, 0, 0.999993, 0, -0.00366512, 1.71205, 0, -0.255412)
