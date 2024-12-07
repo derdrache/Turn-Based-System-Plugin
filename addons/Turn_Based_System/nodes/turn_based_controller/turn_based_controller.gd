@@ -70,9 +70,7 @@ func _set_value_based_turn_order(characterList) -> void:
 			"value": agent.get_turn_order_value()
 		})
 	
-	
-	turnOrderList.sort_custom(func(a, b): return a.currentTime > b.currentTime)
-
+	_sort_turn_order_list_by_time()
 
 func _set_dynamic_turn_order(characterList) -> void:
 	for agent: TurnBasedAgent in characterList:
@@ -129,7 +127,7 @@ func _refresh_dynamic_turn_order() -> void:
 			
 			currentTime -= speedValue
 	
-	turnOrderList.sort_custom(func(a, b): return a.currentTime > b.currentTime)
+	_sort_turn_order_list_by_time()
 	
 func _remove_active_character() -> void:
 	if not activeCharacter: return
@@ -181,7 +179,9 @@ func _add_time_to_turn_order() -> void:
 	
 	for entry: TimeEntry in dynamicTimeOrderList:
 		entry.currentTime += timeChange
-		
+
+func _sort_turn_order_list_by_time():
+	turnOrderList.sort_custom(func(a, b): return a.currentTime > b.currentTime)	
 
 ## returns the parent of the TurnBasedAgent
 func get_active_character():
