@@ -10,6 +10,7 @@ const AGENT = preload("res://addons/Turn_Based_System/assets/icons/agent.png")
 func _ready() -> void:
 	if turn_based_agent: 
 		turn_based_agent.target_selected.connect(_on_character_action)
+		turn_based_agent.enemy_turn_started.connect(_on_enemy_turn_started)
 		turn_based_agent.character_resource = characterResource
 		turn_based_agent.turnOrderValueName = "speed"
 	
@@ -20,8 +21,7 @@ func _on_character_action(targets ,command):
 	# damage/heal/buffs
 	# interaction with Hp Bars
 	# and more
-
-	await _animation_example(targets)
+	await _animation_example(targets[0])
 	
 	if command.name == "Haste":
 		for target in targets:
@@ -40,12 +40,20 @@ func _on_character_action(targets ,command):
 	
 	turn_based_agent.command_done()
 
-func _animation_example(targets):
+func _on_enemy_turn_started():
+	var allPlayer = get_tree().get_nodes_in_group("turnBasedPlayer")
+	var target = allPlayer.pick_random()
+	
+	await _animation_example(target)
+	
+	turn_based_agent.command_done()
+
+func _animation_example(target):
 	var startPosition = global_position
 	var targetPosition
 	
 	if turn_based_agent.get_targets():
-		targetPosition = turn_based_agent.get_targets().get_global_position()
+		targetPosition = target.get_global_position()
 	else: 
 		var randomTarget = get_tree().get_nodes_in_group("turnBasedPlayer").pick_random()
 		targetPosition = randomTarget.get_global_position()

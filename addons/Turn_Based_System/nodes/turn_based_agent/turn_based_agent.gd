@@ -4,6 +4,9 @@ class_name TurnBasedAgent extends Node
 ## Emitted when a player turn started
 signal player_turn_started()
 
+## Emitted when a enemy turn started
+signal enemy_turn_started()
+
 ## Emitted when the character has used his command [br]
 ## For this you have to use command_done
 signal turn_finished()
@@ -193,8 +196,7 @@ func set_active(boolean: bool) -> void:
 		player_turn_started.emit()
 	elif character_type == Character_Type.ENEMY and isActive: 
 		onTurnIconNode.hide()
-		target_selected.emit([get_tree().get_nodes_in_group("turnBasedPlayer").pick_random()], character_resource.basicAttack)
-		set_active(false)
+		enemy_turn_started.emit()
 	
 func set_target() -> void:
 	targetIconNode.show()
