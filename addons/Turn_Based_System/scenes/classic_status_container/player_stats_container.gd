@@ -16,10 +16,7 @@ extends PanelContainer
 
 var character_resource: Resource
 var styleBoxWithFocus: StyleBox
-var styleBoxWithoutFocus: StyleBox 
-
-func _ready() -> void:
-	_change_style_box(styleBoxWithoutFocus)	
+var styleBoxWithoutFocus: StyleBox 	
 
 func _process(delta: float) -> void:
 	if not character_resource: 
