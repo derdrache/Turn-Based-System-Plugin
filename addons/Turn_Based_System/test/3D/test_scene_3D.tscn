@@ -214,6 +214,9 @@ mesh = SubResource("PlaneMesh_3gjfx")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="ComandMenu" parent="CanvasLayer" instance=ExtResource("6_7botm")]
+mainCommandButtonNames = Array[String](["Attack", "Skills"])
+mainCommandButtonReference = Array[String](["basicAttack", "skills"])
+mainCommandIcons = Array[CompressedTexture2D]([null, null])
 extraMainCommands = Array[PackedScene]([ExtResource("9_gcosl")])
 
 [node name="TurnOrderBar" parent="CanvasLayer" instance=ExtResource("7_27ueo")]
