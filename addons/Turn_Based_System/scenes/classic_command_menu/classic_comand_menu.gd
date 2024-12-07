@@ -67,6 +67,8 @@ signal command_selected(command: Resource)
 @onready var scroll_container: ScrollContainer = %ScrollContainer
 @onready var multi_command_container: GridContainer = %MultiCommandContainer
 
+const COMMAND_RESOURCE = preload("res://addons/Turn_Based_System/resources/command_resource.gd")
+
 var commandCanceled := false
 
 func _input(event: InputEvent) -> void:	
@@ -74,13 +76,15 @@ func _input(event: InputEvent) -> void:
 		scroll_container.hide()
 		main_command_container.show()
 		main_command_container.get_children()[0].grab_focus()
-		
+	
 	if event.is_action_pressed("ui_cancel") and not visible:
 		commandCanceled = true
 		
 func _ready() -> void:
 	add_to_group("turnBasedCommandMenu")
 	
+	_set_command_options()
+
 	if not Engine.is_editor_hint(): 
 		hide()
 		_set_late_signals()
@@ -164,7 +168,14 @@ func _set_command_options(character: TurnBasedAgent = null) -> void:
 		var mainCommandReference = mainCommandDict[mainCommandDict.keys()[0]]
 		var mainCommand = null
 		
-		if character: mainCommand = character.character_resource[mainCommandReference]
+		if character: 
+			if mainCommandReference in character.character_resource:
+				mainCommand = character.character_resource[mainCommandReference]
+			else:
+				var commandResource: CommandResource = COMMAND_RESOURCE.new()
+				commandResource.name = "Attack"
+				commandResource.targetType = CommandResource.Target_Type.ENEMIES	
+				mainCommand = commandResource	
 		else: 
 			if not Engine.is_editor_hint():
 				push_warning("MainCommandList: " + mainCommandName + " doenst have a reference in character resource")
