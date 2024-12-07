@@ -91,12 +91,14 @@ func _set_dynamic_turn_order(characterList) -> void:
 	
 	_refresh_dynamic_turn_order()
 
-func _set_next_active_character() -> void:		
+func _set_next_active_character() -> void:
 	activeCharacter = turnOrderList[0].agent
 	activeCharacter.set_active(true)
 
 func _refresh_turn_order():
 	if turnOrderType == Turn_Order_Type.DYNAMIC: 
+		_add_time_to_turn_order()
+		_reduce_time_on_active_char()
 		_refresh_dynamic_turn_order()
 	else: 
 		_remove_active_character()
@@ -156,11 +158,6 @@ func _refresh_turn_order_bar():
 	turn_order_changed.emit(barTurnOrder)		
 	
 func _on_turn_done() -> void:
-	if turnOrderType == Turn_Order_Type.DYNAMIC:
-		_add_time_to_turn_order()
-	
-	_reduce_dynamic_time(turnOrderList[0].agent)
-	
 	_refresh_turn_order()
 	
 	_set_next_active_character()
@@ -174,11 +171,12 @@ func _get_dynamic_speed_value(characterTurnValue: float) -> float:
 	
 	return snapped(speedValue, 0.01)
 
-func _reduce_dynamic_time(agent: TurnBasedAgent):
-	var speedValue : float = _get_dynamic_speed_value(agent.get_turn_order_value())
+func _reduce_time_on_active_char():
+	var activeChar = turnOrderList[0].agent
+	var speedValue : float = _get_dynamic_speed_value(activeChar.get_turn_order_value())
 	
 	for entry in dynamicTimeOrderList:
-		if entry.agent == agent:
+		if entry.agent == activeChar:
 			entry.currentTime -= speedValue
 
 func _add_time_to_turn_order() -> void:
