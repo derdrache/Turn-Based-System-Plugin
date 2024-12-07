@@ -165,6 +165,7 @@ func _set_late_signals() -> void:
 
 func _on_command_selected(command: CommandResource) -> void:
 	var turnBasedController: TurnBasedController = get_tree().get_first_node_in_group("turnBasedController")
+
 	if not isActive or turnBasedController.useOwnTargetingSystem: return
 	
 	currentCommand = command
@@ -262,7 +263,7 @@ func _check_and_select_multi_target(mainTarget: TurnBasedAgent, targets: Array) 
 func _select_target() -> void:
 	target_selected.emit(allSelectedTargets, currentCommand)
 	_deselect_all_targets()
-	set_active(false)
+	
 	mainTarget = null
 	allSelectedTargets = []
 	
@@ -273,6 +274,8 @@ func _undo_command() -> void:
 	undo_command_selected.emit()
 
 func command_done() -> void:
+	set_active(false)
+	
 	turn_finished.emit()
 
 func get_targets() -> TurnBasedAgent:
