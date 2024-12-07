@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cbt8gfsu1cl6k"]
+[gd_scene load_steps=16 format=3 uid="uid://cbt8gfsu1cl6k"]
 
 [ext_resource type="Script" path="res://addons/Turn_Based_System/nodes/turn_based_controller/turn_based_controller.gd" id="1_fmmsn"]
 [ext_resource type="PackedScene" uid="uid://c1dggmu6uu8ab" path="res://addons/Turn_Based_System/test/3D/characters/knight.tscn" id="1_w2g8u"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://csjsu65sx7iu5" path="res://addons/Turn_Based_System/scenes/classic_command_menu/classic_comand_menu.tscn" id="6_7botm"]
 [ext_resource type="Resource" uid="uid://delbk02myb5yq" path="res://addons/Turn_Based_System/test/resource/player3.tres" id="6_ikelw"]
 [ext_resource type="PackedScene" uid="uid://cv1rrda3groo5" path="res://addons/Turn_Based_System/scenes/turn_order_bar/turn_order_bar.tscn" id="7_27ueo"]
+[ext_resource type="PackedScene" uid="uid://3aq1x782mavu" path="res://addons/Turn_Based_System/test/move_button.tscn" id="9_gcosl"]
 [ext_resource type="PackedScene" uid="uid://b6dd25yaobs1l" path="res://addons/Turn_Based_System/scenes/classic_status_container/classic_status_container.tscn" id="9_hbt02"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qtck8"]
@@ -213,6 +214,7 @@ mesh = SubResource("PlaneMesh_3gjfx")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="ComandMenu" parent="CanvasLayer" instance=ExtResource("6_7botm")]
+extraMainCommands = Array[PackedScene]([ExtResource("9_gcosl")])
 
 [node name="TurnOrderBar" parent="CanvasLayer" instance=ExtResource("7_27ueo")]
 offset_left = -140.0
