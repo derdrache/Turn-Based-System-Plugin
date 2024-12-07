@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://csjsu65sx7iu5"]
+[gd_scene load_steps=5 format=3 uid="uid://csjsu65sx7iu5"]
 
 [ext_resource type="Script" path="res://addons/Turn_Based_System/scenes/classic_command_menu/classic_comand_menu.gd" id="1_gybsi"]
-[ext_resource type="PackedScene" uid="uid://3aq1x782mavu" path="res://addons/Turn_Based_System/test/move_button.tscn" id="2_0ey8r"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xvk5p"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -22,9 +21,8 @@ grow_vertical = 2
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_xvk5p")
 script = ExtResource("1_gybsi")
-extraMainCommands = Array[PackedScene]([ExtResource("2_0ey8r")])
-mainCommandIcons = Array[CompressedTexture2D]([null, null, null])
-mainCommandActions = Array[String](["", "", ""])
+mainCommandIcons = Array[CompressedTexture2D]([null, null])
+mainCommandActions = Array[String](["", ""])
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
