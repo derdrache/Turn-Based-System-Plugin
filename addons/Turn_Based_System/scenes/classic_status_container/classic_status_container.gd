@@ -46,6 +46,8 @@ func _setup_player_stats_container():
 		var playerStatsContainer = playerStatsContainer.instantiate()
 		playerStatsContainer.styleBoxWithFocus = player_stats_with_focus
 		playerStatsContainer.styleBoxWithoutFocus = player_stats_without_focus
-		playerStatsContainer.character_resource = player.character_resource
 		player_container.add_child(playerStatsContainer)
 		
+		playerStatsContainer.set_character_resource(player.character_resource)
+
+	
