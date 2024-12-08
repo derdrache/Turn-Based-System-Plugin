@@ -68,6 +68,8 @@ func _input(event: InputEvent) -> void:
 		
 func _ready() -> void:
 	add_to_group("turnBasedCommandMenu")
+	
+	_editor_command_menu_refresh()
 
 	if not Engine.is_editor_hint(): 
 		hide()
@@ -186,15 +188,15 @@ func _validate_property(property: Dictionary):
 		property.usage = PROPERTY_USAGE_NO_EDITOR 
 
 func _editor_command_menu_refresh():
-		if not Engine.is_editor_hint(): return
-		
-		_reset_main_commands()
-		
-		for i in mainCommandButtonNames.size():
-			var newMainCommandButton = COMMAND_BUTTON.instantiate()
-			newMainCommandButton.text = mainCommandButtonNames[i]
-			newMainCommandButton.buttonIcon = mainCommandIcons[i]
-			main_command_container.add_child(newMainCommandButton)
+	if not Engine.is_editor_hint(): return
+	
+	_reset_main_commands()
+	
+	for i in mainCommandButtonNames.size():
+		var newMainCommandButton = COMMAND_BUTTON.instantiate()
+		newMainCommandButton.text = mainCommandButtonNames[i]
+		newMainCommandButton.buttonIcon = mainCommandIcons[i]
+		main_command_container.add_child(newMainCommandButton)
 
 func _refresh_main_command_button_size(value):
 	var arraySize = mainCommandButtonNames.size()
