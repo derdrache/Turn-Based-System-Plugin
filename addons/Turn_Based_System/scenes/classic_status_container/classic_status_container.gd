@@ -1,53 +1,64 @@
 extends Control
 
-@export_category("Player Stats Container")
+@export_group("Character resource reference")
+## variable name in TurnBasedAgent character_resource for name
+@export var name_reference := "name"
+## variable name in TurnBasedAgent character_resource for current health
+@export var health_reference := "currentHealth"
+## variable name in TurnBasedAgent character_resource for current mana
+@export var mana_reference := "currentMana"
+## variable name in TurnBasedAgent character_resource for over drive
+@export var over_drive_reference := "overDriveValue"
+
+@export_group("Player Stats Container")
+@export var focusStyleBox :StyleBox = preload("res://addons/Turn_Based_System/scenes/classic_status_container/style_box_player_stats_container.tres")
+@export var normalStyleBox :StyleBox = StyleBoxEmpty.new()
 @export var playerStatsContainer := preload("res://addons/Turn_Based_System/scenes/classic_status_container/player_stats_container.tscn")
-@export var player_stats_with_focus := preload("res://addons/Turn_Based_System/scenes/classic_status_container/style_box_player_stats_container.tres")
-@export var player_stats_without_focus : StyleBox = StyleBoxEmpty.new()
 
 @onready var player_container: VBoxContainer = $MarginContainer/PlayerContainer
 
 var players: Array[TurnBasedAgent] = []
 
 func _ready() -> void:
-	_setup()
-
-func _reset():
-	for node in player_container.get_children():
-		node.queue_free()
-
-func _setup():
-	_reset()
+	add_to_group("turnBasedStatusContainer")
 	
-	_set_players()
+	_setup()
+	
+func _setup() -> void:
+	_reset_player_container()
+	
+	_set_player_agents()
 	
 	_setup_player_stats_container()
 	
-func _set_players():
+func _reset_player_container() -> void:
+	for node in player_container.get_children():
+		node.queue_free()
+
+func _set_player_agents() -> void:
 	for player: TurnBasedAgent in get_tree().get_nodes_in_group("turnBasedPlayer"):
 		players.append(player)
 		player.player_turn_started.connect(_on_player_turn_started.bind(player))
 
-func _on_player_turn_started(player: TurnBasedAgent):
-	_deactivate_all_player()
+func _on_player_turn_started(player: TurnBasedAgent) -> void:
+	_deactivate_all_player_focus()
 	_activate_player(player)
 
-func _deactivate_all_player():
+func _deactivate_all_player_focus() -> void:
 	for node in player_container.get_children():
-		node.deactivate()
+		node.deactivate_focus()
 
-func _activate_player(player: TurnBasedAgent):
+func _activate_player(player: TurnBasedAgent) -> void:
 	var index = players.find(player)
 	
-	player_container.get_children()[index].activate()
+	player_container.get_children()[index].activate_focus()
 	
-func _setup_player_stats_container():
+func _setup_player_stats_container() -> void:
 	for player: TurnBasedAgent in players:
 		var playerStatsContainer = playerStatsContainer.instantiate()
-		playerStatsContainer.styleBoxWithFocus = player_stats_with_focus
-		playerStatsContainer.styleBoxWithoutFocus = player_stats_without_focus
+		
+		playerStatsContainer.styleBoxFocus = focusStyleBox
+		playerStatsContainer.styleBoxNormal = normalStyleBox
 		player_container.add_child(playerStatsContainer)
 		
-		playerStatsContainer.set_character_resource(player.character_resource)
-
-	
+		playerStatsContainer.set_player_stats(player.character_resource)

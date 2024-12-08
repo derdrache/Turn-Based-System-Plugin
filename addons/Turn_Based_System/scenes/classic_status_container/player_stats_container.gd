@@ -1,73 +1,66 @@
 extends PanelContainer
 
-## variable name in character_resource for name
-@export var name_resource_reference := "name"
-## variable name in character_resource for current health
-@export var current_health_resource_reference := "currentHealth"
-## variable name in character_resource for current mana
-@export var current_mana_resource_reference := "currentMana"
-## variable name in character_resource for over drive
-@export var current_over_drive_resource_reference := "overDriveValue"
-
 @onready var name_label: Label = %NameLabel
 @onready var hp_label_2: Label = %HPLabel2
 @onready var mp_label_4: Label = %MPLabel4
 @onready var over_drive_bar: ProgressBar = $MarginContainer/VBoxContainer/overDriveBar
 
-var character_resource: Resource
-var styleBoxWithFocus: StyleBox
-var styleBoxWithoutFocus: StyleBox 
+var characterResource: Resource
+var statsReference: Dictionary = {}
+var styleBoxNormal: StyleBox
+var styleBoxFocus: StyleBox 
 var oldCharacterResource: Resource
 
-func set_character_resource(newCharacterResource):
-	character_resource = newCharacterResource
+func set_player_stats(newCharacterResource: Resource) -> void:
+	characterResource = newCharacterResource
+	
+	var statusContainer = get_tree().get_first_node_in_group("turnBasedStatusContainer")
+	statsReference = {
+		"health": statusContainer.health_reference,
+		"mana": statusContainer.mana_reference,
+		"overDrive": statusContainer.over_drive_reference
+	}
 
-	name_label.text = character_resource[name_resource_reference]
-	hp_label_2.text = str(character_resource[current_health_resource_reference])
-	mp_label_4.text = str(character_resource[current_mana_resource_reference])
-	over_drive_bar.value = character_resource[current_over_drive_resource_reference]
+	name_label.text = characterResource[statusContainer.name_reference]
+	hp_label_2.text = str(characterResource[statsReference["health"]])
+	mp_label_4.text = str(characterResource[statsReference["mana"]])
+	over_drive_bar.value = characterResource[statsReference["overDrive"]]
 
-	oldCharacterResource = character_resource.duplicate()
+	oldCharacterResource = characterResource.duplicate()
 	
 func _process(delta: float) -> void:
-	if not character_resource: 
+	if not characterResource: 
 		push_error("a turn based agent doesn't have set character resource")
 		return
 		
-	var refreshed = _check_refreshed(character_resource, oldCharacterResource)
+	var refreshed = _check_refreshed(characterResource, oldCharacterResource)
 	
 	if refreshed: 
 		_update_stats()
-		oldCharacterResource = character_resource.duplicate()
+		oldCharacterResource = characterResource.duplicate()
 
-			
-func _check_refreshed(newResource: Resource, oldResource):
-	var healthChanged = newResource[current_health_resource_reference] != oldResource[current_health_resource_reference]
-	var manaChanged = newResource[current_mana_resource_reference] != oldResource[current_mana_resource_reference]
-	var overDriveChanged = newResource[current_over_drive_resource_reference] != oldResource[current_over_drive_resource_reference]
+func _check_refreshed(newResource: Resource, oldResource) -> bool:
+	var healthChanged = newResource[statsReference["health"]] != oldResource[statsReference["health"]]
+	var manaChanged = newResource[statsReference["mana"]] != oldResource[statsReference["mana"]]
+	var overDriveChanged = newResource[statsReference["overDrive"]] != oldResource[statsReference["overDrive"]]
 	
 	if healthChanged or manaChanged or overDriveChanged:
 		return true
 	
 	return false
 	
+func activate_focus() -> void:
+	add_theme_stylebox_override("panel", styleBoxFocus)
 	
-func activate():
-	_change_style_box(styleBoxWithFocus)
-	
-func deactivate():
-	var styleBox = StyleBoxEmpty.new()
-	_change_style_box(styleBoxWithoutFocus)
+func deactivate_focus() -> void:
+	add_theme_stylebox_override("panel", styleBoxNormal)
 
-func _change_style_box(newStyleBox : StyleBox):
-	add_theme_stylebox_override("panel", newStyleBox)
+func _update_stats() -> void:
+	_refresh_animation(hp_label_2, characterResource[statsReference["health"]])
+	_refresh_animation(mp_label_4, characterResource[statsReference["mana"]])
+	_refresh_animation(over_drive_bar, characterResource[statsReference["overDrive"]])
 
-func _update_stats():
-	_refresh_animation(hp_label_2, character_resource[current_health_resource_reference])
-	_refresh_animation(mp_label_4, character_resource[current_mana_resource_reference])
-	_refresh_animation(over_drive_bar, character_resource[current_over_drive_resource_reference])
-
-func _refresh_animation(node, newValue: int):
+func _refresh_animation(node: Control, newValue: int) -> void:
 	var tween = get_tree().create_tween()
 	
 	if node is Label:
@@ -77,9 +70,8 @@ func _refresh_animation(node, newValue: int):
 		var oldValue = node.value
 		tween.tween_method(tween_progress_bar.bind(node), oldValue, newValue, 0.3)
 		
-	
-func tween_label(value, labelNode):
+func tween_label(value: int, labelNode: Label):
 	labelNode.text = str(value)
 
-func tween_progress_bar(value, progressBarNode):
+func tween_progress_bar(value: int, progressBarNode: ProgressBar):
 	progressBarNode.value = value
