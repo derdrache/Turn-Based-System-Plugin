@@ -72,6 +72,9 @@ func _ready() -> void:
 	_editor_command_menu_refresh()
 
 	if not Engine.is_editor_hint(): 
+		if mainCommandButtonNames.is_empty():
+			push_warning("no mainCommandButtonNames set")
+			
 		hide()
 		_set_late_signals()
 
