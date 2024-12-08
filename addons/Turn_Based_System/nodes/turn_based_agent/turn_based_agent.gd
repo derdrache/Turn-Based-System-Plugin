@@ -32,6 +32,13 @@ signal target_changed(targets : Array[TurnBasedAgent], allies)
 ## example: speed
 @export var turnOrderValueName : String
 
+@export_group("command_menu")
+## Overrides the mainCommandButtonNames in Command Menu
+@export var commandNames: Array[String] = []
+## Overrides the mainCommandButtonNames in Command Menu
+@export var mainCommandButtonReference: Array[String] = []
+
+
 @export_category("Icons")
 ## Indication icon if the character is on turn [br]
 @export var onTurnIconTexture: CompressedTexture2D

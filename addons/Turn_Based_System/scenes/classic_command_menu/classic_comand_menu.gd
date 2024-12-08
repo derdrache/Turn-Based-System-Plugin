@@ -114,7 +114,12 @@ func _set_late_signals() -> void:
 		character.player_turn_started.connect(_on_player_turn.bind(character))
 		character.undo_command_selected.connect(_on_player_turn.bind(null))
 
-func _on_player_turn(character) -> void:
+func _on_player_turn(character: TurnBasedAgent) -> void:
+	if not character.commandNames.is_empty(): 
+		mainCommandButtonNames = character.commandNames
+	if not character.commandReference.is_empty(): 
+		mainCommandButtonReference = character.commandReference
+	
 	_reset_main_commands()
 	_set_command_options(character)
 
