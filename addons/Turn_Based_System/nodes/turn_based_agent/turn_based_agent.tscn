@@ -5,4 +5,4 @@
 [node name="TurnBasedBattleAgent" type="Node"]
 script = ExtResource("1_62on4")
 commandNames = null
-commandReference = null
+mainCommandButtonReference = null

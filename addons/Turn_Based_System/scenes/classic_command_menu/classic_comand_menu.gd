@@ -5,8 +5,6 @@ extends PanelContainer
 
 signal command_selected(command: Resource)
 
-@export_category("Main Command Buttons")
-
 ## Name of the Command Buttons on the Main Menu [br]
 ## This list controls the size of the other lists in this group
 @export var mainCommandButtonNames: Array[String] = ["Attack"]:
@@ -39,7 +37,7 @@ signal command_selected(command: Resource)
 		
 		_editor_command_menu_refresh()
 
-@export_category("Own Command Buttons")
+@export_group("Own Command Buttons")
 ## Add custom CommandButtons [br]
 ## if you want a press function that doesn't go trough character, this is your way
 @export var extraMainCommands: Array[PackedScene]:

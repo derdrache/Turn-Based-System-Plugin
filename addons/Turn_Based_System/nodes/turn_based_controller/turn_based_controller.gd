@@ -15,7 +15,7 @@ signal turn_order_changed(characterTurnOrder: Array[TurnBasedAgent])
 		turnOrderType = value
 		notify_property_list_changed()
 
-@export_category("targeting system")
+@export_group("targeting system")
 @export var useOwnTargetingSystem := false
 
 enum Turn_Order_Type{

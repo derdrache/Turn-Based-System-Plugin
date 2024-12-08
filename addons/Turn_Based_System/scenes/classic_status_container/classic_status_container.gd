@@ -10,7 +10,7 @@ extends Control
 ## variable name in TurnBasedAgent character_resource for over drive
 @export var over_drive_reference := "overDriveValue"
 
-@export_group("Player Stats Container")
+@export_category("Customization")
 @export var focusStyleBox :StyleBox = preload("res://addons/Turn_Based_System/scenes/classic_status_container/style_box_player_stats_container.tres")
 @export var normalStyleBox :StyleBox = StyleBoxEmpty.new()
 @export var playerStatsContainer := preload("res://addons/Turn_Based_System/scenes/classic_status_container/player_stats_container.tscn")

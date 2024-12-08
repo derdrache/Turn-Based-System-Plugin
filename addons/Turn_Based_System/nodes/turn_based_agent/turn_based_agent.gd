@@ -39,7 +39,8 @@ signal target_changed(targets : Array[TurnBasedAgent], allies)
 @export var mainCommandButtonReference: Array[String] = []
 
 
-@export_category("Icons")
+@export_category("Customize Icons")
+@export_group("Turn Icon")
 ## Indication icon if the character is on turn [br]
 @export var onTurnIconTexture: CompressedTexture2D
 @export var onTurnIconOffSet: Vector3 = Vector3.ZERO:
@@ -47,18 +48,19 @@ signal target_changed(targets : Array[TurnBasedAgent], allies)
 		onTurnIconOffSet = value
 		if Engine.is_editor_hint():
 			_refresh_on_turn_icon_position()
+
+@export_group("Target Icon")
 @export var targetIconTexture: CompressedTexture2D
 @export var targetIconOffSet: Vector3 = Vector3.ZERO:
 	set(value):
 		targetIconOffSet = value
 		if Engine.is_editor_hint():
 			_refresh_target_icon_position()
-		
-@export var turnOrderBarIconTexture: CompressedTexture2D
-
-@export_category("Customization")
 @export var selectEnemyIconColor: Color = Color(1,0,0)
 @export var selectPlayerIconColor: Color = Color(0, 1, 0)
+
+@export_group("Turn Order Bar Icon")
+@export var turnOrderBarIconTexture: CompressedTexture2D
 
 enum Character_Type {
 	## Controllable friendly unit
@@ -168,7 +170,6 @@ func _set_late_signals() -> void:
 	var commandMenu = get_tree().get_first_node_in_group("turnBasedCommandMenu")
 	if commandMenu:
 		commandMenu.command_selected.connect(_on_command_selected)
-
 
 func _on_command_selected(command: CommandResource) -> void:
 	var turnBasedController: TurnBasedController = get_tree().get_first_node_in_group("turnBasedController")
