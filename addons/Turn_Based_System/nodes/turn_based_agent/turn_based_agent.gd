@@ -36,7 +36,7 @@ signal target_changed(targets : Array[TurnBasedAgent], allies)
 ## Overrides the mainCommandButtonNames in Command Menu
 @export var commandNames: Array[String] = []
 ## Overrides the mainCommandButtonNames in Command Menu
-@export var mainCommandButtonReference: Array[String] = []
+@export var commandButtonReference: Array[String] = []
 
 
 @export_category("Customize Icons")
