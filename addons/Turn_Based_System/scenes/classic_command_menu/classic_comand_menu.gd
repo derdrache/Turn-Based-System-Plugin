@@ -118,7 +118,7 @@ func _set_late_signals() -> void:
 func _on_player_turn(character: TurnBasedAgent) -> void:
 	if not character.commandNames.is_empty(): 
 		mainCommandButtonNames = character.commandNames
-	if not character.commandReference.is_empty(): 
+	if not character.commandButtonReference.is_empty(): 
 		mainCommandButtonReference = character.commandReference
 	
 	_reset_main_commands()
