@@ -17,28 +17,23 @@ extends Control
 
 @onready var player_container: VBoxContainer = $MarginContainer/PlayerContainer
 
-var players: Array[TurnBasedAgent] = []
+var playerList: Array
 
 func _ready() -> void:
 	add_to_group("turnBasedStatusContainer")
+	
+	playerList = get_tree().get_nodes_in_group("turnBasedPlayer")
 	
 	_setup()
 	
 func _setup() -> void:
 	_reset_player_container()
 	
-	_set_player_agents()
-	
 	_setup_player_stats_container()
 	
 func _reset_player_container() -> void:
 	for node in player_container.get_children():
 		node.queue_free()
-
-func _set_player_agents() -> void:
-	for player: TurnBasedAgent in get_tree().get_nodes_in_group("turnBasedPlayer"):
-		players.append(player)
-		player.player_turn_started.connect(_on_player_turn_started.bind(player))
 
 func _on_player_turn_started(player: TurnBasedAgent) -> void:
 	_deactivate_all_player_focus()
@@ -49,12 +44,14 @@ func _deactivate_all_player_focus() -> void:
 		node.deactivate_focus()
 
 func _activate_player(player: TurnBasedAgent) -> void:
-	var index = players.find(player)
+	var index = playerList.find(player)
 	
 	player_container.get_children()[index].activate_focus()
 	
 func _setup_player_stats_container() -> void:
-	for player: TurnBasedAgent in players:
+	for player: TurnBasedAgent in playerList:
+		player.player_turn_started.connect(_on_player_turn_started.bind(player))
+		
 		var playerStatsContainer = playerStatsContainer.instantiate()
 		
 		playerStatsContainer.styleBoxFocus = focusStyleBox
