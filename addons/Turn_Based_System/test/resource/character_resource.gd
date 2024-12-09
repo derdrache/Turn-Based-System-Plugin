@@ -15,8 +15,7 @@ class_name TestCharacterResource
 @export var skills: Array[Resource]
 @export var items: Array[Resource]
 
-
 func take_damage(damage):
 	currentHealth -= damage
-	
+
 	if currentHealth < 0: currentHealth = 0

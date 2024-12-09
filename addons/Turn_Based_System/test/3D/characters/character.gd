@@ -35,7 +35,8 @@ func _on_character_action(targets ,command):
 	else:
 		for target: TurnBasedAgent in targets:
 			target.character_resource.take_damage(10)
-			
+	
+	
 	characterResource.overDriveValue += 5
 	
 	turn_based_agent.command_done()
@@ -45,6 +46,8 @@ func _on_enemy_turn_started():
 	var target = allPlayer.pick_random()
 	
 	await _animation_example(target)
+	
+	target.character_resource.take_damage(10)
 	
 	turn_based_agent.command_done()
 
@@ -63,5 +66,4 @@ func _animation_example(target):
 	tween.tween_property(self, "global_position", startPosition, 0.5)
 	
 	await tween.finished
-	
 	

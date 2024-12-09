@@ -72,6 +72,7 @@ transform = Transform3D(0.99972, -1.40145e-09, 0.0236468, 1.39343e-09, 1, 3.5568
 transform = Transform3D(0.996275, -5.14962e-09, 0.0862354, 5.13044e-09, 1, 4.44078e-10, -0.0862354, 1.46374e-15, 0.996275, -1.63023e-08, 1.20229, -1.40136e-07)
 
 [node name="TurnBasedAgent" parent="Knight" index="1"]
+commandButtonReference = null
 turnOrderBarIconTexture = ExtResource("4_3iimj")
 
 [node name="Knight2" parent="." instance=ExtResource("1_w2g8u")]
@@ -105,6 +106,9 @@ transform = Transform3D(0.99972, -1.40145e-09, 0.0236468, 1.39343e-09, 1, 3.5568
 [node name="Knight_Cape" parent="Knight2/Knight/Rig/Skeleton3D" index="8"]
 transform = Transform3D(0.996275, -5.14962e-09, 0.0862354, 5.13044e-09, 1, 4.44078e-10, -0.0862354, 1.46374e-15, 0.996275, -1.63023e-08, 1.20229, -1.40136e-07)
 
+[node name="TurnBasedAgent" parent="Knight2" index="1"]
+commandButtonReference = null
+
 [node name="Knight3" parent="." instance=ExtResource("1_w2g8u")]
 transform = Transform3D(-0.00366512, 0, -0.999993, 0, 1, 0, 0.999993, 0, -0.00366512, 4.39612, 0, 2.67334)
 characterResource = ExtResource("6_ikelw")
@@ -135,6 +139,9 @@ transform = Transform3D(0.99972, -1.40145e-09, 0.0236468, 1.39343e-09, 1, 3.5568
 
 [node name="Knight_Cape" parent="Knight3/Knight/Rig/Skeleton3D" index="8"]
 transform = Transform3D(0.996275, -5.14962e-09, 0.0862354, 5.13044e-09, 1, 4.44078e-10, -0.0862354, 1.46374e-15, 0.996275, -1.63023e-08, 1.20229, -1.40136e-07)
+
+[node name="TurnBasedAgent" parent="Knight3" index="1"]
+commandButtonReference = null
 
 [node name="Knight4" parent="." instance=ExtResource("1_w2g8u")]
 transform = Transform3D(-0.0406201, 0, 0.999175, 0, 1, 0, -0.999175, 0, -0.0406201, -10.9455, 0, -2.21003)
@@ -169,6 +176,7 @@ transform = Transform3D(0.996275, -5.14962e-09, 0.0862354, 5.13044e-09, 1, 4.440
 
 [node name="TurnBasedAgent" parent="Knight4" index="1"]
 character_type = 1
+commandButtonReference = null
 
 [node name="Knight5" parent="." instance=ExtResource("1_w2g8u")]
 transform = Transform3D(-0.0406201, 0, 0.999175, 0, 1, 0, -0.999175, 0, -0.0406201, -10.9455, 0, 3.16177)
@@ -203,6 +211,7 @@ transform = Transform3D(0.996275, -5.14962e-09, 0.0862354, 5.13044e-09, 1, 4.440
 
 [node name="TurnBasedAgent" parent="Knight5" index="1"]
 character_type = 1
+commandButtonReference = null
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.861629, 0.507539, 0, -0.507539, 0.861629, -2.76, 24.745, 41.285)
