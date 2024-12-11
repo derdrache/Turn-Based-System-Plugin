@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b6dd25yaobs1l"]
 
-[ext_resource type="Script" path="res://addons/Turn_Based_System/scenes/classic_status_container/classic_status_container.gd" id="1_4n6y7"]
+[ext_resource type="Script" path="res://addons/Turn_Based_System/scenes/classic_status_container/classic_player_status_container.gd" id="1_4n6y7"]
 [ext_resource type="PackedScene" uid="uid://bqoai2wavcsv8" path="res://addons/Turn_Based_System/scenes/classic_status_container/player_stats_container.tscn" id="2_he73c"]
 
 [node name="ClassicStatusContainer" type="Control"]
