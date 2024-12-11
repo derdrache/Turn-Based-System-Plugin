@@ -19,6 +19,7 @@ signal undo_command_selected()
 ## After that use the command_done function the move on
 signal target_selected(targets: Array[TurnBasedAgent], command:Resource)
 signal target_changed(targets : Array[TurnBasedAgent], allies)
+signal target_pointed(targets: Array[TurnBasedAgent])
 
 ## Important setting
 @export var character_type: Character_Type:
@@ -68,7 +69,6 @@ enum Character_Type {
 	## Non-controllable enemy unit
 	ENEMY
 	}
-
 const ON_TURON_ICON = preload("res://addons/Turn_Based_System/assets/icons/Icon_Down.png")
 const Target_ICON = preload("res://addons/Turn_Based_System/assets/icons/Icon_Left.png")
 
@@ -188,11 +188,16 @@ func _on_command_selected(command: CommandResource) -> void:
 			isTargetAlly = true
 			possibleTargets = [self]
 	
+	if possibleTargets.size() == 0:
+		push_error("there is no possible target")
+		return
+	
 	mainTarget = possibleTargets[0]
 	mainTarget.set_target()
 	
 	_check_and_select_multi_target(mainTarget, possibleTargets)
-	
+
+	target_pointed.emit()
 	target_changed.emit(allSelectedTargets, isTargetAlly)
 
 func set_active(boolean: bool) -> void:
@@ -247,6 +252,8 @@ func _select_between_targets(event: InputEvent) -> void:
 	mainTarget.set_target()
 	
 	_check_and_select_multi_target(mainTarget, possibleTargets)
+	
+	target_pointed.emit()
 	
 func _check_and_select_multi_target(mainTarget: TurnBasedAgent, targets: Array) -> void:
 	var targetCount: int = currentCommand.targetCount
