@@ -279,6 +279,8 @@ func _select_target() -> void:
 	target_selected.emit(allSelectedTargets, currentCommand)
 	_deselect_all_targets()
 	
+	onTurnIconNode.hide()
+	
 	mainTarget = null
 	allSelectedTargets = []
 	
@@ -297,7 +299,8 @@ func get_targets() -> TurnBasedAgent:
 	return mainTarget
 
 func get_global_position():
-	if not get_parent() or get_parent() is SubViewport: return
+	if not get_parent(): return
+	
 	return get_parent().global_position
 	
 func get_turn_order_value() -> float:
