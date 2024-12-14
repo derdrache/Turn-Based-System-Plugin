@@ -113,7 +113,7 @@ func _set_late_signals() -> void:
 	
 	for character: TurnBasedAgent in get_tree().get_nodes_in_group("turnBasedPlayer"):
 		character.player_turn_started.connect(_on_player_turn.bind(character))
-		character.undo_command_selected.connect(_on_player_turn.bind(null))
+		character.undo_command_selected.connect(_on_player_turn.bind(character))
 
 func _on_player_turn(character: TurnBasedAgent) -> void:
 	if not character.commandNames.is_empty(): 
