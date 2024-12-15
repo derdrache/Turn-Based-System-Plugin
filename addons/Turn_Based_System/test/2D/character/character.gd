@@ -6,13 +6,11 @@ extends StaticBody2D
 
 func _ready() -> void:
 	if turn_based_agent: 
-		turn_based_agent.set_turn_order_value(characterResource.speed)
+		turn_based_agent.enemy_turn_started.connect(_on_enemy_turn_started)
 		turn_based_agent.target_selected.connect(_on_character_action)
-		
 		turn_based_agent.character_resource = characterResource
-		turn_based_agent.turnOrderValue = characterResource.speed
-		
-	
+		turn_based_agent.turnOrderValueName = "speed"
+
 func _on_character_action(targets,command):
 	# here you put every interaction between the character and his targets
 	# like:
@@ -22,6 +20,16 @@ func _on_character_action(targets,command):
 	# and more
 	
 	await _animation_example(targets)
+	
+	turn_based_agent.command_done()
+
+func _on_enemy_turn_started():
+	var allPlayer = get_tree().get_nodes_in_group("turnBasedPlayer")
+	var target = allPlayer.pick_random()
+	
+	await _animation_example(target)
+	
+	target.character_resource.take_damage(10)
 	
 	turn_based_agent.command_done()
 

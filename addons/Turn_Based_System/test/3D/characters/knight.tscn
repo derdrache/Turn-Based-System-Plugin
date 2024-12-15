@@ -94,4 +94,7 @@ script = ExtResource("3_ncwu0")
 onTurnIconOffSet = Vector3(0, 3, 0)
 targetIconOffSet = Vector3(1.5, 2, 0)
 
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.566406, -0.288615, 0.771936, 0, 0.936672, 0.350207, -0.824126, -0.19836, 0.530537, 2.879, 3.691, 2.915)
+
 [editable path="Knight"]
