@@ -1,13 +1,13 @@
 extends Control
 
 @export_group("Character resource reference")
-## variable name in TurnBasedAgent character_resource for name
+## variable name in TurnBasedAgent characterResource for name
 @export var name_reference := "name"
-## variable name in TurnBasedAgent character_resource for current health
+## variable name in TurnBasedAgent characterResource for current health
 @export var health_reference := "currentHealth"
-## variable name in TurnBasedAgent character_resource for current mana
+## variable name in TurnBasedAgent characterResource for current mana
 @export var mana_reference := "currentMana"
-## variable name in TurnBasedAgent character_resource for over drive
+## variable name in TurnBasedAgent characterResource for over drive
 @export var over_drive_reference := "overDriveValue"
 
 @export_category("Customization")
@@ -58,4 +58,4 @@ func _setup_player_stats_container() -> void:
 		playerStatsContainer.styleBoxNormal = normalStyleBox
 		player_container.add_child(playerStatsContainer)
 		
-		playerStatsContainer.set_player_stats(player.character_resource)
+		playerStatsContainer.set_player_stats(player.characterResource)

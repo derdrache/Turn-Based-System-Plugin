@@ -8,7 +8,7 @@ func _ready() -> void:
 	if turn_based_agent: 
 		turn_based_agent.enemy_turn_started.connect(_on_enemy_turn_started)
 		turn_based_agent.target_selected.connect(_on_character_action)
-		turn_based_agent.character_resource = characterResource
+		turn_based_agent.characterResource = characterResource
 		turn_based_agent.turnOrderValueName = "speed"
 
 func _on_character_action(targets,command):
@@ -29,7 +29,7 @@ func _on_enemy_turn_started():
 	
 	await _animation_example(target)
 	
-	target.character_resource.take_damage(10)
+	target.characterResource.take_damage(10)
 	
 	turn_based_agent.command_done()
 

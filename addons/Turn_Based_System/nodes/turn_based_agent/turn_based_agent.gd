@@ -28,7 +28,7 @@ signal target_pointed(targets: Array[TurnBasedAgent])
 		notify_property_list_changed()
 ## Character resource should be your resource data where are the stats (health, damage, etc), skills and more are saved
 ## This is the reference for the command menu
-@export var character_resource: Resource
+@export var characterResource: Resource
 ## the name of the variable in the character resource that is to determine the turnorder
 ## example: speed
 @export var turnOrderValueName : String
@@ -308,7 +308,7 @@ func get_turn_order_value() -> float:
 		push_warning("No turnOrderValueName set in the agend from: " + str(get_parent()))
 		return 0
 	
-	return character_resource[turnOrderValueName]
+	return characterResource[turnOrderValueName]
 
 func _validate_property(property: Dictionary):
 	var hideList = []

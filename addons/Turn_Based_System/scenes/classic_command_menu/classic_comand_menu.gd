@@ -238,10 +238,10 @@ func _refresh_main_command_menu() -> void:
 		
 		if isEmpty: commandName = " "
 		
-		if currentCharacter.character_resource and commandReference in currentCharacter.character_resource:
-			commandResource = currentCharacter.character_resource[commandReference]
+		if currentCharacter.characterResource and commandReference in currentCharacter.characterResource:
+			commandResource = currentCharacter.characterResource[commandReference]
 		else:
-			if not currentCharacter.character_resource:
+			if not currentCharacter.characterResource:
 				push_error("TurnBasedAgent from " + str(currentCharacter.get_parent()) + " doesn't have set: character.character_resource ")
 			else:
 				push_warning("MainCommandList: " + commandName + " doenst have a reference in character resource")
