@@ -20,11 +20,11 @@ A flexible Turn Based System for Godot version 4.x
 	- dynamic
 
 ## 🚀 Quick start
-1. Add <img src="addons/Turn_Based_System/assets/icons/groupControl.png" width="16"/> **TurnBasedController** Node to your main scene to activate the Turn Based System
-2. Add <img src="addons/Turn_Based_System/assets/icons/agent.png" width="16"/> TurnBasedAgent Node to your Characters (Player & Enemy)<br />
-3. Add Classic Command Menu scene as a child of a canvas layer in your main scene
-4. **optional** Add Turn Order Bar scene as a child of a canvas layer in your main scene 
-5. **optional** Add Classic Status Container as a child of a canvas layer in your main scene 
+1. Add <img src="addons/Turn_Based_System/assets/icons/groupControl.png" width="16"/> **_TurnBasedController Node_** to your main scene to activate the Turn Based System
+2. Add <img src="addons/Turn_Based_System/assets/icons/agent.png" width="16"/> **_TurnBasedAgent Node_** to your Characters (Player & Enemy)<br />
+3. Add **_classic_command_menu Scene_** as a child of a canvas layer in your main scene
+4. **optional** Add **_classic_turn_order_bar Scene_** as a child of a canvas layer in your main scene 
+5. **optional** Add **_classic_status_container Scene_** as a child of a canvas layer in your main scene 
 
 <img src="documentation/images/scene_structure_example.png" width="200" />
 
