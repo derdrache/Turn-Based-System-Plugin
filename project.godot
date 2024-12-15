@@ -14,8 +14,14 @@ config/name="Plugin Turn Based Battle"
 config/features=PackedStringArray("4.3", "Mobile")
 config/icon="res://addons/Turn_Based_System/assets/icons/groupControl.png"
 
+[autoload]
+
+Print="*res://print.gd"
+
 [display]
 
+window/size/viewport_width=1280
+window/size/viewport_height=720
 window/stretch/mode="canvas_items"
 
 [editor_plugins]

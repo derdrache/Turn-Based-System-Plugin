@@ -69,11 +69,6 @@ func _on_command_undo() -> void:
 	
 	remove_all_target_nodes()
 
-func _on_player_turn_started() -> void:
-	show()
-
-func _on_attack_target(_targets, _command) -> void:
-	hide()
 
 func _set_target_nodes(targets: Array[TurnBasedAgent], isTargetAlly: bool) -> void:
 	if targets.is_empty() or not showTargets : return

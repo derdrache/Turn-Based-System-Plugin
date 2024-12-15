@@ -21,7 +21,7 @@ size = Vector2(96, 96)
 [node name="TestScene" type="Node2D"]
 
 [node name="Enemy 1" type="StaticBody2D" parent="."]
-position = Vector2(362, 97)
+position = Vector2(228, 126)
 scale = Vector2(1.25, 1.25)
 script = ExtResource("2_yehj6")
 characterResource = ExtResource("4_s0etk")
@@ -39,7 +39,7 @@ character_resource = ExtResource("4_s0etk")
 targetIconOffSet = Vector3(53.09, -9.2, 0)
 
 [node name="Enemy 2" type="StaticBody2D" parent="."]
-position = Vector2(415, 285)
+position = Vector2(541, 131)
 scale = Vector2(1.25, 1.25)
 script = ExtResource("2_yehj6")
 characterResource = ExtResource("4_s0etk")
@@ -57,7 +57,7 @@ character_resource = ExtResource("4_s0etk")
 targetIconOffSet = Vector3(53.09, -9.355, 0)
 
 [node name="Enemy 3" type="StaticBody2D" parent="."]
-position = Vector2(382, 457)
+position = Vector2(823, 131)
 scale = Vector2(1.25, 1.25)
 script = ExtResource("2_yehj6")
 characterResource = ExtResource("4_s0etk")
@@ -75,7 +75,7 @@ character_resource = ExtResource("4_s0etk")
 targetIconOffSet = Vector3(53.09, -9.355, 0)
 
 [node name="Player1" type="StaticBody2D" parent="."]
-position = Vector2(815, 112)
+position = Vector2(344, 397)
 scale = Vector2(1.25, 1.25)
 script = ExtResource("2_yehj6")
 characterResource = ExtResource("5_jfnju")
@@ -93,7 +93,7 @@ onTurnIconOffSet = Vector3(-11.295, -65.255, 0)
 targetIconOffSet = Vector3(27.91, -9.355, 0)
 
 [node name="Player2" type="StaticBody2D" parent="."]
-position = Vector2(819, 379)
+position = Vector2(648, 404)
 scale = Vector2(1.25, 1.25)
 script = ExtResource("2_yehj6")
 characterResource = ExtResource("6_2gvv6")
