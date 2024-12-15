@@ -51,6 +51,7 @@ func _activate_player(player: TurnBasedAgent) -> void:
 func _setup_player_stats_container() -> void:
 	for player: TurnBasedAgent in playerList:
 		player.player_turn_started.connect(_on_player_turn_started.bind(player))
+		player.target_selected.connect(func(_targets, _command): _deactivate_all_player_focus())
 		
 		var playerStatsContainer = playerStatsContainer.instantiate()
 		
