@@ -87,7 +87,7 @@ signal command_selected(command: Resource)
 @onready var scroll_container: ScrollContainer = %ScrollContainer
 @onready var multi_command_container: GridContainer = %MultiCommandContainer
 
-const COMMAND_BUTTON = preload("res://addons/Turn_Based_System/scenes/classic_command_menu/classic_command_button.tscn")
+const COMMAND_BUTTON = preload("res://addons/Turn_Based_System/scenes/classic/classic_command_menu/classic_command_button.tscn")
 const COMMAND_RESOURCE = preload("res://addons/Turn_Based_System/resources/command_resource.gd")
 
 var commandCanceled := false
@@ -152,6 +152,9 @@ func _on_command_pressed(commandResource: Resource, button: Button) -> void:
 		return
 
 	hide()
+	
+	commandCanceled = false
+	
 	command_selected.emit(commandResource)
 
 func _on_multi_command_button_pressed(commandList: Array[Resource]) -> void:
@@ -175,7 +178,7 @@ func _set_multi_command_container(commandList: Array[Resource]) -> void:
 	for command:Resource in commandList:
 		var newCommandButton = COMMAND_BUTTON.instantiate()
 		newCommandButton.text = command.name
-		newCommandButton.pressed.connect(_on_command_pressed.bind(command))
+		newCommandButton.pressed.connect(_on_command_pressed.bind(command, newCommandButton))
 		multi_command_container.add_child(newCommandButton)
 
 func _on_run_button_pressed() -> void:
@@ -200,7 +203,7 @@ func _on_player_turn(character: TurnBasedAgent) -> void:
 	_refresh_main_command_menu()
 
 	show()
-	
+	print(commandCanceled)
 	if not commandCanceled: 
 		scroll_container.hide()
 		main_command_container.show()
@@ -263,8 +266,7 @@ func _refresh_main_command_menu() -> void:
 			newMainCommandButton.pressed.connect(_on_command_pressed.bind(commandResource, newMainCommandButton))
 		else:
 			newMainCommandButton.pressed.connect(_on_multi_command_button_pressed.bind(commandResource))
-	
-		
+
 func _get_menu_data() -> Dictionary:
 	match menuIndex:
 		0: return {
@@ -317,7 +319,7 @@ func _validate_property(property: Dictionary):
 	if property.name in hideList: 
 		property.usage = PROPERTY_USAGE_NO_EDITOR 
 
-func _editor_command_menu_refresh():
+func _editor_command_menu_refresh() -> void:
 	if not Engine.is_editor_hint(): return
 	
 	_reset_main_commands()
