@@ -11,9 +11,9 @@ extends Control
 @export var over_drive_reference := "overDriveValue"
 
 @export_category("Customization")
-@export var focusStyleBox :StyleBox = preload("res://addons/Turn_Based_System/scenes/classic_status_container/style_box_player_stats_container.tres")
+@export var focusStyleBox :StyleBox = preload("res://addons/Turn_Based_System/scenes/classic/classic_status_container/style_box_player_stats_container.tres")
 @export var normalStyleBox :StyleBox = StyleBoxEmpty.new()
-@export var playerStatsContainer := preload("res://addons/Turn_Based_System/scenes/classic_status_container/player_stats_container.tscn")
+@export var playerStatsContainer := preload("res://addons/Turn_Based_System/scenes/classic/classic_status_container/player_stats_container.tscn")
 
 @onready var player_container: VBoxContainer = $MarginContainer/PlayerContainer
 
