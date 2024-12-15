@@ -21,13 +21,14 @@ grow_vertical = 2
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_xvk5p")
 script = ExtResource("1_gybsi")
-mainCommandIcons = Array[CompressedTexture2D]([null])
+mainCommandButtonReference = Array[String](["", "", ""])
+mainCommandIcons = Array[CompressedTexture2D]([null, null, null])
 leftCommandButtonNames = Array[String](["", ""])
 leftCommandButtonReference = Array[String](["", ""])
 leftCommandIcons = Array[CompressedTexture2D]([null, null])
-rightCommandButtonNames = Array[String]([""])
-rightCommandButtonReference = Array[String]([""])
-rightCommandIcons = Array[CompressedTexture2D]([null])
+rightCommandButtonNames = Array[String](["", "", ""])
+rightCommandButtonReference = Array[String](["", "", ""])
+rightCommandIcons = Array[CompressedTexture2D]([null, null, null])
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -38,7 +39,12 @@ theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 50
 
-[node name="MainCommandContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="ScrollContainer2" type="ScrollContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="MainCommandContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer2"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
