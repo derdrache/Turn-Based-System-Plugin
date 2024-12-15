@@ -12,7 +12,7 @@ A flexible Turn Based System for Godot version 4.x
   	- Turn Combat Control
 	- Targeting System
 	- Command menu
-	- Player Stats Container
+	- Player Status Container
    	- Turn Order Bar
 - Different turn based combat systems:
 	- classic
@@ -31,11 +31,12 @@ A flexible Turn Based System for Godot version 4.x
 ## 📖 More Information
 ### Agent
 The Agent needs the character resource where the Commands (attack/skill/item resources) are saved.
-The TurnOrderValue will be checked in the character Resource too. Like this: <br />
+The TurnOrderValue will be checked in the character Resource too. <br />
+<br />
 <img src="documentation/images/Character_resource_example.png" width="400" />
 
 ### Command Resource:
-For the targeting system and the command menu to work, the skill resource must have certain variables.
+For the targeting system and the command menu to work, the skill resource must have certain variables.<br />
 There are 2 options for this:
 
 1. you extend your skill with the CommandResource:
