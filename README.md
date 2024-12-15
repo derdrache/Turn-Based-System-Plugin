@@ -18,18 +18,20 @@ A flexible Turn Based System for Godot version 4.x
 	- value based
 	- dynamic
 
-## 🚀 Usage
-### Nodes: 
+## 🚀 Quick start
+1. Add <img src="addons/Turn_Based_System/assets/icons/groupControl.png" width="16"/> **TurnBasedController** Node to your main scene to activate the Turn Based System
+2. Add <img src="addons/Turn_Based_System/assets/icons/agent.png" width="16"/> TurnBasedAgent Node to your Characters (Player & Enemy)<br />
+3. Add Classic Command Menu scene as a child of a canvas layer in your main scene
+4. **optional** Add Turn Order Bar scene as a child of a canvas layer in your main scene 
+5. **optional** Add Classic Status Container as a child of a canvas layer in your main scene 
 
-#### <img src="addons/Turn_Based_System/assets/icons/groupControl.png" width="16"/> TurnBasedController Node - Add it to your main scene to activate the Turn Based System
+<img src="documentation/images/scene_structure_example.png" width="200" />
 
-
-#### <img src="addons/Turn_Based_System/assets/icons/agent.png" width="16"/> TurnBasedAgent Node - Add it to your Character (Player or Enemy)
+## 📖 More Information
+### Agent
 The Agent needs the character resource where the Commands (attack/skill/item resources) are saved.
-The TurnOrderValue will be checked in the character Resource too. <br />
-Like this:<br />
+The TurnOrderValue will be checked in the character Resource too. Like this: <br />
 <img src="documentation/images/Character_resource_example.png" width="400" />
-<br />
 
 ### Command Resource:
 For the targeting system and the command menu to work, the skill resource must have certain variables.
@@ -40,22 +42,16 @@ There are 2 options for this:
 2. you put the variables in your skill resource:
 <img src="documentation/images/setup_own_skills_2.png" width="400"/>
 
+### Classic Command Menu Scene
+This is a scene and have to add with "instantiate child scene" (not with "add child node")
 
-### Premade Scenes:
+### Turn Order Bar Scene *optional*
+This is a scene and have to add with "instantiate child scene" (not with "add child node")
 
-#### Classic Command Menu - Add it in a Canvas Layer at the end of the main scene
-The main command list have to be filled to get the Commands in the menu. It's a little complicated
-In this List you set a Dictonary with the shown Command name (dict key) and the reference to your character resource (dict value)<br />
-Example: [{"Attack": "basicAttack"}, {"Skills": "skills"}, {"Items": "items"}]<br />
-<img src="documentation/images/CommandMenu_MainCommandList_example.png" width="200"/>
+### Classic Player Stats Container *optional*
+This is a scene and have to add with "instantiate child scene" (not with "add child node")
 
-#### Turn Order Bar *optional*
-Add it in a Canvas Layer at the end of the main scene<br />
-
-#### Classic Player Stats Container *optional*
-Add it in a Canvas Layer at the end of the main scene<br />
-
-#### Character Setup:<br />
+### Character Setup:<br />
 <img src="documentation/images/Character_code_example.png" width="400"/>
 
 ## ⬇️ Installation
