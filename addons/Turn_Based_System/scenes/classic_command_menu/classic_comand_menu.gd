@@ -146,9 +146,12 @@ func _ready() -> void:
 		hide()
 		_set_late_signals()
 
-func _on_command_pressed(commandResource: Resource) -> void:
-	hide()
+func _on_command_pressed(commandResource: Resource, button: Button) -> void:
+	if not commandResource:
+		push_error(button.text + " button doesn't have a reference resource")
+		return
 
+	hide()
 	command_selected.emit(commandResource)
 
 func _on_multi_command_button_pressed(commandList: Array[Resource]) -> void:
@@ -229,10 +232,11 @@ func _refresh_main_command_menu() -> void:
 
 	for commandName: String in menuData["names"]:
 		var index = menuData["names"].find(commandName)
+		var isEmpty = commandName.is_empty()
 		var commandReference = menuData["references"][index]
 		var commandResource
 		
-		if commandName.is_empty(): commandName = " "
+		if isEmpty: commandName = " "
 		
 		if currentCharacter.character_resource and commandReference in currentCharacter.character_resource:
 			commandResource = currentCharacter.character_resource[commandReference]
@@ -252,11 +256,11 @@ func _refresh_main_command_menu() -> void:
 		var newMainCommandButton = COMMAND_BUTTON.instantiate()
 		newMainCommandButton.text = commandName
 		newMainCommandButton.buttonIcon = menuData["icons"][index]
-		if not commandResource: newMainCommandButton.focus_mode = Control.FOCUS_NONE
+		if isEmpty: newMainCommandButton.focus_mode = Control.FOCUS_NONE
 		main_command_container.add_child(newMainCommandButton)
 		
 		if isSingleCommand:
-			newMainCommandButton.pressed.connect(_on_command_pressed.bind(commandResource))
+			newMainCommandButton.pressed.connect(_on_command_pressed.bind(commandResource, newMainCommandButton))
 		else:
 			newMainCommandButton.pressed.connect(_on_multi_command_button_pressed.bind(commandResource))
 	
