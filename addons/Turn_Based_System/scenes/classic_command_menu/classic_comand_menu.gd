@@ -9,7 +9,7 @@ signal command_selected(command: Resource)
 	set(value):
 		withButtonIcons = value
 		notify_property_list_changed()
-		
+
 @export_group("Main Menu")
 ## Name of the Command Buttons on the Main Menu [br]
 ## This list controls the size of the other lists in this group
@@ -241,8 +241,8 @@ func _refresh_main_command_menu() -> void:
 				push_error("TurnBasedAgent from " + str(currentCharacter.get_parent()) + " doesn't have set: character.character_resource ")
 			else:
 				push_warning("MainCommandList: " + commandName + " doenst have a reference in character resource")
-				
-			if index == 0:
+		
+			if index == 0 && menuIndex == 1:
 				commandResource = COMMAND_RESOURCE.new()
 				commandResource.name = "Attack"
 				commandResource.targetType = CommandResource.Target_Type.ENEMIES
@@ -252,6 +252,7 @@ func _refresh_main_command_menu() -> void:
 		var newMainCommandButton = COMMAND_BUTTON.instantiate()
 		newMainCommandButton.text = commandName
 		newMainCommandButton.buttonIcon = menuData["icons"][index]
+		if not commandResource: newMainCommandButton.focus_mode = Control.FOCUS_NONE
 		main_command_container.add_child(newMainCommandButton)
 		
 		if isSingleCommand:
