@@ -203,7 +203,7 @@ func _on_player_turn(character: TurnBasedAgent) -> void:
 	_refresh_main_command_menu()
 
 	show()
-	print(commandCanceled)
+
 	if not commandCanceled: 
 		scroll_container.hide()
 		main_command_container.show()
@@ -337,6 +337,3 @@ func _get_allowed_size(value: Array, matchArray: Array):
 		value.resize(arraySize)
 		
 	return value
-
-	
-	
