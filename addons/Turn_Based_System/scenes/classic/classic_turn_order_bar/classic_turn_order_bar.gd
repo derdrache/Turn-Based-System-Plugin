@@ -59,7 +59,7 @@ func _setup_late_signals() -> void:
 		character.target_changed.connect(_on_target_changed)
 		character.undo_command_selected.connect(_on_command_undo)
 		character.player_turn_started.connect(func (): show())
-		character.target_selected.connect(func (_targets, _command): hide())
+		character.player_action_started.connect(func (_targets, _command): hide())
 
 func _on_target_changed(targets: Array[TurnBasedAgent], isTargetAlly: bool)-> void:
 	_set_target_nodes(targets, isTargetAlly)
