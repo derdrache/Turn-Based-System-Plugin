@@ -9,6 +9,11 @@ signal command_selected(command: Resource)
 	set(value):
 		withButtonIcons = value
 		notify_property_list_changed()
+		
+@export var defaultCommandButton: PackedScene = preload("res://addons/Turn_Based_System/scenes/classic/classic_command_menu/classic_command_button.tscn"):
+	set(value):
+		defaultCommandButton = value
+		_editor_command_menu_refresh()
 
 @export_group("Main Menu")
 ## Name of the Command Buttons on the Main Menu [br]
@@ -19,7 +24,7 @@ signal command_selected(command: Resource)
 		
 		var newSize = mainCommandButtonNames.size()
 		mainCommandButtonReference.resize(newSize)
-		mainCommandIcons.resize(newSize)
+		mainCommandButtonIcons.resize(newSize)
 		
 		_editor_command_menu_refresh()
 ## Put in the reference variable of the character resource for the commands
@@ -30,16 +35,16 @@ signal command_selected(command: Resource)
 		_editor_command_menu_refresh()
 ## Add a Icon for the CommandButton. [br]
 ## It appears to the left of the text
-@export var mainCommandIcons: Array[CompressedTexture2D]:
+@export var mainCommandButtonIcons: Array[CompressedTexture2D]:
 	set(value):
-		mainCommandIcons = _get_allowed_size(value, mainCommandButtonNames)
+		mainCommandButtonIcons = _get_allowed_size(value, mainCommandButtonNames)
 		
 		_editor_command_menu_refresh()
 ## Add custom CommandButtons [br]
 ## if you want a press function that doesn't go trough character, this is your way
-@export var ownCommandMain: Array[PackedScene]:
+@export var mainOwnCommandButton: Array[PackedScene]:
 	set(value):
-		ownCommandMain = value
+		mainOwnCommandButton = value
 		_editor_command_menu_refresh()
 
 @export_group("Left Menu")
@@ -53,14 +58,14 @@ signal command_selected(command: Resource)
 		
 		var newSize = leftCommandButtonNames.size()
 		leftCommandButtonReference.resize(newSize)
-		leftCommandIcons.resize(newSize)
+		leftCommandButtonIcons.resize(newSize)
 @export var leftCommandButtonReference: Array[String] = []:
 	set(value):
 		leftCommandButtonReference = _get_allowed_size(value, leftCommandButtonNames)
-@export var leftCommandIcons: Array[CompressedTexture2D] = []:
+@export var leftCommandButtonIcons: Array[CompressedTexture2D] = []:
 	set(value):
-		leftCommandIcons = _get_allowed_size(value, leftCommandButtonNames)
-@export var ownCommandLeft: Array[PackedScene] = []
+		leftCommandButtonIcons = _get_allowed_size(value, leftCommandButtonNames)
+@export var ownCommandButtonLeft: Array[PackedScene] = []
 
 @export_group("Right Menu")
 @export var withRightMenu := false:
@@ -73,22 +78,21 @@ signal command_selected(command: Resource)
 		
 		var newSize = rightCommandButtonNames.size()
 		rightCommandButtonReference.resize(newSize)
-		rightCommandIcons.resize(newSize)
+		rightCommandButtonIcons.resize(newSize)
 @export var rightCommandButtonReference: Array[String] = []:
 	set(value):
 		rightCommandButtonReference = _get_allowed_size(value, rightCommandButtonNames)
-@export var rightCommandIcons: Array[CompressedTexture2D] = []:
+@export var rightCommandButtonIcons: Array[CompressedTexture2D] = []:
 	set(value): 
-		rightCommandIcons = _get_allowed_size(value, rightCommandButtonNames)
-@export var ownCommandRight: Array[PackedScene] = []
+		rightCommandButtonIcons = _get_allowed_size(value, rightCommandButtonNames)
+@export var ownCommandButtonRight: Array[PackedScene] = []
 
 
 @onready var main_command_container: VBoxContainer = %MainCommandContainer
 @onready var scroll_container: ScrollContainer = %ScrollContainer
 @onready var multi_command_container: GridContainer = %MultiCommandContainer
 
-const COMMAND_BUTTON = preload("res://addons/Turn_Based_System/scenes/classic/classic_command_menu/classic_command_button.tscn")
-const COMMAND_RESOURCE = preload("res://addons/Turn_Based_System/resources/command_resource.gd")
+const DEFAULT_COMMAND_RESOURCE = preload("res://addons/Turn_Based_System/resources/command_resource.gd")
 
 var commandCanceled := false
 var menuIndex = 1
@@ -176,7 +180,7 @@ func _clear_multi_command_container() -> void:
 
 func _set_multi_command_container(commandList: Array[Resource]) -> void:
 	for command:Resource in commandList:
-		var newCommandButton = COMMAND_BUTTON.instantiate()
+		var newCommandButton = defaultCommandButton.instantiate()
 		newCommandButton.text = command.name
 		newCommandButton.pressed.connect(_on_command_pressed.bind(command, newCommandButton))
 		multi_command_container.add_child(newCommandButton)
@@ -250,13 +254,13 @@ func _refresh_main_command_menu() -> void:
 				push_warning("MainCommandList: " + commandName + " doenst have a reference in character resource")
 		
 			if index == 0 && menuIndex == 1:
-				commandResource = COMMAND_RESOURCE.new()
+				commandResource = DEFAULT_COMMAND_RESOURCE.new()
 				commandResource.name = "Attack"
 				commandResource.targetType = CommandResource.Target_Type.ENEMIES
 		
 		var isSingleCommand = not commandResource is Array
 		
-		var newMainCommandButton = COMMAND_BUTTON.instantiate()
+		var newMainCommandButton = defaultCommandButton.instantiate()
 		newMainCommandButton.text = commandName
 		newMainCommandButton.buttonIcon = menuData["icons"][index]
 		if isEmpty: newMainCommandButton.focus_mode = Control.FOCUS_NONE
@@ -272,20 +276,20 @@ func _get_menu_data() -> Dictionary:
 		0: return {
 				"names": leftCommandButtonNames,
 				"references": leftCommandButtonReference,
-				"icons": leftCommandIcons,
-				"ownButtons": ownCommandLeft
+				"icons": leftCommandButtonIcons,
+				"ownButtons": ownCommandButtonLeft
 			}
 		1: return {
 				"names": mainCommandButtonNames,
 				"references": mainCommandButtonReference,
-				"icons": mainCommandIcons,
-				"ownButtons": ownCommandMain
+				"icons": mainCommandButtonIcons,
+				"ownButtons": mainOwnCommandButton
 			}
 		2: return {
 				"names": rightCommandButtonNames,
 				"references": rightCommandButtonReference,
-				"icons": rightCommandIcons,
-				"ownButtons": ownCommandRight
+				"icons": rightCommandButtonIcons,
+				"ownButtons": ownCommandButtonRight
 			}
 		_: return {}
 
@@ -325,9 +329,9 @@ func _editor_command_menu_refresh() -> void:
 	_reset_main_commands()
 	
 	for i in mainCommandButtonNames.size():
-		var newMainCommandButton = COMMAND_BUTTON.instantiate()
+		var newMainCommandButton = defaultCommandButton.instantiate()
 		newMainCommandButton.text = mainCommandButtonNames[i]
-		newMainCommandButton.buttonIcon = mainCommandIcons[i]
+		newMainCommandButton.buttonIcon = mainCommandButtonIcons[i]
 		main_command_container.add_child(newMainCommandButton)
 
 func _get_allowed_size(value: Array, matchArray: Array):

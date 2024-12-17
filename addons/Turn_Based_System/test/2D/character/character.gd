@@ -19,7 +19,7 @@ func _on_character_action(targets,command):
 	# interaction with Hp Bars
 	# and more
 	
-	await _animation_example(targets)
+	await _animation_example(targets[0])
 	
 	turn_based_agent.command_done()
 
