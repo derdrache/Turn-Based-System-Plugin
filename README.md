@@ -21,7 +21,7 @@ A flexible Turn Based System for Godot version 4.x
 
 ## 🚀 Quick start
 1. Add <img src="addons/Turn_Based_System/assets/icons/groupControl.png" width="16"/> **_TurnBasedController Node_** to your main scene to activate the Turn Based System
-2. Add <img src="addons/Turn_Based_System/assets/icons/agent.png" width="16"/> **_TurnBasedAgent Node_** to your Characters (Player & Enemy)<br />
+2. Add <img src="addons/Turn_Based_System/assets/icons/agent.png" width="16"/> **_[TurnBasedAgent Node](#agent)_** to your Characters (Player & Enemy)<br />
 3. Add **_classic_command_menu Scene_** as a child of a canvas layer in your main scene
 4. **optional** Add **_classic_turn_order_bar Scene_** as a child of a canvas layer in your main scene 
 5. **optional** Add **_classic_status_container Scene_** as a child of a canvas layer in your main scene 
@@ -35,7 +35,7 @@ The TurnOrderValue will be checked in the character Resource too. <br />
 <br />
 <img src="documentation/images/Character_resource_example.png" width="400" />
 
-### Command Resource:
+### Command / Skill Resource:
 For the targeting system and the command menu to work, the skill resource must have certain variables.<br />
 There are 2 options for this:
 
