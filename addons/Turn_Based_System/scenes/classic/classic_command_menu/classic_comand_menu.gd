@@ -10,7 +10,8 @@ signal command_selected(command: Resource)
 		withButtonIcons = value
 		notify_property_list_changed()
 		
-@export var defaultCommandButton: PackedScene = preload("res://addons/Turn_Based_System/scenes/classic/classic_command_menu/classic_command_button.tscn"):
+@export var defaultCommandButton: PackedScene = preload(
+	"res://addons/Turn_Based_System/scenes/classic/classic_command_menu/classic_command_button.tscn"):
 	set(value):
 		defaultCommandButton = value
 		_editor_command_menu_refresh()
