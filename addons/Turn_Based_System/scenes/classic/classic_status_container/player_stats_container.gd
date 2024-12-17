@@ -16,21 +16,37 @@ func set_player_stats(newCharacterResource: Resource) -> void:
 	
 	var statusContainer = get_tree().get_first_node_in_group("turnBasedStatusContainer")
 	statsReference = {
+		"name": statusContainer.name_reference,
 		"health": statusContainer.health_reference,
 		"mana": statusContainer.mana_reference,
 		"overDrive": statusContainer.over_drive_reference
 	}
-
-	name_label.text = characterResource[statusContainer.name_reference]
-	hp_label_2.text = str(characterResource[statsReference["health"]])
-	mp_label_4.text = str(characterResource[statsReference["mana"]])
-	over_drive_bar.value = characterResource[statsReference["overDrive"]]
+	
+	if statsReference.name in characterResource:
+		name_label.text = characterResource[statsReference.name]
+	else:
+		push_error(statsReference.name + " doesn't found in characterResource")
+	
+	if statsReference.health in characterResource:
+		hp_label_2.text = str(characterResource[statsReference.health])
+	else:
+		push_error(statsReference.health + " doesn't found in characterResource")
+		
+	if statsReference.mana in characterResource:
+		mp_label_4.text = str(characterResource[statsReference.mana])
+	else:
+		push_error(statsReference.mana + " doesn't found in characterResource")
+		
+	if statsReference.overDrive in characterResource:
+		over_drive_bar.value = characterResource[statsReference.overDrive]
+	else:
+		push_error(statsReference.overDrive + " doesn't found in characterResource")
 
 	oldCharacterResource = characterResource.duplicate()
 	
 func _process(delta: float) -> void:
 	if not characterResource: 
-		push_error("a turn based agent doesn't have set character resource")
+		push_error("A turn based agent doesn't have set character resource")
 		return
 		
 	var refreshed = _check_refreshed(characterResource, oldCharacterResource)
@@ -40,9 +56,16 @@ func _process(delta: float) -> void:
 		oldCharacterResource = characterResource.duplicate()
 
 func _check_refreshed(newResource: Resource, oldResource) -> bool:
-	var healthChanged = newResource[statsReference["health"]] != oldResource[statsReference["health"]]
-	var manaChanged = newResource[statsReference["mana"]] != oldResource[statsReference["mana"]]
-	var overDriveChanged = newResource[statsReference["overDrive"]] != oldResource[statsReference["overDrive"]]
+	var healthChanged = false
+	var manaChanged = false
+	var overDriveChanged = false
+	
+	if statsReference["health"] in newResource:
+		healthChanged = newResource[statsReference["health"]] != oldResource[statsReference["health"]]
+	if statsReference["mana"] in newResource:
+		manaChanged = newResource[statsReference["mana"]] != oldResource[statsReference["mana"]]
+	if statsReference["overDrive"] in newResource:
+		overDriveChanged = newResource[statsReference["overDrive"]] != oldResource[statsReference["overDrive"]]
 	
 	if healthChanged or manaChanged or overDriveChanged:
 		return true

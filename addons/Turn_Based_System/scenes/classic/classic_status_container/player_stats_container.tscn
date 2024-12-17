@@ -78,7 +78,7 @@ theme_override_colors/font_color = Color(0.847474, 0.847474, 0.847474, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 22
-text = "3000"
+text = "0000"
 horizontal_alignment = 2
 
 [node name="overDriveBar" type="ProgressBar" parent="MarginContainer/VBoxContainer"]
