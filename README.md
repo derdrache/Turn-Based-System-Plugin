@@ -35,6 +35,9 @@ The TurnOrderValue will be checked in the character Resource too. <br />
 <br />
 <img src="documentation/images/Character_resource_example.png" width="400" />
 
+<br />
+<br />
+
 ### Command / Skill Resource:
 For the targeting system and the command menu to work, the skill resource must have certain variables.<br />
 There are 2 options for this:
@@ -43,6 +46,9 @@ There are 2 options for this:
 <img src="documentation/images/setup_own_skills_1.png" width="400"/>
 2. you put the variables in your skill resource:
 <img src="documentation/images/setup_own_skills_2.png" width="400"/>
+
+<br />
+<br />
 
 ### Classic Command Menu Scene
 This is a scene and have to add with "instantiate child scene" (not with "add child node")
@@ -53,13 +59,24 @@ It is a copy of the command menu from FF X.
 **CommandButtonIcons**: Set icons in front of your command name.
 **OwnCommandButton**: if you need special actions, copy classic_command_button.tscn and change the script with our own. 
 
+<br />
+<br />
+
 ### Turn Order Bar Scene *optional*
-This is a scene and have to add with "instantiate child scene" (not with "add child node").
+This is a scene and have to add with "instantiate child scene" (not with "add child node").<br />
 It is a copy of the command menu from FF X.
 
+<br />
+<br />
+
 ### Classic Player Stats Container *optional*
-This is a scene and have to add with "instantiate child scene" (not with "add child node")
+This is a scene and have to add with "instantiate child scene" (not with "add child node")<br />
 It is a copy of the command menu from FF X.
+
+It is connected with the characterResource of the turnBasedAgent and you can setup the reference in the inspector.
+
+<br />
+<br />
 
 ### Character Setup:<br />
 All skills / commands has to be connect to the "player_action_started" or "enemy_turn_started" signal.
@@ -67,6 +84,7 @@ Put "turn_based_agent.command_done()" at the end to finish the turn and to start
 <br />
 Example: <br />
 <img src="documentation/images/Character_code_example.png" width="400"/>
+
 
 ## ⬇️ Installation
 If you don't have a "addons" folder in your project tree:
