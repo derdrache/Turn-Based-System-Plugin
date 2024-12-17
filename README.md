@@ -54,12 +54,18 @@ It is a copy of the command menu from FF X.
 **OwnCommandButton**: if you need special actions, copy classic_command_button.tscn and change the script with our own. 
 
 ### Turn Order Bar Scene *optional*
-This is a scene and have to add with "instantiate child scene" (not with "add child node")
+This is a scene and have to add with "instantiate child scene" (not with "add child node").
+It is a copy of the command menu from FF X.
 
 ### Classic Player Stats Container *optional*
 This is a scene and have to add with "instantiate child scene" (not with "add child node")
+It is a copy of the command menu from FF X.
 
 ### Character Setup:<br />
+All skills / commands has to be connect to the "player_action_started" or "enemy_turn_started" signal.
+Put "turn_based_agent.command_done()" at the end to finish the turn and to start the next character turn.
+<br />
+Example: <br />
 <img src="documentation/images/Character_code_example.png" width="400"/>
 
 ## ⬇️ Installation
