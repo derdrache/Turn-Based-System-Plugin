@@ -21,21 +21,21 @@ A flexible Turn Based System for Godot version 4.x
 
 ## 🚀 Quick start
 1. Add <img src="addons/Turn_Based_System/assets/icons/groupControl.png" width="16"/> **_TurnBasedController Node_** to your main scene to activate the Turn Based System
-2. Add <img src="addons/Turn_Based_System/assets/icons/agent.png" width="16"/> **_TurnBasedAgent Node_** to your Characters (Player & Enemy)<br />
-3. Add **_classic_command_menu Scene_** as a child of a canvas layer in your main scene
-4. **optional** Add **_classic_turn_order_bar Scene_** as a child of a canvas layer in your main scene 
-5. **optional** Add **_classic_status_container Scene_** as a child of a canvas layer in your main scene 
+2. Add <img src="addons/Turn_Based_System/assets/icons/agent.png" width="16"/> **_[TurnBasedAgent Node](#TurnBasedAgent)_** to your Characters (Player & Enemy)<br />
+3. Add **_[classic_command_menu Scene](#classic-command-menu-scene)_** as a child of a canvas layer in your main scene
+4. **optional** Add **_[classic_turn_order_bar Scene](#turn-order-bar-scene-optional)_** as a child of a canvas layer in your main scene 
+5. **optional** Add **_[classic_status_container Scene](#classic-player-stats-container-optional)_** as a child of a canvas layer in your main scene 
 
 <img src="documentation/images/scene_structure_example.png" width="200" />
 
 ## 📖 More Information
-### Agent
+### TurnBasedAgent
 The Agent needs the character resource where the Commands (attack/skill/item resources) are saved.
 The TurnOrderValue will be checked in the character Resource too. <br />
 <br />
 <img src="documentation/images/Character_resource_example.png" width="400" />
 
-### Command Resource:
+### Command / Skill Resource:
 For the targeting system and the command menu to work, the skill resource must have certain variables.<br />
 There are 2 options for this:
 
@@ -46,6 +46,12 @@ There are 2 options for this:
 
 ### Classic Command Menu Scene
 This is a scene and have to add with "instantiate child scene" (not with "add child node")
+It is a copy of the command menu from FF X.
+
+**CommandButtonNames**: Set the name of the Commands
+**CommandButtonReference**: Set the variable reference from the characterResource in the TurnBasedAgent. The variable shoud be a [Resource](#command--skill-resource) or a Array of [Resource](#command--skill-resource)
+**CommandButtonIcons**: Set icons in front of your command name.
+**OwnCommandButton**: if you need special actions, copy classic_command_button.tscn and change the script with our own. 
 
 ### Turn Order Bar Scene *optional*
 This is a scene and have to add with "instantiate child scene" (not with "add child node")
