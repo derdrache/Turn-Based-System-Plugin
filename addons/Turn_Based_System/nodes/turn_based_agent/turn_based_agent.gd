@@ -106,7 +106,9 @@ func _set_group() -> void:
 	elif character_type == Character_Type.ENEMY:
 		add_to_group("turnBasedEnemy")
 
-func _create_on_turn_icon() -> void:	
+func _create_on_turn_icon() -> void:
+	if character_type == Character_Type.ENEMY: return
+	
 	if is3DScene:
 		onTurnIconNode = Sprite3D.new()
 		onTurnIconNode.billboard = BaseMaterial3D.BILLBOARD_ENABLED
