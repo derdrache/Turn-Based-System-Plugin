@@ -120,9 +120,13 @@ func _create_on_turn_icon() -> void:
 
 	add_child(onTurnIconNode)
 	
-	if onTurnIconTexture: onTurnIconNode.texture = onTurnIconTexture
+	if onTurnIconTexture: 
+		onTurnIconNode.texture = onTurnIconTexture
 	
-	if not Engine.is_editor_hint(): onTurnIconNode.hide()
+	if not Engine.is_editor_hint(): 
+		onTurnIconNode.hide()
+		
+	_refresh_target_icon_position()
 
 func _create_target_icon() -> void:
 	if is3DScene:
@@ -149,7 +153,7 @@ func _create_target_icon() -> void:
 	_refresh_target_icon_position()
 
 func _refresh_target_icon_position() -> void:
-	if not targetIconNode or not get_global_position(): return
+	if not targetIconNode: return
 	
 	if is3DScene: 
 		targetIconNode.global_position = get_global_position() +  targetIconOffSet
@@ -157,11 +161,12 @@ func _refresh_target_icon_position() -> void:
 		targetIconNode.global_position = get_global_position() + Vector2(targetIconOffSet.x, targetIconOffSet.y)
 
 func _refresh_on_turn_icon_position()-> void:
-	if not onTurnIconNode or not get_global_position(): return
-	
+	if not onTurnIconNode: return
 	if is3DScene: 
+		
 		onTurnIconNode.global_position = get_global_position() + onTurnIconOffSet
 	else:
+		
 		onTurnIconNode.global_position = get_global_position() + Vector2(onTurnIconOffSet.x, onTurnIconOffSet.y)
 
 func _set_late_signals() -> void:
