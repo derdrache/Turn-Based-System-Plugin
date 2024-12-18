@@ -28,7 +28,6 @@ var characterTurnOrder: Array[TurnBasedAgent]
 var targetOffSet := Vector2(-50, 10)
 var onTurnNodeOffSet := Vector2(70, 10)
 var currentTargets: Array[TurnBasedAgent]
-var isCurrentTargetAlly: bool
 
 func _ready() -> void:
 	_setup_on_turn_icon()
@@ -63,21 +62,20 @@ func _setup_late_signals() -> void:
 		character.player_turn_started.connect(func (): show())
 		character.player_action_started.connect(func (_targets, _command): hide())
 
-func _on_target_changed(targets: Array[TurnBasedAgent], isTargetAlly: bool)-> void:
-	_set_target_nodes(targets, isTargetAlly)
+func _on_target_changed(targets: Array[TurnBasedAgent])-> void:
+	_set_target_nodes(targets)
 
 func _on_command_undo() -> void:
 	currentTargets = []
 	
 	remove_all_target_nodes()
 
-
-func _set_target_nodes(targets: Array[TurnBasedAgent], isTargetAlly: bool) -> void:
+func _set_target_nodes(targets: Array[TurnBasedAgent]) -> void:
 	if targets.is_empty() or not showTargets : return
 	
 	currentTargets = targets
-	isCurrentTargetAlly = isTargetAlly
-
+	var isTargetAlly = targets[0] in get_tree().get_nodes_in_group("turnBasedPlayer")
+	
 	remove_all_target_nodes()
 
 	if targets.size() == 1: 
@@ -101,7 +99,7 @@ func _create_target_node(target, isTargetAlly) -> void:
 	
 	target_icons_container.add_child(targetNode)
 	targetNode.global_position = character_container.get_children()[index].global_position + targetOffSet
-	
+
 	if targetNode.global_position.y < scroll_container.global_position.y: targetNode.hide()
 
 func remove_all_target_nodes() -> void:
@@ -152,7 +150,7 @@ func _scroll_bar(event) -> void:
 func _change_icons_position() -> void:
 	await get_tree().create_timer(0.01).timeout
 	
-	if currentTargets: _set_target_nodes(currentTargets, isCurrentTargetAlly)
+	if currentTargets: _set_target_nodes(currentTargets)
 	
 	on_turn_icon_texture_rect.global_position.y = character_container.get_children()[0].global_position.y + onTurnNodeOffSet.y
 	if on_turn_icon_texture_rect.global_position.y < scroll_container.global_position.y: on_turn_icon_texture_rect.hide()
