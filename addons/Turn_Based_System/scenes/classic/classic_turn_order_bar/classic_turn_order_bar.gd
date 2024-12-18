@@ -19,8 +19,10 @@ class_name TurnOrderBar
 @onready var on_turn_icon_texture_rect: TextureRect = $onTurnIconTextureRect
 @onready var scroll_container: ScrollContainer = %ScrollContainer
 
-const CHARACTER_DISPLAY = preload("res://addons/Turn_Based_System/scenes/classic/classic_turn_order_bar/character_display.tscn")
-const ON_TURN_ICON = preload("res://addons/Turn_Based_System/scenes/classic/classic_turn_order_bar/on_turn_icon.tscn")
+const CHARACTER_DISPLAY = preload(
+	"res://addons/Turn_Based_System/scenes/classic/classic_turn_order_bar/character_display.tscn")
+const ON_TURN_ICON = preload(
+	"res://addons/Turn_Based_System/scenes/classic/classic_turn_order_bar/on_turn_icon.tscn")
 
 var characterTurnOrder: Array[TurnBasedAgent]
 var targetOffSet := Vector2(-50, 10)
