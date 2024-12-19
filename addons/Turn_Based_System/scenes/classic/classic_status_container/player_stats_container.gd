@@ -4,12 +4,19 @@ extends PanelContainer
 @onready var hp_label_2: Label = %HPLabel2
 @onready var mp_label_4: Label = %MPLabel4
 @onready var over_drive_bar: ProgressBar = $MarginContainer/VBoxContainer/overDriveBar
+@onready var mp_box: HBoxContainer = %MPBox
+@onready var hp_max_box: HBoxContainer = %HPMaxBox
+@onready var max_hp_2: Label = %maxHP2
 
 var characterResource: Resource
 var statsReference: Dictionary = {}
 var styleBoxNormal: StyleBox
 var styleBoxFocus: StyleBox 
 var oldCharacterResource: Resource
+var styleBoxHealFocus := preload(
+	"res://addons/Turn_Based_System/scenes/classic/classic_status_container/style_box_player_stats_container_heal.tres"
+	)
+var healMode := false
 
 func set_player_stats(newCharacterResource: Resource) -> void:
 	characterResource = newCharacterResource
@@ -18,6 +25,7 @@ func set_player_stats(newCharacterResource: Resource) -> void:
 	statsReference = {
 		"name": statusContainer.name_reference,
 		"health": statusContainer.health_reference,
+		"maxHealth": statusContainer.max_health_reference,
 		"mana": statusContainer.mana_reference,
 		"overDrive": statusContainer.over_drive_reference
 	}
@@ -36,6 +44,11 @@ func set_player_stats(newCharacterResource: Resource) -> void:
 		mp_label_4.text = str(characterResource[statsReference.mana])
 	else:
 		push_error(statsReference.mana + " doesn't found in characterResource")
+		
+	if statsReference.maxHealth in characterResource:
+		max_hp_2.text = str(characterResource[statsReference.maxHealth])
+	else:
+		push_error(statsReference.maxHealth + " doesn't found in characterResource")
 		
 	if statsReference.overDrive in characterResource:
 		over_drive_bar.value = characterResource[statsReference.overDrive]
@@ -73,7 +86,10 @@ func _check_refreshed(newResource: Resource, oldResource) -> bool:
 	return false
 	
 func activate_focus() -> void:
-	add_theme_stylebox_override("panel", styleBoxFocus)
+	if healMode:
+		add_theme_stylebox_override("panel", styleBoxHealFocus)
+	else:
+		add_theme_stylebox_override("panel", styleBoxFocus)
 	
 func deactivate_focus() -> void:
 	add_theme_stylebox_override("panel", styleBoxNormal)
@@ -93,8 +109,18 @@ func _refresh_animation(node: Control, newValue: int) -> void:
 		var oldValue = node.value
 		tween.tween_method(tween_progress_bar.bind(node), oldValue, newValue, 0.3)
 		
-func tween_label(value: int, labelNode: Label):
+func tween_label(value: int, labelNode: Label) -> void:
 	labelNode.text = str(value)
 
-func tween_progress_bar(value: int, progressBarNode: ProgressBar):
+func tween_progress_bar(value: int, progressBarNode: ProgressBar) -> void:
 	progressBarNode.value = value
+
+func set_heal_modus(boolean: bool) -> void:
+	healMode = boolean
+	
+	if healMode:
+		mp_box.hide()
+		hp_max_box.show()
+	else:
+		mp_box.show()
+		hp_max_box.hide()

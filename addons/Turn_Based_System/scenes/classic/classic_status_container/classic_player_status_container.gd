@@ -9,6 +9,8 @@ extends Control
 @export var mana_reference := "currentMana"
 ## variable name in TurnBasedAgent characterResource for over drive
 @export var over_drive_reference := "overDriveValue"
+## variable name in TurnBasedAgent characterResource for max health
+@export var max_health_reference := "maxHealth"
 
 @export_group("Customization")
 @export var focusStyleBox :StyleBox = preload(
@@ -20,6 +22,7 @@ extends Control
 @onready var player_container: VBoxContainer = $MarginContainer/PlayerContainer
 
 var playerList: Array
+var currentPlayer: TurnBasedAgent
 
 func _ready() -> void:
 	add_to_group("turnBasedStatusContainer")
@@ -31,13 +34,17 @@ func _ready() -> void:
 func _setup() -> void:
 	_reset_player_container()
 	
-	_setup_player_stats_container()
+	_setup_normal_player_stats_container()
+	
+	_set_signals()
 	
 func _reset_player_container() -> void:
 	for node in player_container.get_children():
 		node.queue_free()
 
 func _on_player_turn_started(player: TurnBasedAgent) -> void:
+	currentPlayer = player
+	
 	_deactivate_all_player_focus()
 	_activate_player(player)
 
@@ -45,16 +52,13 @@ func _deactivate_all_player_focus() -> void:
 	for node in player_container.get_children():
 		node.deactivate_focus()
 
-func _activate_player(player: TurnBasedAgent) -> void:
+func _activate_player(player: TurnBasedAgent = currentPlayer) -> void:
 	var index = playerList.find(player)
 	
 	player_container.get_children()[index].activate_focus()
 	
-func _setup_player_stats_container() -> void:
+func _setup_normal_player_stats_container() -> void:
 	for player: TurnBasedAgent in playerList:
-		player.player_turn_started.connect(_on_player_turn_started.bind(player))
-		player.player_action_started.connect(func(_targets, _command): _deactivate_all_player_focus())
-		
 		var playerStatsContainer = playerStatsContainer.instantiate()
 		
 		playerStatsContainer.styleBoxFocus = focusStyleBox
@@ -62,3 +66,38 @@ func _setup_player_stats_container() -> void:
 		player_container.add_child(playerStatsContainer)
 		
 		playerStatsContainer.set_player_stats(player.characterResource)
+
+func _set_signals() -> void:
+	for player: TurnBasedAgent in playerList:
+		player.player_turn_started.connect(_on_player_turn_started.bind(player))
+		player.target_changed.connect(_on_target_changed)
+		player.player_action_started.connect(_on_player_action_started)
+		player.undo_command_selected.connect(_on_undo_command)
+
+func _on_target_changed(targets: Array[TurnBasedAgent]) -> void:
+	if not targets[0] in get_tree().get_nodes_in_group("turnBasedPlayer"): return
+	
+	for node in player_container.get_children():
+		node.set_heal_modus(true)
+		
+	_deactivate_all_player_focus()
+	
+	for target in targets:
+		var index = playerList.find(target)
+		player_container.get_children()[index].activate_focus()
+		
+func _on_player_action_started(_targets, _command) -> void:
+	_deactivate_all_player_focus()
+	
+	_deactivate_heal_modus()
+
+func _on_undo_command() -> void:
+	_deactivate_heal_modus()
+
+func _deactivate_heal_modus() -> void:
+	for node in player_container.get_children():
+		node.set_heal_modus(false)
+
+	_activate_player()	
+	
+	
