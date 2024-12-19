@@ -13,7 +13,7 @@ func _ready() -> void:
 		turn_based_agent.enemy_turn_started.connect(_on_enemy_turn_started)
 		turn_based_agent.characterResource = characterResource
 		turn_based_agent.turnOrderValueName = "speed"
-	
+
 func _on_character_action(targets ,command):
 	# here you put every interaction between the character and his targets
 	# like:
@@ -54,7 +54,7 @@ func _animation_example(target):
 	var startPosition = global_position
 	var targetPosition
 	
-	if turn_based_agent.get_targets():
+	if target:
 		targetPosition = target.get_global_position()
 	else: 
 		var randomTarget = get_tree().get_nodes_in_group("turnBasedPlayer").pick_random()
@@ -65,4 +65,3 @@ func _animation_example(target):
 	tween.tween_property(self, "global_position", startPosition, 0.5)
 	
 	await tween.finished
-	

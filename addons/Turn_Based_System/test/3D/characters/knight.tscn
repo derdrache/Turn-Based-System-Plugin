@@ -96,7 +96,7 @@ autoplay = "Idle"
 
 [node name="TurnBasedAgent" type="Node" parent="."]
 script = ExtResource("3_ncwu0")
-onTurnIconOffSet = Vector3(0, 3, 0)
+onTurnIconOffSet = Vector3(0, 3.145, 0)
 targetIconOffSet = Vector3(1.5, 2, 0)
 
 [node name="Camera3D" type="Camera3D" parent="."]
