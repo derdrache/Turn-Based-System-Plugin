@@ -325,7 +325,7 @@ func _validate_property(property: Dictionary):
 		property.usage = PROPERTY_USAGE_NO_EDITOR 
 
 func _editor_command_menu_refresh() -> void:
-	if not Engine.is_editor_hint(): return
+	if not Engine.is_editor_hint() or not main_command_container: return
 	
 	_reset_main_commands()
 	
