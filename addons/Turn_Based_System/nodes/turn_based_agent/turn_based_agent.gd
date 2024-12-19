@@ -18,6 +18,7 @@ signal undo_command_selected()
 ## Connect to your character to use the selected Command. [br]
 ## After that use the command_done function the move on
 signal player_action_started(targets: Array[TurnBasedAgent], command:Resource)
+signal targeting_started(targets: Array[TurnBasedAgent], command:Resource)
 signal target_changed(targets : Array[TurnBasedAgent])
 signal target_pointed(targets: Array[TurnBasedAgent])
 
@@ -203,7 +204,7 @@ func _on_command_selected(command: CommandResource) -> void:
 	_check_and_select_multi_target(mainTarget, possibleTargets)
 
 	target_pointed.emit()
-	target_changed.emit(allSelectedTargets)
+	targeting_started.emit(allSelectedTargets, command)
 
 func set_active(boolean: bool) -> void:
 	isActive = boolean
