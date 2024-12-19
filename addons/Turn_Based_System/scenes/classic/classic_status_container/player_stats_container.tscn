@@ -93,6 +93,7 @@ layout_mode = 2
 theme_override_constants/separation = 20
 
 [node name="maxHP1" type="Label" parent="MarginContainer/VBoxContainer/hBoxContainer/HPMaxBox"]
+custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.847474, 0.847474, 0.847474, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -103,7 +104,7 @@ horizontal_alignment = 2
 
 [node name="maxHP2" type="Label" parent="MarginContainer/VBoxContainer/hBoxContainer/HPMaxBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(57, 0)
+custom_minimum_size = Vector2(71, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.847474, 0.847474, 0.847474, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
