@@ -73,6 +73,7 @@ func _set_signals() -> void:
 		player.targeting_started.connect(_on_targeting_started)
 		player.player_action_started.connect(_on_player_action_started)
 		player.undo_command_selected.connect(_on_undo_command)
+		player.target_changed.connect(_on_target_change)
 
 
 func _on_targeting_started(targets: Array[TurnBasedAgent], command: Resource) -> void:
@@ -80,25 +81,29 @@ func _on_targeting_started(targets: Array[TurnBasedAgent], command: Resource) ->
 	
 	for node in player_container.get_children():
 		node.set_heal_modus(true)
-		
-	_deactivate_all_player_focus()
 	
-	for target in targets:
-		var index = playerList.find(target)
-		player_container.get_children()[index].activate_focus()
+	_on_target_change(targets)
 		
 func _on_player_action_started(_targets, _command) -> void:
 	_deactivate_all_player_focus()
-	
+
 	_deactivate_heal_modus()
 
 func _on_undo_command() -> void:
+	_deactivate_all_player_focus()
 	_deactivate_heal_modus()
+	_activate_player()	
 
 func _deactivate_heal_modus() -> void:
 	for node in player_container.get_children():
 		node.set_heal_modus(false)
 
-	_activate_player()	
 	
+
+func _on_target_change(targets):
+	_deactivate_all_player_focus()
+	
+	for target in targets:
+		var index = playerList.find(target)
+		player_container.get_children()[index].activate_focus()
 	
