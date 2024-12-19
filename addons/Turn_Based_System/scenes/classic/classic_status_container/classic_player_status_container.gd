@@ -70,12 +70,13 @@ func _setup_normal_player_stats_container() -> void:
 func _set_signals() -> void:
 	for player: TurnBasedAgent in playerList:
 		player.player_turn_started.connect(_on_player_turn_started.bind(player))
-		player.target_changed.connect(_on_target_changed)
+		player.targeting_started.connect(_on_targeting_started)
 		player.player_action_started.connect(_on_player_action_started)
 		player.undo_command_selected.connect(_on_undo_command)
 
-func _on_target_changed(targets: Array[TurnBasedAgent]) -> void:
-	if not targets[0] in get_tree().get_nodes_in_group("turnBasedPlayer"): return
+
+func _on_targeting_started(targets: Array[TurnBasedAgent], command: Resource) -> void:
+	if not command.commandType == command.Command_Type.HEAL: return
 	
 	for node in player_container.get_children():
 		node.set_heal_modus(true)
