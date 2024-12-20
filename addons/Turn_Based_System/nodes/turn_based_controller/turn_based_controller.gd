@@ -105,6 +105,11 @@ func _refresh_turn_order():
 		_add_time_to_turn_order()
 		_reduce_time_on_active_char()
 		_refresh_dynamic_turn_order()
+		
+		while turnOrderList[0].agent.isDisabled:
+			_add_time_to_turn_order()
+			_reduce_time_on_active_char()
+			_refresh_dynamic_turn_order()
 	else: 
 		_remove_active_character()
 	
@@ -146,18 +151,22 @@ func _remove_active_character() -> void:
 	if not activeCharacter: return
 	
 	turnOrderList.pop_front()
+	
+	while turnOrderList[0].agent.isDisabled:
+		turnOrderList.pop_front()
+		
 
 func _refresh_turn_order_bar():
 	var barTurnOrder: Array[TurnBasedAgent] = []
 	
 	for entry: TimeEntry in turnOrderList:
+		if entry.agent.isDisabled: continue
 		barTurnOrder.append(entry.agent)
 
 	turn_order_changed.emit(barTurnOrder)		
 	
 func _on_turn_done() -> void:
 	activeCharacter.set_active(false)
-	
 	
 	_refresh_turn_order()
 	

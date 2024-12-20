@@ -22,6 +22,9 @@ signal targeting_started(targets: Array[TurnBasedAgent], command:Resource)
 signal target_changed(targets : Array[TurnBasedAgent])
 signal target_pointed(targets: Array[TurnBasedAgent])
 
+## if true, then this character is ignored everywhere.
+## e.g. dead
+@export var isDisabled := false
 ## Important setting
 @export var character_type: Character_Type:
 	set(value):
