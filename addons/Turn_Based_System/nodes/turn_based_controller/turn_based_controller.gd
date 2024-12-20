@@ -116,6 +116,10 @@ func _refresh_turn_order():
 	if turnOrderList.is_empty():
 		round_finished.emit()
 		_set_turn_order()
+	
+	if turnOrderType != Turn_Order_Type.DYNAMIC:
+		while turnOrderList[0].agent.isDisabled:
+			turnOrderList.pop_front()
 
 func _refresh_dynamic_turn_order() -> void:
 	var players = get_tree().get_nodes_in_group("turnBasedPlayer")
@@ -151,9 +155,6 @@ func _remove_active_character() -> void:
 	if not activeCharacter: return
 	
 	turnOrderList.pop_front()
-	
-	while turnOrderList[0].agent.isDisabled:
-		turnOrderList.pop_front()
 		
 
 func _refresh_turn_order_bar():
