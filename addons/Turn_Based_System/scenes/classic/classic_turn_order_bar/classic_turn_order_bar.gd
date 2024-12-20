@@ -50,6 +50,7 @@ func _setup_signals() -> void:
 	var turnBasedController: TurnBasedController = get_tree().get_first_node_in_group("turnBasedController")
 	if turnBasedController:
 		turnBasedController.turn_order_changed.connect(_on_turn_order_changed)
+		turnBasedController.new_agent_entered.connect(_connect_agent_signals)
 		
 func _setup_late_signals() -> void:
 	await get_tree().current_scene.ready
@@ -57,10 +58,13 @@ func _setup_late_signals() -> void:
 	var allCharacters = get_tree().get_nodes_in_group("turnBasedAgents")
 	
 	for character: TurnBasedAgent in allCharacters:
-		character.target_changed.connect(_on_target_changed)
-		character.undo_command_selected.connect(_on_command_undo)
-		character.player_turn_started.connect(func (): show())
-		character.player_action_started.connect(func (_targets, _command): hide())
+		_connect_agent_signals(character)
+
+func _connect_agent_signals(agent: TurnBasedAgent) -> void:
+	agent.target_changed.connect(_on_target_changed)
+	agent.undo_command_selected.connect(_on_command_undo)
+	agent.player_turn_started.connect(func (): show())
+	agent.player_action_started.connect(func (_targets, _command): hide())
 
 func _on_target_changed(targets: Array[TurnBasedAgent])-> void:
 	_set_target_nodes(targets)

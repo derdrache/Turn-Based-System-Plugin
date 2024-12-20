@@ -192,9 +192,15 @@ func _on_run_button_pressed() -> void:
 func _set_late_signals() -> void:
 	await get_tree().current_scene.ready
 	
-	for character: TurnBasedAgent in get_tree().get_nodes_in_group("turnBasedPlayer"):
-		character.player_turn_started.connect(_on_player_turn.bind(character))
-		character.undo_command_selected.connect(_on_player_turn.bind(character))
+	for agent: TurnBasedAgent in get_tree().get_nodes_in_group("turnBasedPlayer"):
+		_connect_agent_signals(agent)
+		
+	var turnBasedController = get_tree().get_first_node_in_group("turnBasedController")
+	turnBasedController.new_agent_entered.connect(_connect_agent_signals)
+
+func _connect_agent_signals(agent: TurnBasedAgent) -> void:
+	agent.player_turn_started.connect(_on_player_turn.bind(agent))
+	agent.undo_command_selected.connect(_on_player_turn.bind(agent))
 
 func _on_player_turn(character: TurnBasedAgent) -> void:
 	currentCharacter = character
@@ -253,7 +259,7 @@ func _refresh_main_command_menu() -> void:
 				push_error("TurnBasedAgent from " + str(currentCharacter.get_parent()) + " doesn't have set: character.character_resource ")
 			else:
 				push_warning("MainCommandList: " + commandName + " doenst have a reference in character resource")
-		
+			
 			if index == 0 && menuIndex == 1:
 				commandResource = DEFAULT_COMMAND_RESOURCE.new()
 				commandResource.name = "Attack"
@@ -268,6 +274,7 @@ func _refresh_main_command_menu() -> void:
 		main_command_container.add_child(newMainCommandButton)
 		
 		if isSingleCommand:
+			
 			newMainCommandButton.pressed.connect(_on_command_pressed.bind(commandResource, newMainCommandButton))
 		else:
 			newMainCommandButton.pressed.connect(_on_multi_command_button_pressed.bind(commandResource))
