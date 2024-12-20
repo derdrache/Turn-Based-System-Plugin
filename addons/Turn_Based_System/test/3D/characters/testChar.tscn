@@ -15,6 +15,7 @@ characterResource = ExtResource("2_xbmu3")
 onTurnIconOffSet = Vector3(0, 1.795, 0)
 targetIconOffSet = Vector3(1.15, 0, 0)
 turnOrderBarIconTexture = ExtResource("4_xrfxs")
+isDisabled = null
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_nq2jk")
