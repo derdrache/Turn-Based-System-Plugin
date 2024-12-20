@@ -171,7 +171,8 @@ func _refresh_on_turn_icon_position()-> void:
 		onTurnIconNode.global_position = get_global_position() + Vector2(onTurnIconOffSet.x, onTurnIconOffSet.y)
 
 func _set_late_signals() -> void:
-	await get_tree().current_scene.ready
+	if not get_tree().current_scene.is_node_ready():
+		await get_tree().current_scene.ready
 	
 	var commandMenu = get_tree().get_first_node_in_group("turnBasedCommandMenu")
 	if commandMenu:
@@ -179,9 +180,9 @@ func _set_late_signals() -> void:
 
 func _on_command_selected(command: CommandResource) -> void:
 	var turnBasedController: TurnBasedController = get_tree().get_first_node_in_group("turnBasedController")
-
-	if not isActive or turnBasedController.useOwnTargetingSystem: return
 	
+	if not isActive or turnBasedController.useOwnTargetingSystem: return
+
 	currentCommand = command
 
 	match command.targetType:
@@ -205,21 +206,6 @@ func _on_command_selected(command: CommandResource) -> void:
 
 	target_pointed.emit()
 	targeting_started.emit(allSelectedTargets, command)
-
-func set_active(boolean: bool) -> void:
-	isActive = boolean
-
-	if isActive: onTurnIconNode.show()
-	else: onTurnIconNode.hide()
-	
-	if character_type == Character_Type.PLAYER and isActive: 
-		player_turn_started.emit()
-	elif character_type == Character_Type.ENEMY and isActive: 
-		onTurnIconNode.hide()
-		enemy_turn_started.emit()
-	
-func set_target() -> void:
-	targetIconNode.show()
 
 func _deselect_all_targets() -> void:
 	var allTargets = get_tree().get_nodes_in_group("turnBasedEnemy") + get_tree().get_nodes_in_group("turnBasedPlayer")
@@ -295,12 +281,14 @@ func _undo_command() -> void:
 	_deselect_all_targets()
 	allSelectedTargets = []
 	undo_command_selected.emit()
-
-func command_done() -> void:
-	set_active(false)
 	
-	turn_finished.emit()
 
+# public functions
+func remove_from_groups():
+	remove_from_group("turnBasedAgents")
+	remove_from_group("turnBasedPlayer")
+	remove_from_group("turnBasedEnemy")
+	
 func get_global_position():
 	if not get_parent(): return
 	
@@ -313,6 +301,29 @@ func get_turn_order_value() -> float:
 	
 	return characterResource[turnOrderValueName]
 
+func swap_agent(swapAgent: TurnBasedAgent, turnOrderTakeOver = false):
+	var turnBasedController: TurnBasedController = get_tree().get_first_node_in_group("turnBasedController")
+	turnBasedController.swap_agents(self, swapAgent, turnOrderTakeOver)
+
+func command_done() -> void:
+	turn_finished.emit()
+
+func set_target() -> void:
+	targetIconNode.show()
+
+func set_active(boolean: bool) -> void:
+	isActive = boolean
+
+	if isActive: onTurnIconNode.show()
+	else: onTurnIconNode.hide()
+	
+	if character_type == Character_Type.PLAYER and isActive:
+		player_turn_started.emit()
+	elif character_type == Character_Type.ENEMY and isActive: 
+		onTurnIconNode.hide()
+		enemy_turn_started.emit()
+
+# Editor changes
 func _validate_property(property: Dictionary):
 	var hideList = []
 	

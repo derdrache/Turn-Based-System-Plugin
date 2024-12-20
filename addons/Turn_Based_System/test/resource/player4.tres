@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="TestCharacterResource" load_steps=4 format=3 uid="uid://de0m6nq58t6o4"]
+
+[ext_resource type="Resource" uid="uid://dkcvrtj60prfi" path="res://addons/Turn_Based_System/test/skills/normal_attack.tres" id="1_vkryu"]
+[ext_resource type="Script" path="res://addons/Turn_Based_System/test/resource/character_resource.gd" id="2_ab3u3"]
+[ext_resource type="Resource" uid="uid://bu4pb7s5kojnt" path="res://addons/Turn_Based_System/test/skills/haste.tres" id="3_0k4n1"]
+
+[resource]
+script = ExtResource("2_ab3u3")
+name = "Dekar"
+maxHealth = 100
+currentHealth = 100
+maxMana = 50
+currentMana = 50
+speed = 80
+overDriveValue = 0
+basicAttack = ExtResource("1_vkryu")
+skills = Array[Resource]([ExtResource("3_0k4n1")])
+items = Array[Resource]([])
