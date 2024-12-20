@@ -201,7 +201,7 @@ func _add_time_to_turn_order() -> void:
 func _sort_turn_order_list_by_time():
 	turnOrderList.sort_custom(func(a, b): return a.currentTime > b.currentTime)	
 
-func swap_agents(oldAgent: TurnBasedAgent, newAgent, turnOrderTakeOver = true):
+func swap_agents(oldAgent: TurnBasedAgent, newAgent: TurnBasedAgent, turnOrderTakeOver = true):
 	oldAgent.remove_from_groups()
 	
 	new_agent_entered.emit(newAgent)
@@ -209,6 +209,27 @@ func swap_agents(oldAgent: TurnBasedAgent, newAgent, turnOrderTakeOver = true):
 	var statusContainer = get_tree().get_first_node_in_group("turnBasedStatusContainer")
 	if statusContainer: statusContainer.swap_character(oldAgent, newAgent)
 	
+	match turnOrderType:
+		Turn_Order_Type.CLASSIC: _swap_agents_classic_mode(oldAgent, newAgent, turnOrderTakeOver)
+		Turn_Order_Type.VALUE_BASED: _swap_agents_classic_mode(oldAgent, newAgent, turnOrderTakeOver)
+		Turn_Order_Type.DYNAMIC: _swap_agents_dynamic_mode(oldAgent, newAgent, turnOrderTakeOver)
+
+func _swap_agents_classic_mode(oldAgent: TurnBasedAgent, newAgent: TurnBasedAgent, turnOrderTakeOver):
+	if turnOrderTakeOver:
+		oldAgent.set_active(false)
+		
+		for i in turnOrderList.size():
+			if turnOrderList[i].agent == oldAgent:
+				turnOrderList[i].agent = newAgent
+				
+		activeCharacter = newAgent
+		activeCharacter.set_active(true)
+		
+		_refresh_turn_order_bar()
+	else:
+		_on_turn_done()
+
+func _swap_agents_dynamic_mode(oldAgent: TurnBasedAgent, newAgent: TurnBasedAgent, turnOrderTakeOver):
 	if turnOrderTakeOver:
 		oldAgent.set_active(false)
 	
