@@ -99,6 +99,14 @@ func _set_dynamic_turn_order(characterList) -> void:
 func _set_next_active_character() -> void:
 	activeCharacter = turnOrderList[0].agent
 	activeCharacter.set_active(true)
+	
+	if turnOrderType == Turn_Order_Type.DYNAMIC: 
+		reduce_time_on_same_as_active()
+
+func reduce_time_on_same_as_active():
+		for entry in dynamicTurnOrderBaseList:
+			if entry.agent != activeCharacter and entry.currentTime == turnOrderList[0].currentTime:
+				entry.currentTime -= 0.01
 
 func _refresh_turn_order():
 	if turnOrderType == Turn_Order_Type.DYNAMIC: 
@@ -232,11 +240,15 @@ func _swap_agents_classic_mode(oldAgent: TurnBasedAgent, newAgent: TurnBasedAgen
 func _swap_agents_dynamic_mode(oldAgent: TurnBasedAgent, newAgent: TurnBasedAgent, turnOrderTakeOver):
 	if turnOrderTakeOver:
 		oldAgent.set_active(false)
-	
+		
+		
 		for i in dynamicTurnOrderBaseList.size():
+			print(dynamicTurnOrderBaseList[i].agent)
+			print(dynamicTurnOrderBaseList[i].currentTime)
 			if dynamicTurnOrderBaseList[i].agent == oldAgent:
 				dynamicTurnOrderBaseList[i].agent = newAgent
-		
+			print(dynamicTurnOrderBaseList[i].agent)
+			print(dynamicTurnOrderBaseList[i].currentTime)
 		activeCharacter = newAgent
 		activeCharacter.set_active(true)
 		
