@@ -240,8 +240,6 @@ func _refresh_main_command_menu() -> void:
 		if button == null: continue
 		
 		var newButton = button.instantiate()
-		newButton.buttonIcon = menuData["icons"][menuData["names"].size() - 1 + menuData["ownButtons"].find(button)]
-		
 		main_command_container.add_child(newButton)
 
 	for commandName: String in menuData["names"]:
