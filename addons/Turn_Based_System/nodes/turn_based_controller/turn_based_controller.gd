@@ -3,6 +3,8 @@ class_name TurnBasedController extends Node
 ## This Node controlls the logic for turn based combat
 ## It has to stay above your TurnOrderBar
 
+## Emit when no enemy or no player left and when all player disabled
+signal battle_finished()
 ## Emit when every character has made his turn [br]
 ## Doesn't fire if endlessOrder is true
 signal round_finished()
@@ -175,6 +177,8 @@ func _refresh_turn_order_bar():
 	turn_order_changed.emit(barTurnOrder)		
 	
 func _on_turn_done() -> void:
+	_check_battle_done()
+	
 	activeCharacter.set_active(false)
 	
 	_refresh_turn_order()
@@ -182,7 +186,19 @@ func _on_turn_done() -> void:
 	_set_next_active_character()
 	
 	_refresh_turn_order_bar()
+
+func _check_battle_done():
+	var allEnemies = get_tree().get_nodes_in_group("turnBasedEnemy")
+	var allPlayer = get_tree().get_nodes_in_group("turnBasedPlayer")
 	
+	var noEnemies = allEnemies.size() == 0
+	var noPlayers = allPlayer.size() == 0
+	var allPlayerDisabled = allPlayer.filter(
+		func(player: TurnBasedAgent): return not player.isDisabled).size() == 0
+	
+	if noEnemies or allPlayerDisabled or noPlayers: 
+		battle_finished.emit()
+
 func _get_dynamic_speed_value(characterTurnValue: float) -> float:
 	var baseSpeed : float = get_tree().get_nodes_in_group("turnBasedPlayer")[0].get_turn_order_value()
 	var speedFactor :float = characterTurnValue * 100.0 / baseSpeed
@@ -241,14 +257,9 @@ func _swap_agents_dynamic_mode(oldAgent: TurnBasedAgent, newAgent: TurnBasedAgen
 	if turnOrderTakeOver:
 		oldAgent.set_active(false)
 		
-		
 		for i in dynamicTurnOrderBaseList.size():
-			print(dynamicTurnOrderBaseList[i].agent)
-			print(dynamicTurnOrderBaseList[i].currentTime)
 			if dynamicTurnOrderBaseList[i].agent == oldAgent:
 				dynamicTurnOrderBaseList[i].agent = newAgent
-			print(dynamicTurnOrderBaseList[i].agent)
-			print(dynamicTurnOrderBaseList[i].currentTime)
 		activeCharacter = newAgent
 		activeCharacter.set_active(true)
 		
