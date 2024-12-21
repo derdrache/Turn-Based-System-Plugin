@@ -61,6 +61,7 @@ func _on_character_action(targets ,command):
 
 func _on_enemy_turn_started():
 	var allPlayer = get_tree().get_nodes_in_group("turnBasedPlayer")
+	allPlayer.filter(func(player: TurnBasedAgent): return player.isDisabled)
 	var target = allPlayer.pick_random()
 	
 	await _animation_example(target)
