@@ -96,11 +96,6 @@ func _ready() -> void:
 	
 	if not Engine.is_editor_hint():
 		_set_late_signals()
-		
-func _process(delta: float) -> void:
-	if Engine.is_editor_hint(): return
-	
-	_refresh_on_turn_icon_position()
 
 func _set_group() -> void:
 	add_to_group("turnBasedAgents")
@@ -130,7 +125,7 @@ func _create_on_turn_icon() -> void:
 	if not Engine.is_editor_hint() or character_type == Character_Type.ENEMY: 
 		onTurnIconNode.hide()
 		
-	_refresh_target_icon_position()
+	_refresh_on_turn_icon_position()
 
 func _create_target_icon() -> void:
 	if is3DScene:
@@ -166,6 +161,7 @@ func _refresh_target_icon_position() -> void:
 
 func _refresh_on_turn_icon_position()-> void:
 	if not onTurnIconNode: return
+	
 	if is3DScene: 
 		
 		onTurnIconNode.global_position = get_global_position() + onTurnIconOffSet
