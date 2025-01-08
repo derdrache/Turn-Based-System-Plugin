@@ -106,14 +106,14 @@ func _input(event: InputEvent) -> void:
 			main_command_container.show()
 			main_command_container.get_children()[0].grab_focus()
 		elif event.is_action_pressed("ui_left"):
-			_change_menu_index(-1)
+			change_menu_index(-1)
 		elif event.is_action_pressed("ui_right"):
-			_change_menu_index(1)
+			change_menu_index(1)
 	else:
 		if event.is_action_pressed("ui_cancel"):
 			commandCanceled = true	
 
-func _change_menu_index(changeValue: int):
+func change_menu_index(changeValue: int):
 	var oldValue = menuIndex
 	menuIndex += changeValue
 	
