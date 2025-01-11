@@ -105,7 +105,7 @@ func _set_group() -> void:
 	elif character_type == Character_Type.ENEMY:
 		add_to_group("turnBasedEnemy")
 
-func _create_on_turn_icon() -> void:	
+func _create_on_turn_icon() -> void:
 	if is3DScene:
 		onTurnIconNode = Sprite3D.new()
 		onTurnIconNode.billboard = BaseMaterial3D.BILLBOARD_ENABLED
@@ -211,6 +211,10 @@ func _deselect_all_targets() -> void:
 	
 	for target:TurnBasedAgent in allTargets:
 		target.targetIconNode.hide()	
+
+func _process(delta: float) -> void:
+	_refresh_on_turn_icon_position()
+	_refresh_target_icon_position()
 
 func _input(event: InputEvent) -> void:
 	if not mainTarget or not event is InputEventKey: return
