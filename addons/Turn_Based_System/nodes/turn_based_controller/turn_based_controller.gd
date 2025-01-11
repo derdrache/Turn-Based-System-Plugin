@@ -130,8 +130,9 @@ func _refresh_turn_order():
 			round_finished.emit()
 			_set_turn_order()
 		
-		while turnOrderList[0].agent.isDisabled:
+		if turnOrderList[0].agent.isDisabled:
 			turnOrderList.pop_front()
+			_refresh_turn_order()
 
 func _refresh_dynamic_turn_order_list() -> void:
 	var players = get_tree().get_nodes_in_group("turnBasedPlayer")
