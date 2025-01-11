@@ -191,7 +191,7 @@ func _on_turn_done() -> void:
 func _check_battle_done():
 	await get_tree().create_timer(0.01).timeout
 	
-	var allEnemies = get_tree().get_nodes_in_group("turnBasedEnemy")
+	var allEnemies = get_tree().get_nodes_in_group("turnBasedEnemy").filter(func(character): return not character.isDisabled)
 	var allPlayer = get_tree().get_nodes_in_group("turnBasedPlayer")
 
 	var noEnemies = allEnemies.size() == 0
@@ -199,8 +199,16 @@ func _check_battle_done():
 	var allPlayerDisabled = allPlayer.filter(
 		func(player: TurnBasedAgent): return not player.isDisabled).size() == 0
 	
-	if noEnemies or allPlayerDisabled or noPlayers: 
-		battle_finished.emit()
+	if noEnemies or allPlayerDisabled or noPlayers:
+		_battle_done()
+		
+
+func _battle_done():
+	get_tree().get_first_node_in_group("turnBasedCommandMenu").hide()
+	get_tree().get_first_node_in_group("turnBasedStatusContainer").hide()
+	get_tree().get_first_node_in_group("turnBasedTurnOrderBar").hide()
+
+	battle_finished.emit()
 
 func _get_dynamic_speed_value(characterTurnValue: float) -> float:
 	var baseSpeed : float = get_tree().get_nodes_in_group("turnBasedPlayer")[0].get_turn_order_value()

@@ -173,9 +173,15 @@ func _set_late_signals() -> void:
 	if not get_tree().current_scene.is_node_ready():
 		await get_tree().current_scene.ready
 	
+	var turnBasedController = get_tree().get_first_node_in_group("turnBasedController")
+	turnBasedController.battle_finished.connect(_on_battle_finished)
+	
 	var commandMenu = get_tree().get_first_node_in_group("turnBasedCommandMenu")
 	if commandMenu:
 		commandMenu.command_selected.connect(_on_command_selected)
+
+func _on_battle_finished():
+	onTurnIconNode.hide()
 
 func _on_command_selected(command: CommandResource) -> void:
 	var turnBasedController: TurnBasedController = get_tree().get_first_node_in_group("turnBasedController")
@@ -184,6 +190,18 @@ func _on_command_selected(command: CommandResource) -> void:
 
 	currentCommand = command
 
+	_set_possible_targets(command)
+	
+	mainTarget = possibleTargets[0]
+	mainTarget.set_target()
+	
+	_check_and_select_multi_target(mainTarget, possibleTargets)
+
+	target_pointed.emit()
+	targeting_started.emit(allSelectedTargets, command)
+	target_changed.emit(allSelectedTargets)
+
+func _set_possible_targets(command):
 	match command.targetType:
 		CommandResource.Target_Type.ENEMIES:
 			possibleTargets = get_tree().get_nodes_in_group("turnBasedEnemy")
@@ -194,17 +212,7 @@ func _on_command_selected(command: CommandResource) -> void:
 			isTargetAlly = true
 			possibleTargets = [self]
 	
-	if possibleTargets.size() == 0:
-		push_error("there is no possible target")
-		return
-	
-	mainTarget = possibleTargets[0]
-	mainTarget.set_target()
-	
-	_check_and_select_multi_target(mainTarget, possibleTargets)
-
-	target_pointed.emit()
-	targeting_started.emit(allSelectedTargets, command)
+	possibleTargets = possibleTargets.filter(func(target): return not target.isDisabled)
 
 func _deselect_all_targets() -> void:
 	var allTargets = get_tree().get_nodes_in_group("turnBasedEnemy") + get_tree().get_nodes_in_group("turnBasedPlayer")

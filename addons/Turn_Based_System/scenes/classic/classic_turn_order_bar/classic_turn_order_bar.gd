@@ -30,6 +30,8 @@ var onTurnNodeOffSet := Vector2(70, 10)
 var currentTargets: Array[TurnBasedAgent]
 
 func _ready() -> void:
+	add_to_group("turnBasedTurnOrderBar")
+	
 	_setup_on_turn_icon()
 		
 	_setup_signals()

@@ -104,6 +104,8 @@ func _deactivate_heal_modus() -> void:
 		node.set_heal_modus(false)
 
 func _on_target_change(targets):
+	if not playerList[0] in targets: return
+	
 	_deactivate_all_player_focus()
 	
 	for target in targets:
