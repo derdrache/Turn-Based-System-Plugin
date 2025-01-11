@@ -147,6 +147,8 @@ func _refresh_dynamic_turn_order_list() -> void:
 			_add_dynamic_agent(agent)
 	
 	for entry in dynamicTurnOrderBaseList:
+		if entry.agent == null: continue
+		
 		var speedValue : float = _get_dynamic_speed_value(entry.agent.get_turn_order_value())
 		var currentTime : float = entry.currentTime
 		
@@ -178,18 +180,20 @@ func _refresh_turn_order_bar():
 func _on_turn_done() -> void:
 	activeCharacter.set_active(false)
 	
-	_check_battle_done()
-	
 	_refresh_turn_order()
 	
 	_set_next_active_character()
 	
 	_refresh_turn_order_bar()
+	
+	_check_battle_done()
 
 func _check_battle_done():
+	await get_tree().create_timer(0.01).timeout
+	
 	var allEnemies = get_tree().get_nodes_in_group("turnBasedEnemy")
 	var allPlayer = get_tree().get_nodes_in_group("turnBasedPlayer")
-	
+
 	var noEnemies = allEnemies.size() == 0
 	var noPlayers = allPlayer.size() == 0
 	var allPlayerDisabled = allPlayer.filter(
