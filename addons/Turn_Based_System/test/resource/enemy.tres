@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://addons/Turn_Based_System/test/resource/character_resource.gd" id="2_emu1w"]
 
 [resource]
+resource_local_to_scene = true
 script = ExtResource("2_emu1w")
 name = "Name"
 maxHealth = 100
@@ -11,6 +12,7 @@ currentHealth = 100
 maxMana = 50
 currentMana = 50
 speed = 50
+overDriveValue = 0
 basicAttack = ExtResource("1_53dqm")
 skills = Array[Resource]([])
 items = Array[Resource]([])

@@ -53,7 +53,7 @@ func _on_character_action(targets ,command):
 		knightNode.turn_based_agent.turnOrderBarIconTexture = AGENT
 	else:
 		for target: TurnBasedAgent in targets:
-			target.characterResource.take_damage(10)
+			target.get_parent().take_damage(50)
 	
 	characterResource.overDriveValue += 5
 	
@@ -85,3 +85,9 @@ func _animation_example(target):
 	tween.tween_property(self, "global_position", startPosition, 0.5)
 	
 	await tween.finished
+
+func take_damage(damage):
+	characterResource.currentHealth -= damage
+	
+	if characterResource.currentHealth <= 0:
+		queue_free()
