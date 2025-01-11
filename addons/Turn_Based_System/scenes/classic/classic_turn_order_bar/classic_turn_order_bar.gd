@@ -122,6 +122,7 @@ func _refresh_bar() -> void:
 	_clear_data()
 	
 	for character: TurnBasedAgent in characterTurnOrder:
+		if character == null: continue
 		var characterDisplayNode := CHARACTER_DISPLAY.instantiate()
 		characterDisplayNode.icon = character.turnOrderBarIconTexture
 		
