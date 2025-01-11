@@ -1,8 +1,6 @@
 # Turn-Based-System-Plugin
 A flexible Turn Based System for Godot version 4.x
 
-⚠️ Version 1.0 is still in progress (planned for the end of the year) ⚠️
-
 <img src="documentation/images/full_system_3D.png" width="400"/>  <img src="documentation/images/full_system_2D.png" width="387"/>
 
 
