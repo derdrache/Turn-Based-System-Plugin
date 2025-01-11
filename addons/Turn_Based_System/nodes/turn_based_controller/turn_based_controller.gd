@@ -36,6 +36,8 @@ var activeCharacter: TurnBasedAgent
 func _ready() -> void:
 	add_to_group("turnBasedController")
 	
+	if Engine.is_editor_hint(): return
+	
 	_setup()
 
 func _setup():
@@ -98,7 +100,7 @@ func _set_dynamic_turn_order(characterList) -> void:
 	
 	_refresh_dynamic_turn_order_list()
 
-func _set_next_active_character() -> void:
+func _set_next_active_character() -> void:	
 	activeCharacter = turnOrderList[0].agent
 	activeCharacter.set_active(true)
 	
