@@ -297,6 +297,12 @@ func _undo_command() -> void:
 	
 
 # public functions
+func remove_agent() -> void:
+	isDisabled = true
+	
+	var turnBasedController = get_tree().get_first_node_in_group("turnBasedController")
+	turnBasedController.remove_agent(self)
+
 func remove_from_groups():
 	remove_from_group("turnBasedAgents")
 	remove_from_group("turnBasedPlayer")

@@ -306,6 +306,13 @@ func swap_agents(oldAgent: TurnBasedAgent, newAgent: TurnBasedAgent, turnOrderTa
 		Turn_Order_Type.VALUE_BASED: _swap_agents_classic_mode(oldAgent, newAgent, turnOrderTakeOver)
 		Turn_Order_Type.DYNAMIC: _swap_agents_dynamic_mode(oldAgent, newAgent, turnOrderTakeOver)
 
+func remove_agent(agent: TurnBasedAgent) -> void:
+	var index: int
+	
+	for entry: TimeEntry in turnOrderList:
+		if entry.agent == agent: index = turnOrderList.find(entry)
+
+	turnOrderList.remove_at(index)
 
 ## dynamic inspector
 func _validate_property(property: Dictionary):
