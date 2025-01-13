@@ -76,6 +76,7 @@ enum Character_Type {
 const ON_TURON_ICON = preload("res://addons/Turn_Based_System/assets/icons/Icon_Down.png")
 const Target_ICON = preload("res://addons/Turn_Based_System/assets/icons/Icon_Left.png")
 
+var turnBasedController: TurnBasedController
 var is3DScene: bool
 var onTurnIconNode
 var targetIconNode
@@ -85,6 +86,7 @@ var mainTarget: TurnBasedAgent
 var allSelectedTargets: Array[TurnBasedAgent]
 var currentCommand: Resource
 var isTargetAlly := false
+
 
 func _ready() -> void:
 	if Engine.is_editor_hint(): return
@@ -175,7 +177,7 @@ func _set_late_signals() -> void:
 	if not get_tree().current_scene.is_node_ready():
 		await get_tree().current_scene.ready
 	
-	var turnBasedController = get_tree().get_first_node_in_group("turnBasedController")
+	turnBasedController = get_tree().get_first_node_in_group("turnBasedController")
 	turnBasedController.battle_finished.connect(_on_battle_finished)
 	
 	var commandMenu = get_tree().get_first_node_in_group("turnBasedCommandMenu")
@@ -186,8 +188,6 @@ func _on_battle_finished():
 	onTurnIconNode.hide()
 
 func _on_command_selected(command: CommandResource) -> void:
-	var turnBasedController: TurnBasedController = get_tree().get_first_node_in_group("turnBasedController")
-	
 	if not isActive or turnBasedController.useOwnTargetingSystem: return
 
 	currentCommand = command
@@ -300,7 +300,6 @@ func _undo_command() -> void:
 func remove_agent() -> void:
 	isDisabled = true
 	
-	var turnBasedController = get_tree().get_first_node_in_group("turnBasedController")
 	turnBasedController.remove_agent(self)
 
 func remove_from_groups():
@@ -321,7 +320,6 @@ func get_turn_order_value() -> float:
 	return characterResource[turnOrderValueName]
 
 func swap_agent(swapAgent: TurnBasedAgent, turnOrderTakeOver = false):
-	var turnBasedController: TurnBasedController = get_tree().get_first_node_in_group("turnBasedController")
 	turnBasedController.swap_agents(self, swapAgent, turnOrderTakeOver)
 
 func command_done() -> void:
