@@ -294,7 +294,8 @@ func _remove_dynamic_agent(agent: TurnBasedAgent) -> void:
 
 
 func swap_agents(oldAgent: TurnBasedAgent, newAgent: TurnBasedAgent, turnOrderTakeOver = true):
-	oldAgent.remove_from_groups()
+	oldAgent.isDisabled = true
+	newAgent.isDisabled = false
 	
 	new_agent_entered.emit(newAgent)
 	

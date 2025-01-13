@@ -302,11 +302,6 @@ func remove_agent() -> void:
 	
 	turnBasedController.remove_agent(self)
 
-func remove_from_groups():
-	remove_from_group("turnBasedAgents")
-	remove_from_group("turnBasedPlayer")
-	remove_from_group("turnBasedEnemy")
-	
 func get_global_position():
 	if not get_parent(): return
 	
