@@ -24,7 +24,7 @@ sky = SubResource("Sky_upqwq")
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="Resource" id="Resource_wpdwl"]
+[sub_resource type="Resource" id="Resource_j7bt5"]
 resource_local_to_scene = true
 script = ExtResource("7_8j8la")
 name = "Name"
@@ -38,7 +38,7 @@ basicAttack = ExtResource("6_ad8f7")
 skills = Array[Resource]([])
 items = Array[Resource]([])
 
-[sub_resource type="Resource" id="Resource_5p50b"]
+[sub_resource type="Resource" id="Resource_fdwls"]
 resource_local_to_scene = true
 script = ExtResource("7_8j8la")
 name = "Name"
@@ -142,7 +142,7 @@ characterResource = ExtResource("6_ikelw")
 
 [node name="Knight4" parent="." instance=ExtResource("1_w2g8u")]
 transform = Transform3D(-0.0406201, 0, 0.999175, 0, 1, 0, -0.999175, 0, -0.0406201, -10.9455, 0, -2.21003)
-characterResource = SubResource("Resource_wpdwl")
+characterResource = SubResource("Resource_j7bt5")
 
 [node name="1H_Sword_Offhand" parent="Knight4/Knight/Rig/Skeleton3D" index="0"]
 transform = Transform3D(2.65221e-08, 0.262865, 0.964832, 0.999999, -5.33634e-07, 5.38426e-07, 8.70782e-07, 0.964832, -0.262865, 0.51224, 0.636705, -0.00210785)
@@ -177,7 +177,7 @@ targetIconOffSet = Vector3(1.5, 1.505, 0)
 
 [node name="Knight5" parent="." instance=ExtResource("1_w2g8u")]
 transform = Transform3D(-0.0406201, 0, 0.999175, 0, 1, 0, -0.999175, 0, -0.0406201, -10.9455, 0, 3.16177)
-characterResource = SubResource("Resource_5p50b")
+characterResource = SubResource("Resource_fdwls")
 
 [node name="1H_Sword_Offhand" parent="Knight5/Knight/Rig/Skeleton3D" index="0"]
 transform = Transform3D(2.65221e-08, 0.262865, 0.964832, 0.999999, -5.33634e-07, 5.38426e-07, 8.70782e-07, 0.964832, -0.262865, 0.51224, 0.636705, -0.00210785)

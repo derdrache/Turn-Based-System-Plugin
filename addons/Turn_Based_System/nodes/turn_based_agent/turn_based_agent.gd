@@ -89,8 +89,6 @@ var isTargetAlly := false
 
 
 func _ready() -> void:
-	if Engine.is_editor_hint(): return
-	
 	_set_group()
 	
 	is3DScene = get_parent() is Node3D
