@@ -137,7 +137,6 @@ func change_menu_index(changeValue: int):
 	await get_tree().physics_frame
 	
 	main_command_container.get_children()[0].grab_focus()
-	
 
 func _ready() -> void:
 	add_to_group("turnBasedCommandMenu")
@@ -205,27 +204,7 @@ func _connect_agent_signals(agent: TurnBasedAgent) -> void:
 func _on_player_turn(character: TurnBasedAgent) -> void:
 	currentCharacter = character
 	
-	if not character.commandNames.is_empty(): 
-		mainCommandButtonNames = character.commandNames
-	if not character.commandButtonReference.is_empty(): 
-		mainCommandButtonReference = character.commandReference
-	
-	_reset_main_commands()
-	_refresh_main_command_menu()
-
-	show()
-
-	if not commandCanceled: 
-		scroll_container.hide()
-		main_command_container.show()
-		
-	# needed for grab_focus
-	await get_tree().create_timer(0.01).timeout
-	
-	if scroll_container.visible:
-		multi_command_container.get_children()[0].grab_focus()
-	else:
-		main_command_container.get_children()[0].grab_focus()
+	refresh()
 
 func _reset_main_commands() -> void:
 	if not main_command_container: return
@@ -302,6 +281,31 @@ func _get_menu_data() -> Dictionary:
 func _reset_command_menu() -> void:
 	for node in main_command_container.get_children():
 		node.queue_free()
+
+func refresh():
+	if not currentCharacter.commandNames.is_empty(): 
+		mainCommandButtonNames = currentCharacter.commandNames
+	if not currentCharacter.commandButtonReference.is_empty(): 
+		mainCommandButtonReference = currentCharacter.commandReference
+	
+	menuIndex = 1
+	
+	_reset_main_commands()
+	_refresh_main_command_menu()
+
+	show()
+
+	if not commandCanceled: 
+		scroll_container.hide()
+		main_command_container.show()
+		
+	# needed for grab_focus
+	await get_tree().create_timer(0.01).timeout
+	
+	if scroll_container.visible:
+		multi_command_container.get_children()[0].grab_focus()
+	else:
+		main_command_container.get_children()[0].grab_focus()
 
 ## dynamic inspector
 func _validate_property(property: Dictionary):
