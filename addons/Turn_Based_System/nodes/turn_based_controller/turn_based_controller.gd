@@ -31,7 +31,7 @@ enum Turn_Order_Type{
 
 var turnOrderList: Array[TimeEntry] = []
 var dynamicTurnOrderBaseList: Array[TimeEntry] = []
-var activeCharacter: TurnBasedAgent
+var activeAgent: TurnBasedAgent
 
 func _ready() -> void:
 	add_to_group("turnBasedController")
@@ -101,15 +101,15 @@ func _set_dynamic_turn_order(characterList) -> void:
 	_refresh_dynamic_turn_order_list()
 
 func _set_next_active_character() -> void:	
-	activeCharacter = turnOrderList[0].agent
-	activeCharacter.set_active(true)
+	activeAgent = turnOrderList[0].agent
+	activeAgent.set_active(true)
 	
 	if turnOrderType == Turn_Order_Type.DYNAMIC: 
 		_reduce_time_on_same_as_active()
 
 func _reduce_time_on_same_as_active():
 		for entry in dynamicTurnOrderBaseList:
-			if entry.agent != activeCharacter and entry.currentTime == turnOrderList[0].currentTime:
+			if entry.agent != activeAgent and entry.currentTime == turnOrderList[0].currentTime:
 				entry.currentTime -= 0.01
 
 
@@ -167,7 +167,7 @@ func _refresh_dynamic_turn_order_list() -> void:
 	_sort_turn_order_list_by_time()
 	
 func _remove_active_character() -> void:
-	if not activeCharacter: return
+	if not activeAgent: return
 	
 	turnOrderList.pop_front()		
 
@@ -181,7 +181,7 @@ func _refresh_turn_order_bar():
 	turn_order_changed.emit(barTurnOrder)		
 	
 func _on_turn_done() -> void:
-	activeCharacter.set_active(false)
+	activeAgent.set_active(false)
 	
 	_refresh_turn_order()
 	
@@ -247,8 +247,8 @@ func _swap_agents_classic_mode(oldAgent: TurnBasedAgent, newAgent: TurnBasedAgen
 			if turnOrderList[i].agent == oldAgent:
 				turnOrderList[i].agent = newAgent
 				
-		activeCharacter = newAgent
-		activeCharacter.set_active(true)
+		activeAgent = newAgent
+		activeAgent.set_active(true)
 		
 		_refresh_turn_order_bar()
 	else:
@@ -261,8 +261,8 @@ func _swap_agents_dynamic_mode(oldAgent: TurnBasedAgent, newAgent: TurnBasedAgen
 		for i in dynamicTurnOrderBaseList.size():
 			if dynamicTurnOrderBaseList[i].agent == oldAgent:
 				dynamicTurnOrderBaseList[i].agent = newAgent
-		activeCharacter = newAgent
-		activeCharacter.set_active(true)
+		activeAgent = newAgent
+		activeAgent.set_active(true)
 		
 		_refresh_dynamic_turn_order_list()
 		_refresh_turn_order_bar()
@@ -314,6 +314,9 @@ func remove_agent(agent: TurnBasedAgent) -> void:
 		if entry.agent == agent: index = turnOrderList.find(entry)
 
 	turnOrderList.remove_at(index)
+
+func get_active_character():
+	return activeAgent.get_parent()
 
 ## dynamic inspector
 func _validate_property(property: Dictionary):
