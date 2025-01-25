@@ -27,11 +27,13 @@ var currentPlayer: TurnBasedAgent
 func _ready() -> void:
 	add_to_group("turnBasedStatusContainer")
 	
-	playerList = get_tree().get_nodes_in_group("turnBasedPlayer")
-	
 	_setup()
 	
 func _setup() -> void:
+	await get_tree().current_scene.ready
+	
+	playerList = get_tree().get_nodes_in_group("turnBasedPlayer")
+	
 	_reset_player_container()
 	
 	_setup_player_stats_container()
@@ -74,6 +76,8 @@ func _set_signals() -> void:
 		_connect_agent_signals(player)
 
 func _connect_agent_signals(agent: TurnBasedAgent) -> void:
+	if agent.is_connected("player_turn_started", _on_player_turn_started): return 
+	
 	agent.player_turn_started.connect(_on_player_turn_started.bind(agent))
 	agent.targeting_started.connect(_on_targeting_started)
 	agent.player_action_started.connect(_on_player_action_started)
