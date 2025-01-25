@@ -297,8 +297,6 @@ func swap_agents(oldAgent: TurnBasedAgent, newAgent: TurnBasedAgent, turnOrderTa
 	oldAgent.isDisabled = true
 	newAgent.isDisabled = false
 	
-	new_agent_entered.emit(newAgent)
-	
 	var statusContainer = get_tree().get_first_node_in_group("turnBasedStatusContainer")
 	if statusContainer: statusContainer.swap_character(oldAgent, newAgent)
 	

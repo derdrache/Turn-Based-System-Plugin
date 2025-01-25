@@ -63,6 +63,8 @@ func _setup_late_signals() -> void:
 		_connect_agent_signals(character)
 
 func _connect_agent_signals(agent: TurnBasedAgent) -> void:
+	if agent.is_connected("target_changed", _on_target_changed): return 
+	
 	agent.target_changed.connect(_on_target_changed)
 	agent.undo_command_selected.connect(_on_command_undo)
 	agent.player_turn_started.connect(func (): show())
