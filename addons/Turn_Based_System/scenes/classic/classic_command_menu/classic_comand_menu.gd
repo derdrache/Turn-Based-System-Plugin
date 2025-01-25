@@ -198,6 +198,8 @@ func _set_late_signals() -> void:
 	turnBasedController.new_agent_entered.connect(_connect_agent_signals)
 
 func _connect_agent_signals(agent: TurnBasedAgent) -> void:
+	if agent.is_connected("player_turn_started", _on_player_turn): return 
+	
 	agent.player_turn_started.connect(_on_player_turn.bind(agent))
 	agent.undo_command_selected.connect(_on_player_turn.bind(agent))
 

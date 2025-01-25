@@ -172,7 +172,7 @@ func _refresh_on_turn_icon_position()-> void:
 func _set_late_signals() -> void:
 	if not get_tree().current_scene.is_node_ready():
 		await get_tree().current_scene.ready
-	
+		
 	turnBasedController = get_tree().get_first_node_in_group("turnBasedController")
 	turnBasedController.new_agent_entered.emit(self)
 	turnBasedController.battle_finished.connect(_on_battle_finished)

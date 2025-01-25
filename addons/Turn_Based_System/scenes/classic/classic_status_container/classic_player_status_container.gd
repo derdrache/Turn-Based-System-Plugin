@@ -32,14 +32,16 @@ func _ready() -> void:
 func _setup() -> void:
 	await get_tree().current_scene.ready
 	
+	_refresh()
+	
+	_set_signals()
+	
+func _refresh():
 	playerList = get_tree().get_nodes_in_group("turnBasedPlayer")
 	
 	_reset_player_container()
 	
 	_setup_player_stats_container()
-	
-	_set_signals()
-	
 func _reset_player_container() -> void:
 	for node in player_container.get_children():
 		node.queue_free()
@@ -76,6 +78,8 @@ func _set_signals() -> void:
 		_connect_agent_signals(player)
 
 func _connect_agent_signals(agent: TurnBasedAgent) -> void:
+	_refresh()
+	
 	if agent.is_connected("player_turn_started", _on_player_turn_started): return 
 	
 	agent.player_turn_started.connect(_on_player_turn_started.bind(agent))
