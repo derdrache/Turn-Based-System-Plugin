@@ -36,15 +36,18 @@ var activeAgent: TurnBasedAgent
 func _ready() -> void:
 	add_to_group("turnBasedController")
 	
+	_set_signals()
+	
 	if Engine.is_editor_hint(): return
 	
 	_setup()
 
-func _setup():
-	await get_tree().create_timer(0.1).timeout
-	
-	_set_signals()
+func _on_new_agent_entered(agent: TurnBasedAgent):
+	agent.turn_finished.connect(_on_turn_done)
 
+func _setup():
+	await get_tree().process_frame
+	
 	_set_turn_order()
 	
 	_set_next_active_character()
@@ -57,8 +60,6 @@ func _set_signals() -> void:
 	for agent: TurnBasedAgent in get_tree().get_nodes_in_group("turnBasedAgents"):
 		agent.turn_finished.connect(_on_turn_done)
 
-func _on_new_agent_entered(agent: TurnBasedAgent):
-	agent.turn_finished.connect(_on_turn_done)
 
 func _set_turn_order() -> void:
 	var players = get_tree().get_nodes_in_group("turnBasedPlayer")

@@ -36,8 +36,6 @@ func _ready() -> void:
 		
 	_setup_signals()
 		
-	_setup_late_signals()
-		
 	_refresh_bar()	
 	
 func _setup_on_turn_icon() -> void:
@@ -54,11 +52,7 @@ func _setup_signals() -> void:
 		turnBasedController.turn_order_changed.connect(_on_turn_order_changed)
 		turnBasedController.new_agent_entered.connect(_connect_agent_signals)
 		
-func _setup_late_signals() -> void:
-	await get_tree().current_scene.ready
-	
 	var allCharacters = get_tree().get_nodes_in_group("turnBasedAgents")
-	
 	for character: TurnBasedAgent in allCharacters:
 		_connect_agent_signals(character)
 

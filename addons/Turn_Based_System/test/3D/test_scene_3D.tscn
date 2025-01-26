@@ -27,7 +27,7 @@ glow_enabled = true
 [sub_resource type="PlaneMesh" id="PlaneMesh_3gjfx"]
 size = Vector2(50, 50)
 
-[sub_resource type="Resource" id="Resource_r1bop"]
+[sub_resource type="Resource" id="Resource_w6d7a"]
 resource_local_to_scene = true
 script = ExtResource("7_8j8la")
 name = "Name"
@@ -41,7 +41,7 @@ basicAttack = ExtResource("6_ad8f7")
 skills = Array[Resource]([])
 items = Array[Resource]([])
 
-[sub_resource type="Resource" id="Resource_7ry6x"]
+[sub_resource type="Resource" id="Resource_xmgon"]
 resource_local_to_scene = true
 script = ExtResource("7_8j8la")
 name = "Name"
@@ -296,7 +296,7 @@ characterResource = ExtResource("6_ikelw")
 
 [node name="Knight4" parent="." instance=ExtResource("1_w2g8u")]
 transform = Transform3D(-0.0406201, 0, 0.999175, 0, 1, 0, -0.999175, 0, -0.0406201, -10.9455, 0, -2.21003)
-characterResource = SubResource("Resource_r1bop")
+characterResource = SubResource("Resource_w6d7a")
 
 [node name="Skeleton3D" parent="Knight4/Knight/Rig" index="0"]
 bones/1/position = Vector3(0, 0.405663, 0)
@@ -396,7 +396,7 @@ targetIconOffSet = Vector3(1.5, 1.505, 0)
 
 [node name="Knight5" parent="." instance=ExtResource("1_w2g8u")]
 transform = Transform3D(-0.0406201, 0, 0.999175, 0, 1, 0, -0.999175, 0, -0.0406201, -10.9455, 0, 3.16177)
-characterResource = SubResource("Resource_7ry6x")
+characterResource = SubResource("Resource_xmgon")
 
 [node name="Skeleton3D" parent="Knight5/Knight/Rig" index="0"]
 bones/1/position = Vector3(0, 0.405663, 0)

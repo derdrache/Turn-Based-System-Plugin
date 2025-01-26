@@ -21,27 +21,34 @@ extends Control
 
 @onready var player_container: VBoxContainer = $MarginContainer/PlayerContainer
 
-var playerList: Array
 var currentPlayer: TurnBasedAgent
 
 func _ready() -> void:
 	add_to_group("turnBasedStatusContainer")
 	
-	_setup()
-	
-func _setup() -> void:
-	await get_tree().current_scene.ready
-	
-	_refresh()
-	
 	_set_signals()
 	
-func _refresh():
-	playerList = get_tree().get_nodes_in_group("turnBasedPlayer")
+func _set_signals() -> void:
+	var turnBasedController = get_tree().get_first_node_in_group("turnBasedController")
+	turnBasedController.new_agent_entered.connect(_on_new_agent)
+
+	for player: TurnBasedAgent in get_tree().get_nodes_in_group("turnBasedPlayer"):
+		_on_new_agent(player)
+
+func _on_new_agent(agent: TurnBasedAgent) -> void:
+	_refresh()
 	
+	agent.player_turn_started.connect(_on_player_turn_started.bind(agent))
+	agent.targeting_started.connect(_on_targeting_started)
+	agent.player_action_started.connect(_on_player_action_started)
+	agent.undo_command_selected.connect(_on_undo_command)
+	agent.target_changed.connect(_on_target_change)
+	
+func _refresh():
 	_reset_player_container()
 	
 	_setup_player_stats_container()
+	
 func _reset_player_container() -> void:
 	for node in player_container.get_children():
 		node.queue_free()
@@ -57,37 +64,19 @@ func _deactivate_all_player_focus() -> void:
 		node.deactivate_focus()
 
 func _activate_player(player: TurnBasedAgent = currentPlayer) -> void:
-	var index = playerList.find(player)
+	var index = get_tree().get_nodes_in_group("turnBasedPlayer").find(player)
 	player_container.get_children()[index].activate_focus()
 	
 func _setup_player_stats_container() -> void:
-	for player: TurnBasedAgent in playerList:
+	for player: TurnBasedAgent in get_tree().get_nodes_in_group("turnBasedPlayer"):
 		var playerStatsContainer = playerStatsContainer.instantiate()
 		
 		playerStatsContainer.styleBoxFocus = focusStyleBox
 		playerStatsContainer.styleBoxNormal = normalStyleBox
-		player_container.add_child(playerStatsContainer)
 		
+		player_container.add_child(playerStatsContainer)
 		playerStatsContainer.set_player_stats(player.characterResource)
 
-func _set_signals() -> void:
-	var turnBasedController = get_tree().get_first_node_in_group("turnBasedController")
-	turnBasedController.new_agent_entered.connect(_connect_agent_signals)
-	
-	for player: TurnBasedAgent in playerList:
-		_connect_agent_signals(player)
-
-func _connect_agent_signals(agent: TurnBasedAgent) -> void:
-	_refresh()
-	
-	if agent.is_connected("player_turn_started", _on_player_turn_started): return 
-	
-	agent.player_turn_started.connect(_on_player_turn_started.bind(agent))
-	agent.targeting_started.connect(_on_targeting_started)
-	agent.player_action_started.connect(_on_player_action_started)
-	agent.undo_command_selected.connect(_on_undo_command)
-	agent.target_changed.connect(_on_target_change)
-	
 
 func _on_targeting_started(targets: Array[TurnBasedAgent], command: Resource) -> void:
 	if not command.commandType == command.Command_Type.HEAL: return
@@ -112,19 +101,19 @@ func _deactivate_heal_modus() -> void:
 		node.set_heal_modus(false)
 
 func _on_target_change(targets):
-	if not playerList[0] in targets: return
+	if not get_tree().get_nodes_in_group("turnBasedPlayer")[0] in targets: return
 	
 	_deactivate_all_player_focus()
 	
 	for target in targets:
-		var index = playerList.find(target)
+		var index = get_tree().get_nodes_in_group("turnBasedPlayer").find(target)
 		player_container.get_children()[index].activate_focus()
 	
 func swap_character(oldAgent, newAgent):
 	hide()
 
-	var indexOldPlayer = playerList.find(oldAgent)
-	playerList[indexOldPlayer] = newAgent
+	var indexOldPlayer = get_tree().get_nodes_in_group("turnBasedPlayer").find(oldAgent)
+	get_tree().get_nodes_in_group("turnBasedPlayer")[indexOldPlayer] = newAgent
 	
 	_reset_player_container()
 

@@ -17,7 +17,6 @@ func _swap_character():
 	var target_position = global_position
 
 	var knightNode = load("res://addons/Turn_Based_System/test/3D/characters/testChar.tscn").instantiate()
-
 	get_tree().current_scene.add_child(knightNode)
 	knightNode.global_position = startPosition
 	

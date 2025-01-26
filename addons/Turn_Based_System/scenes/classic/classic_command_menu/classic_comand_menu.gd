@@ -148,7 +148,7 @@ func _ready() -> void:
 			push_warning("no mainCommandButtonNames set")
 			
 		hide()
-		_set_late_signals()
+		_set_signals()
 
 func _on_command_pressed(commandResource: Resource, button: Button) -> void:
 	if not commandResource:
@@ -188,9 +188,7 @@ func _set_multi_command_container(commandList: Array[Resource]) -> void:
 func _on_run_button_pressed() -> void:
 	get_tree().quit()
 
-func _set_late_signals() -> void:
-	await get_tree().current_scene.ready
-	
+func _set_signals() -> void:
 	for agent: TurnBasedAgent in get_tree().get_nodes_in_group("turnBasedPlayer"):
 		_connect_agent_signals(agent)
 		
@@ -198,8 +196,6 @@ func _set_late_signals() -> void:
 	turnBasedController.new_agent_entered.connect(_connect_agent_signals)
 
 func _connect_agent_signals(agent: TurnBasedAgent) -> void:
-	if agent.is_connected("player_turn_started", _on_player_turn): return 
-	
 	agent.player_turn_started.connect(_on_player_turn.bind(agent))
 	agent.undo_command_selected.connect(_on_player_turn.bind(agent))
 

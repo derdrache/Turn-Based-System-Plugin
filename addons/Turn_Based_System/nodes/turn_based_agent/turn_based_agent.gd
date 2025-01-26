@@ -93,6 +93,9 @@ func _ready() -> void:
 	
 	is3DScene = get_parent() is Node3D
 	
+	if get_parent().characterResource:
+		characterResource = get_parent().characterResource
+		
 	_create_on_turn_icon()
 	_create_target_icon()
 	
@@ -170,16 +173,17 @@ func _refresh_on_turn_icon_position()-> void:
 		onTurnIconNode.global_position = get_global_position() + Vector2(onTurnIconOffSet.x, onTurnIconOffSet.y)
 
 func _set_late_signals() -> void:
+	turnBasedController = get_tree().get_first_node_in_group("turnBasedController")
+	turnBasedController.battle_finished.connect(_on_battle_finished)
+	
 	if not get_tree().current_scene.is_node_ready():
 		await get_tree().current_scene.ready
-		
-	turnBasedController = get_tree().get_first_node_in_group("turnBasedController")
-	turnBasedController.new_agent_entered.emit(self)
-	turnBasedController.battle_finished.connect(_on_battle_finished)
 	
 	var commandMenu = get_tree().get_first_node_in_group("turnBasedCommandMenu")
 	if commandMenu:
 		commandMenu.command_selected.connect(_on_command_selected)
+		
+	turnBasedController.new_agent_entered.emit(self)
 
 func _on_battle_finished():
 	onTurnIconNode.hide()

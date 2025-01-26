@@ -20,7 +20,7 @@ var healMode := false
 
 func set_player_stats(newCharacterResource: Resource) -> void:
 	characterResource = newCharacterResource
-	
+
 	var statusContainer = get_tree().get_first_node_in_group("turnBasedStatusContainer")
 	statsReference = {
 		"name": statusContainer.name_reference,
@@ -29,6 +29,8 @@ func set_player_stats(newCharacterResource: Resource) -> void:
 		"mana": statusContainer.mana_reference,
 		"overDrive": statusContainer.over_drive_reference
 	}
+	
+	if not characterResource: return
 	
 	if statsReference.name in characterResource:
 		name_label.text = characterResource[statsReference.name]
