@@ -60,7 +60,6 @@ func _set_signals() -> void:
 	for agent: TurnBasedAgent in get_tree().get_nodes_in_group("turnBasedAgents"):
 		agent.turn_finished.connect(_on_turn_done)
 
-
 func _set_turn_order() -> void:
 	var players = get_tree().get_nodes_in_group("turnBasedPlayer")
 	var enemies = get_tree().get_nodes_in_group("turnBasedEnemy")
@@ -316,6 +315,12 @@ func remove_agent(agent: TurnBasedAgent) -> void:
 
 func get_active_character():
 	return activeAgent.get_parent()
+
+func manual_start():
+	turnOrderList = []
+	dynamicTurnOrderBaseList = []
+	
+	_setup()
 
 ## dynamic inspector
 func _validate_property(property: Dictionary):
