@@ -27,7 +27,7 @@ leftCommandButtonNames = Array[String](["", ""])
 leftCommandButtonReference = Array[String](["", ""])
 leftCommandButtonIcons = Array[CompressedTexture2D]([null, null])
 rightCommandButtonNames = Array[String]([""])
-rightCommandButtonReference = Array[String](["", "", ""])
+rightCommandButtonReference = Array[String]([""])
 rightCommandButtonIcons = Array[CompressedTexture2D]([null])
 
 [node name="MarginContainer" type="MarginContainer" parent="."]

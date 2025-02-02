@@ -233,7 +233,7 @@ func _input(event: InputEvent) -> void:
 	_select_between_targets(event)
 	
 	if event.is_action_pressed("ui_accept"): _select_target()
-	elif event.is_action_pressed("ui_cancel"): _undo_command()
+	elif event.is_action_released("ui_cancel"): _undo_command()
 	
 func _select_between_targets(event: InputEvent) -> void:
 	var currentTargetIndex: int = possibleTargets.find(mainTarget, 0)

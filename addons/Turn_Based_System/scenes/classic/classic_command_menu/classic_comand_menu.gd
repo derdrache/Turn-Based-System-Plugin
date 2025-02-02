@@ -100,18 +100,18 @@ var menuIndex = 1
 var currentCharacter: TurnBasedAgent
 
 func _input(event: InputEvent) -> void:	
-	if visible:
-		if event.is_action_pressed("ui_cancel"):
-			scroll_container.hide()
-			main_command_container.show()
-			main_command_container.get_children()[0].grab_focus()
-		elif event.is_action_pressed("ui_left"):
+	if not visible: return
+	
+	if main_command_container.visible:
+		if event.is_action_pressed("ui_left"):
 			change_menu_index(-1)
 		elif event.is_action_pressed("ui_right"):
 			change_menu_index(1)
 	else:
 		if event.is_action_pressed("ui_cancel"):
-			commandCanceled = true	
+			scroll_container.hide()
+			main_command_container.show()
+			main_command_container.get_children()[0].grab_focus()
 
 func change_menu_index(changeValue: int):
 	var oldValue = menuIndex
@@ -197,10 +197,11 @@ func _set_signals() -> void:
 
 func _connect_agent_signals(agent: TurnBasedAgent) -> void:
 	agent.player_turn_started.connect(_on_player_turn.bind(agent))
-	agent.undo_command_selected.connect(_on_player_turn.bind(agent))
+	agent.undo_command_selected.connect(_on_player_turn.bind(agent, true))
 
-func _on_player_turn(character: TurnBasedAgent) -> void:
+func _on_player_turn(character: TurnBasedAgent, commandUndo = false) -> void:
 	currentCharacter = character
+	commandCanceled = commandUndo
 	
 	refresh()
 
@@ -292,10 +293,11 @@ func refresh():
 	_refresh_main_command_menu()
 
 	show()
-
-	if not commandCanceled: 
-		scroll_container.hide()
-		main_command_container.show()
+	
+	if commandCanceled:
+		var onSkillMenu = scroll_container.visible
+		scroll_container.visible = onSkillMenu
+		main_command_container.visible = not onSkillMenu
 		
 	# needed for grab_focus
 	await get_tree().create_timer(0.01).timeout
