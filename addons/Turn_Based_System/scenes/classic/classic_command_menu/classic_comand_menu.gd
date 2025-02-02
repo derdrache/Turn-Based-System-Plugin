@@ -298,6 +298,9 @@ func refresh():
 		var onSkillMenu = scroll_container.visible
 		scroll_container.visible = onSkillMenu
 		main_command_container.visible = not onSkillMenu
+	else:
+		scroll_container.hide()
+		main_command_container.show()
 		
 	# needed for grab_focus
 	await get_tree().create_timer(0.01).timeout
