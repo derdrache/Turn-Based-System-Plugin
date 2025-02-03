@@ -5,6 +5,7 @@ enum Target_Type {ENEMIES, PLAYERS, SELF}
 enum Command_Type {DAMAGE, HEAL, SUPPORT}
 
 @export var name : String
+@export var manaCost := 0
 
 ##Command type is used to determine which group the ability can be targeted at
 @export var targetType: Target_Type
