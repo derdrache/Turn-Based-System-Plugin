@@ -20,7 +20,6 @@ signal undo_command_selected()
 signal player_action_started(targets: Array[TurnBasedAgent], command:Resource)
 signal targeting_started(targets: Array[TurnBasedAgent], command:Resource)
 signal target_changed(targets : Array[TurnBasedAgent])
-signal target_pointed(targets: Array[TurnBasedAgent])
 
 ## if true, then this character is ignored everywhere.
 ## e.g. dead
@@ -200,7 +199,6 @@ func _on_command_selected(command: CommandResource) -> void:
 	
 	_check_and_select_multi_target(mainTarget, possibleTargets)
 
-	target_pointed.emit()
 	targeting_started.emit(allSelectedTargets, command)
 	target_changed.emit(allSelectedTargets)
 
@@ -236,6 +234,8 @@ func _input(event: InputEvent) -> void:
 	elif event.is_action_released("ui_cancel"): _undo_command()
 	
 func _select_between_targets(event: InputEvent) -> void:
+	if not event.is_pressed(): return
+
 	var currentTargetIndex: int = possibleTargets.find(mainTarget, 0)
 	
 	var pressedLeft := event.is_action_pressed("ui_left")
@@ -249,7 +249,7 @@ func _select_between_targets(event: InputEvent) -> void:
 	elif pressedRight or pressedDown:
 		currentTargetIndex += 1
 		if currentTargetIndex > possibleTargets.size() - 1: currentTargetIndex = 0
-	
+
 	target_changed.emit(allSelectedTargets)
 	
 	_deselect_all_targets()
@@ -258,8 +258,6 @@ func _select_between_targets(event: InputEvent) -> void:
 	mainTarget.set_target()
 	
 	_check_and_select_multi_target(mainTarget, possibleTargets)
-	
-	target_pointed.emit()
 	
 func _check_and_select_multi_target(mainTarget: TurnBasedAgent, targets: Array) -> void:
 	var targetCount: int = currentCommand.targetCount
