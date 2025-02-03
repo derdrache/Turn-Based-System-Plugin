@@ -9,26 +9,53 @@ bg_color = Color(0.466667, 0.403922, 1, 0.666667)
 bg_color = Color(0.466667, 0.403922, 1, 0.294118)
 
 [node name="Attack" type="Button"]
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(200, 35)
 theme_override_font_sizes/font_size = 25
 theme_override_styles/focus = SubResource("StyleBoxFlat_acv2j")
 theme_override_styles/hover = SubResource("StyleBoxFlat_acv2j")
 theme_override_styles/normal = SubResource("StyleBoxFlat_wq7fw")
-text = "Attack"
 script = ExtResource("1_ercgh")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 4
+anchors_preset = 14
 anchor_top = 0.5
+anchor_right = 1.0
 anchor_bottom = 0.5
 offset_top = -12.0
-offset_right = 54.0
 offset_bottom = 12.0
+grow_horizontal = 2
 grow_vertical = 2
+
+[node name="TextureRectContainer" type="MarginContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
 theme_override_constants/margin_left = 30
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/TextureRectContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 expand_mode = 1
+
+[node name="CommandNameLabel" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_font_sizes/font_size = 25
+text = "Attack"
+
+[node name="manaCostContainer" type="MarginContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/margin_right = 10
+
+[node name="manaCostLabel" type="Label" parent="HBoxContainer/manaCostContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "5"

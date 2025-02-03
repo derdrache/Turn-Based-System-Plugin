@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_qdk74")
 name = "Haste"
+manaCost = 10
 targetType = 1
 commandType = 2
 targetCount = 1

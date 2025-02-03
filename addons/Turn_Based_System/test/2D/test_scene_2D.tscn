@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://80nu5nqla587" path="res://addons/Turn_Based_System/test/2D/assets/83.png" id="2_tl5g6"]
 [ext_resource type="Script" path="res://addons/Turn_Based_System/test/2D/character/character.gd" id="2_yehj6"]
 [ext_resource type="Script" path="res://addons/Turn_Based_System/nodes/turn_based_agent/turn_based_agent.gd" id="4_hy2bi"]
-[ext_resource type="PackedScene" uid="uid://csjsu65sx7iu5" path="res://addons/Turn_Based_System/scenes/classic/classic_command_menu/classic_comand_menu.tscn" id="4_pl6x7"]
+[ext_resource type="PackedScene" uid="uid://csjsu65sx7iu5" path="res://addons/Turn_Based_System/scenes/classic/classic_command_menu/classic_command_menu.tscn" id="4_pl6x7"]
 [ext_resource type="Resource" uid="uid://cwjljuoc83jn0" path="res://addons/Turn_Based_System/test/resource/enemy.tres" id="4_s0etk"]
 [ext_resource type="Texture2D" uid="uid://sdtjd8j6r3ct" path="res://addons/Turn_Based_System/test/2D/assets/91.png" id="5_5tugo"]
 [ext_resource type="Resource" uid="uid://ccq1ra2k8frfy" path="res://addons/Turn_Based_System/test/resource/player1.tres" id="5_jfnju"]
