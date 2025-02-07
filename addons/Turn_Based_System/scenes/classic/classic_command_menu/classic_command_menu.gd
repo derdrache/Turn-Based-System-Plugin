@@ -154,6 +154,12 @@ func _on_command_pressed(commandResource: Resource, button: Button) -> void:
 	if not commandResource:
 		push_error(button.text + " button doesn't have a reference resource")
 		return
+		
+	var turnBasedController: TurnBasedController = get_tree().get_first_node_in_group("turnBasedController")
+	var currentMana = turnBasedController.get_active_character().characterResource.currentMana
+	var notEnoughMana = commandResource.manaCost > currentMana
+	if not commandResource.isAllowed or notEnoughMana:
+		return
 
 	hide()
 	
