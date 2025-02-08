@@ -17,8 +17,8 @@ signal new_agent_entered(agent: TurnBasedAgent)
 	set(value):
 		turnOrderType = value
 		notify_property_list_changed()
-
 @export var useOwnTargetingSystem := false
+@export var manuellStart := false
 
 enum Turn_Order_Type{
 	## first the players then the enemies, each character has one turn per round
@@ -40,7 +40,7 @@ func _ready() -> void:
 	
 	if Engine.is_editor_hint(): return
 	
-	_setup()
+	if not manuellStart: _setup()
 
 func _on_new_agent_entered(agent: TurnBasedAgent):
 	agent.turn_finished.connect(_on_turn_done)
@@ -316,7 +316,7 @@ func remove_agent(agent: TurnBasedAgent) -> void:
 func get_active_character():
 	return activeAgent.get_parent()
 
-func manual_start():
+func start():
 	turnOrderList = []
 	dynamicTurnOrderBaseList = []
 	
