@@ -7,8 +7,9 @@ extends StaticBody3D
 #const KNIGHT = preload("res://addons/Turn_Based_System/test/3D/characters/knight.tscn")
 
 func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("ui_cancel"):
-		_swap_character()
+	pass
+	#if Input.is_action_just_pressed("ui_cancel"):
+		#_swap_character()
 
 func _swap_character():	
 	if not turn_based_agent.isActive: return

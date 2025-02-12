@@ -12,6 +12,7 @@ script = ExtResource("1_vegsb")
 characterResource = ExtResource("2_xbmu3")
 
 [node name="TurnBasedAgent" parent="." instance=ExtResource("3_rgqrq")]
+characterResource = ExtResource("2_xbmu3")
 onTurnIconOffSet = Vector3(0, 1.795, 0)
 targetIconOffSet = Vector3(1.15, 0, 0)
 turnOrderBarIconTexture = ExtResource("4_xrfxs")

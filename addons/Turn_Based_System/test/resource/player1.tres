@@ -16,5 +16,5 @@ currentMana = 50
 speed = 55
 overDriveValue = 0
 basicAttack = ExtResource("1_vq7ry")
-skills = Array[Resource]([ExtResource("3_2x1ou"), ExtResource("4_lfj0f"), ExtResource("5_akmas")])
+skills = Array[Resource]([ExtResource("5_akmas"), ExtResource("3_2x1ou"), ExtResource("4_lfj0f")])
 items = Array[Resource]([])
