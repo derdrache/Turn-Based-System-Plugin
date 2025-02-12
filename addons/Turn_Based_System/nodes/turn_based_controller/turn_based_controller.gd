@@ -193,11 +193,7 @@ func _on_turn_done() -> void:
 	
 	_refresh_turn_order_bar()
 	
-	
-
 func _check_battle_done():
-	#await get_tree().create_timer(0.01).timeout
-	
 	var allEnemies = get_tree().get_nodes_in_group("turnBasedEnemy").filter(func(character): return not character.isDisabled)
 	var allPlayer = get_tree().get_nodes_in_group("turnBasedPlayer")
 
