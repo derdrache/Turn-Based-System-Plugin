@@ -168,6 +168,8 @@ func _on_command_pressed(commandResource: Resource, button: Button) -> void:
 	command_selected.emit(commandResource)
 
 func _on_multi_command_button_pressed(commandList: Array) -> void:
+	if commandList.is_empty(): return
+	
 	_clear_multi_command_container()
 
 	_set_multi_command_container(commandList)
@@ -249,6 +251,10 @@ func _refresh_main_command_menu() -> void:
 				commandResource.targetType = CommandResource.Target_Type.ENEMIES
 		
 		var isSingleCommand = not commandResource is Array
+		
+		if not isSingleCommand and commandResource.is_empty():
+			push_warning(commandName + " resource are empty. So pressing this button has no effect")
+			continue
 		
 		var newMainCommandButton = defaultCommandButton.instantiate()
 		newMainCommandButton.set_name(commandName)
