@@ -249,8 +249,6 @@ func _select_between_targets(event: InputEvent) -> void:
 	elif pressedRight or pressedDown:
 		currentTargetIndex += 1
 		if currentTargetIndex > possibleTargets.size() - 1: currentTargetIndex = 0
-
-	target_changed.emit(allSelectedTargets)
 	
 	_deselect_all_targets()
 	
@@ -258,6 +256,8 @@ func _select_between_targets(event: InputEvent) -> void:
 	mainTarget.set_target()
 	
 	_check_and_select_multi_target(mainTarget, possibleTargets)
+	
+	target_changed.emit(allSelectedTargets)
 	
 func _check_and_select_multi_target(mainTarget: TurnBasedAgent, targets: Array) -> void:
 	var targetCount: int = currentCommand.targetCount
