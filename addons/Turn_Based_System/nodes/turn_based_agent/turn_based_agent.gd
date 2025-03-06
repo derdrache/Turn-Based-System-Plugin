@@ -323,6 +323,8 @@ func set_target() -> void:
 	targetIconNode.show()
 
 func set_active(boolean: bool) -> void:
+	if boolean and isActive: return
+	
 	isActive = boolean
 
 	if isActive: onTurnIconNode.show()
