@@ -111,7 +111,7 @@ func _input(event: InputEvent) -> void:
 		if event.is_action_pressed("ui_cancel"):
 			scroll_container.hide()
 			main_command_container.show()
-			main_command_container.get_children()[0].grab_focus()
+			main_command_container.get_child(0).call_deferred("grab_focus")
 
 func change_menu_index(changeValue: int):
 	var oldValue = menuIndex
@@ -136,7 +136,7 @@ func change_menu_index(changeValue: int):
 	await get_tree().physics_frame
 	await get_tree().physics_frame
 	
-	main_command_container.get_children()[0].grab_focus()
+	main_command_container.get_child(0).call_deferred("grab_focus")
 
 func _ready() -> void:
 	add_to_group("turnBasedCommandMenu")
@@ -180,7 +180,7 @@ func _on_multi_command_button_pressed(commandList: Array) -> void:
 	await get_tree().physics_frame
 	await get_tree().physics_frame
 	
-	multi_command_container.get_children()[0].grab_focus()
+	multi_command_container.get_child(0).call_deferred("grab_focus")
 
 func _clear_multi_command_container() -> void:
 	for node in multi_command_container.get_children():
@@ -318,9 +318,9 @@ func refresh():
 	await get_tree().create_timer(0.01).timeout
 	
 	if scroll_container.visible:
-		multi_command_container.get_children()[0].grab_focus()
+		multi_command_container.get_child(0).call_deferred("grab_focus")
 	else:
-		main_command_container.get_children()[0].grab_focus()
+		main_command_container.get_child(0).call_deferred("grab_focus")
 
 ## dynamic inspector
 func _validate_property(property: Dictionary):

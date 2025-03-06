@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c81upvc534ayg"]
 
-[ext_resource type="Script" path="res://addons/Turn_Based_System/nodes/turn_based_agent/turn_based_agent.gd" id="1_62on4"]
+[ext_resource type="Script" uid="uid://cwcam7fo2j2in" path="res://addons/Turn_Based_System/nodes/turn_based_agent/turn_based_agent.gd" id="1_62on4"]
 
 [node name="TurnBasedAgent" type="Node"]
 script = ExtResource("1_62on4")

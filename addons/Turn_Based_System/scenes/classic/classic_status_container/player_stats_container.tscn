@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bqoai2wavcsv8"]
 
 [ext_resource type="StyleBox" uid="uid://dht0kdyh7xrrk" path="res://addons/Turn_Based_System/scenes/classic/classic_status_container/style_box_player_stats_container.tres" id="1_8vcj3"]
-[ext_resource type="Script" path="res://addons/Turn_Based_System/scenes/classic/classic_status_container/player_stats_container.gd" id="1_risdc"]
+[ext_resource type="Script" uid="uid://cilfei1gpnqfw" path="res://addons/Turn_Based_System/scenes/classic/classic_status_container/player_stats_container.gd" id="1_risdc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cmcvd"]
 bg_color = Color(0, 0, 0, 1)

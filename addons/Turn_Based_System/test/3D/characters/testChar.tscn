@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bej2bu24g4jbn"]
 
-[ext_resource type="Script" path="res://addons/Turn_Based_System/test/3D/characters/character.gd" id="1_vegsb"]
+[ext_resource type="Script" uid="uid://ds01vtj6yukog" path="res://addons/Turn_Based_System/test/3D/characters/character.gd" id="1_vegsb"]
 [ext_resource type="Resource" uid="uid://de0m6nq58t6o4" path="res://addons/Turn_Based_System/test/resource/player4.tres" id="2_xbmu3"]
 [ext_resource type="PackedScene" uid="uid://c81upvc534ayg" path="res://addons/Turn_Based_System/nodes/turn_based_agent/turn_based_agent.tscn" id="3_rgqrq"]
 [ext_resource type="Texture2D" uid="uid://dljn2224yiggx" path="res://addons/Turn_Based_System/assets/icons/knight.png" id="4_xrfxs"]

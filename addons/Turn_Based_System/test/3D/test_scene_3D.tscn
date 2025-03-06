@@ -1,13 +1,13 @@
 [gd_scene load_steps=17 format=3 uid="uid://cbt8gfsu1cl6k"]
 
-[ext_resource type="Script" path="res://addons/Turn_Based_System/nodes/turn_based_controller/turn_based_controller.gd" id="1_fmmsn"]
+[ext_resource type="Script" uid="uid://cjby6hkbq05lp" path="res://addons/Turn_Based_System/nodes/turn_based_controller/turn_based_controller.gd" id="1_fmmsn"]
 [ext_resource type="PackedScene" uid="uid://c1dggmu6uu8ab" path="res://addons/Turn_Based_System/test/3D/characters/knight.tscn" id="1_w2g8u"]
 [ext_resource type="Resource" uid="uid://ccq1ra2k8frfy" path="res://addons/Turn_Based_System/test/resource/player1.tres" id="2_1hdhv"]
 [ext_resource type="Resource" uid="uid://cudnqmq33tpnh" path="res://addons/Turn_Based_System/test/resource/player2.tres" id="3_4p5j1"]
 [ext_resource type="PackedScene" uid="uid://csjsu65sx7iu5" path="res://addons/Turn_Based_System/scenes/classic/classic_command_menu/classic_command_menu.tscn" id="6_7botm"]
 [ext_resource type="Resource" uid="uid://dkcvrtj60prfi" path="res://addons/Turn_Based_System/test/skills/normal_attack.tres" id="6_ad8f7"]
 [ext_resource type="Resource" uid="uid://delbk02myb5yq" path="res://addons/Turn_Based_System/test/resource/player3.tres" id="6_ikelw"]
-[ext_resource type="Script" path="res://addons/Turn_Based_System/test/resource/character_resource.gd" id="7_8j8la"]
+[ext_resource type="Script" uid="uid://cfr66w8pkeuwd" path="res://addons/Turn_Based_System/test/resource/character_resource.gd" id="7_8j8la"]
 [ext_resource type="PackedScene" uid="uid://cv1rrda3groo5" path="res://addons/Turn_Based_System/scenes/classic/classic_turn_order_bar/classic_turn_order_bar.tscn" id="7_27ueo"]
 [ext_resource type="PackedScene" uid="uid://b6dd25yaobs1l" path="res://addons/Turn_Based_System/scenes/classic/classic_status_container/classic_player_status_container.tscn" id="9_hbt02"]
 
@@ -27,7 +27,7 @@ glow_enabled = true
 [sub_resource type="PlaneMesh" id="PlaneMesh_3gjfx"]
 size = Vector2(50, 50)
 
-[sub_resource type="Resource" id="Resource_uub4o"]
+[sub_resource type="Resource" id="Resource_tw2d2"]
 resource_local_to_scene = true
 script = ExtResource("7_8j8la")
 name = "Name"
@@ -41,7 +41,7 @@ basicAttack = ExtResource("6_ad8f7")
 skills = Array[Resource]([])
 items = Array[Resource]([])
 
-[sub_resource type="Resource" id="Resource_bl086"]
+[sub_resource type="Resource" id="Resource_ido0n"]
 resource_local_to_scene = true
 script = ExtResource("7_8j8la")
 name = "Name"
@@ -298,7 +298,7 @@ characterResource = ExtResource("6_ikelw")
 
 [node name="Knight4" parent="." instance=ExtResource("1_w2g8u")]
 transform = Transform3D(-0.0406201, 0, 0.999175, 0, 1, 0, -0.999175, 0, -0.0406201, -10.9455, 0, -2.21003)
-characterResource = SubResource("Resource_uub4o")
+characterResource = SubResource("Resource_tw2d2")
 
 [node name="Skeleton3D" parent="Knight4/Knight/Rig" index="0"]
 bones/1/position = Vector3(0, 0.405663, 0)
@@ -394,12 +394,12 @@ autoplay = ""
 
 [node name="TurnBasedAgent" parent="Knight4" index="1"]
 character_type = 1
-characterResource = SubResource("Resource_uub4o")
+characterResource = SubResource("Resource_tw2d2")
 targetIconOffSet = Vector3(1.5, 1.505, 0)
 
 [node name="Knight5" parent="." instance=ExtResource("1_w2g8u")]
 transform = Transform3D(-0.0406201, 0, 0.999175, 0, 1, 0, -0.999175, 0, -0.0406201, -10.9455, 0, 3.16177)
-characterResource = SubResource("Resource_bl086")
+characterResource = SubResource("Resource_ido0n")
 
 [node name="Skeleton3D" parent="Knight5/Knight/Rig" index="0"]
 bones/1/position = Vector3(0, 0.405663, 0)
@@ -495,7 +495,7 @@ autoplay = ""
 
 [node name="TurnBasedAgent" parent="Knight5" index="1"]
 character_type = 1
-characterResource = SubResource("Resource_bl086")
+characterResource = SubResource("Resource_ido0n")
 
 [editable path="CanvasLayer/ComandMenu"]
 [editable path="Knight6"]

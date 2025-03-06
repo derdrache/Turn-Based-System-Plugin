@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://3aq1x782mavu"]
 
-[ext_resource type="Script" path="res://addons/Turn_Based_System/test/move_button.gd" id="1_f4muv"]
+[ext_resource type="Script" uid="uid://cjqjmhv03srdr" path="res://addons/Turn_Based_System/test/move_button.gd" id="1_f4muv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_acv2j"]
 bg_color = Color(0.466667, 0.403922, 1, 0.588235)

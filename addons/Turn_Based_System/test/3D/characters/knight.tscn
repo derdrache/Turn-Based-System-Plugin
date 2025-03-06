@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://c1dggmu6uu8ab"]
 
-[ext_resource type="Script" path="res://addons/Turn_Based_System/test/3D/characters/character.gd" id="1_0yke6"]
+[ext_resource type="Script" uid="uid://ds01vtj6yukog" path="res://addons/Turn_Based_System/test/3D/characters/character.gd" id="1_0yke6"]
 [ext_resource type="PackedScene" uid="uid://cf2bte7mjdueg" path="res://addons/Turn_Based_System/test/3D/assets/Knight.glb" id="1_8luvs"]
-[ext_resource type="Script" path="res://addons/Turn_Based_System/nodes/turn_based_agent/turn_based_agent.gd" id="3_ncwu0"]
+[ext_resource type="Script" uid="uid://cwcam7fo2j2in" path="res://addons/Turn_Based_System/nodes/turn_based_agent/turn_based_agent.gd" id="3_ncwu0"]
 
 [node name="Knight" type="StaticBody3D"]
 script = ExtResource("1_0yke6")

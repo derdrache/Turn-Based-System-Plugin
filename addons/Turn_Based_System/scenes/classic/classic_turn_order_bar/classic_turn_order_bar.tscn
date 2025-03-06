@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cv1rrda3groo5"]
 
-[ext_resource type="Script" path="res://addons/Turn_Based_System/scenes/classic/classic_turn_order_bar/classic_turn_order_bar.gd" id="1_0555k"]
+[ext_resource type="Script" uid="uid://c2npawwqsr7um" path="res://addons/Turn_Based_System/scenes/classic/classic_turn_order_bar/classic_turn_order_bar.gd" id="1_0555k"]
 [ext_resource type="PackedScene" uid="uid://chnm414dcbqlr" path="res://addons/Turn_Based_System/scenes/classic/classic_turn_order_bar/character_display.tscn" id="2_vflxu"]
 [ext_resource type="Texture2D" uid="uid://jvgay0s5alo6" path="res://addons/Turn_Based_System/assets/icons/Icon_Left.png" id="3_e6igx"]
 

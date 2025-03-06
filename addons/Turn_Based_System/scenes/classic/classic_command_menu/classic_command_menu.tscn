@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://csjsu65sx7iu5"]
 
-[ext_resource type="Script" path="res://addons/Turn_Based_System/scenes/classic/classic_command_menu/classic_command_menu.gd" id="1_gybsi"]
+[ext_resource type="Script" uid="uid://b7tbqqtlp6xae" path="res://addons/Turn_Based_System/scenes/classic/classic_command_menu/classic_command_menu.gd" id="1_gybsi"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xvk5p"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -21,8 +21,8 @@ grow_vertical = 2
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_xvk5p")
 script = ExtResource("1_gybsi")
-mainCommandButtonReference = Array[String](["", "", ""])
-mainCommandButtonIcons = Array[CompressedTexture2D]([null, null, null])
+mainCommandButtonReference = Array[String]([""])
+mainCommandButtonIcons = Array[CompressedTexture2D]([null])
 leftCommandButtonNames = Array[String](["", ""])
 leftCommandButtonReference = Array[String](["", ""])
 leftCommandButtonIcons = Array[CompressedTexture2D]([null, null])

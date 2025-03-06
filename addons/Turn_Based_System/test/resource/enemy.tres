@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="TestCharacterResource" load_steps=3 format=3 uid="uid://cwjljuoc83jn0"]
 
 [ext_resource type="Resource" uid="uid://dkcvrtj60prfi" path="res://addons/Turn_Based_System/test/skills/normal_attack.tres" id="1_53dqm"]
-[ext_resource type="Script" path="res://addons/Turn_Based_System/test/resource/character_resource.gd" id="2_emu1w"]
+[ext_resource type="Script" uid="uid://cfr66w8pkeuwd" path="res://addons/Turn_Based_System/test/resource/character_resource.gd" id="2_emu1w"]
 
 [resource]
 resource_local_to_scene = true

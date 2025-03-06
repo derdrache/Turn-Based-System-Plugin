@@ -1,11 +1,12 @@
 [gd_resource type="Resource" script_class="TestSkillResource" load_steps=2 format=3 uid="uid://dgugc04507s8u"]
 
-[ext_resource type="Script" path="res://addons/Turn_Based_System/test/skills/skillResource.gd" id="1_l1tg2"]
+[ext_resource type="Script" uid="uid://dg76cr18bloaq" path="res://addons/Turn_Based_System/test/skills/skillResource.gd" id="1_l1tg2"]
 
 [resource]
 script = ExtResource("1_l1tg2")
 name = "Heal"
 manaCost = 5
+isAllowed = true
 targetType = 1
 commandType = 1
 targetCount = 1
