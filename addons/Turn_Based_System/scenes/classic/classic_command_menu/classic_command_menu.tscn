@@ -21,8 +21,8 @@ grow_vertical = 2
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_xvk5p")
 script = ExtResource("1_gybsi")
-mainCommandButtonReference = Array[String]([""])
-mainCommandButtonIcons = Array[CompressedTexture2D]([null])
+mainCommandButtonReference = Array[String](["", "", ""])
+mainCommandButtonIcons = Array[CompressedTexture2D]([null, null, null])
 leftCommandButtonNames = Array[String](["", ""])
 leftCommandButtonReference = Array[String](["", ""])
 leftCommandButtonIcons = Array[CompressedTexture2D]([null, null])
@@ -55,6 +55,7 @@ unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(0, 145)
 layout_mode = 2
+follow_focus = true
 horizontal_scroll_mode = 0
 
 [node name="MultiCommandContainer" type="GridContainer" parent="MarginContainer/ScrollContainer"]
