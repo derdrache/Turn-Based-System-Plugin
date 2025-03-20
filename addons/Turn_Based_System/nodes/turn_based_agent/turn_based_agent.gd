@@ -300,6 +300,9 @@ func remove_agent() -> void:
 	isDisabled = true
 	
 	turnBasedController.remove_agent(self)
+	
+	if isActive:
+		turn_finished.emit()
 
 func get_global_position():
 	if not get_parent(): return
