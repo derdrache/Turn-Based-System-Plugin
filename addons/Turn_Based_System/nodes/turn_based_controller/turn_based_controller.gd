@@ -61,6 +61,9 @@ func _set_signals() -> void:
 		agent.turn_finished.connect(_on_turn_done)
 
 func _set_turn_order() -> void:
+	turnOrderList = []
+	dynamicTurnOrderBaseList = []
+	
 	var players = get_tree().get_nodes_in_group("turnBasedPlayer")
 	var enemies = get_tree().get_nodes_in_group("turnBasedEnemy")
 	var allCharactersList = players + enemies
