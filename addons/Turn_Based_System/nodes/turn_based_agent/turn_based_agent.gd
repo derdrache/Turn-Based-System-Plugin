@@ -194,6 +194,11 @@ func _on_command_selected(command: CommandResource) -> void:
 
 	_set_possible_targets(command)
 	
+	if possibleTargets.is_empty(): 
+		push_warning(command.name + " no possible target")
+		_undo_command()
+		return
+	
 	mainTarget = possibleTargets[0]
 	mainTarget.set_target()
 	
@@ -212,6 +217,10 @@ func _set_possible_targets(command):
 		CommandResource.Target_Type.SELF:
 			isTargetAlly = true
 			possibleTargets = [self]
+		CommandResource.Target_Type.PLAYERS_NOT_SELF:
+			isTargetAlly = true
+			possibleTargets = get_tree().get_nodes_in_group("turnBasedPlayer")
+			possibleTargets.erase(self)
 	
 	possibleTargets = possibleTargets.filter(func(target): return not target.isDisabled)
 
@@ -328,6 +337,7 @@ func set_target() -> void:
 func set_active(boolean: bool) -> void:
 	if boolean and isActive: return
 	
+	mainTarget = null
 	isActive = boolean
 
 	if isActive: onTurnIconNode.show()
