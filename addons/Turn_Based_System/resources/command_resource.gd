@@ -1,7 +1,7 @@
 extends Resource
 class_name CommandResource
 
-enum Target_Type {ENEMIES, PLAYERS, SELF, PLAYERS_NOT_SELF}
+enum Target_Type {ENEMIES, PLAYERS, SELF, PLAYERS_NOT_SELF, PLAYERS_WITH_DISABLED}
 enum Command_Type {DAMAGE, HEAL, SUPPORT}
 
 @export var name : String

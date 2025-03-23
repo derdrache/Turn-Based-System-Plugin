@@ -211,7 +211,7 @@ func _set_possible_targets(command):
 	match command.targetType:
 		CommandResource.Target_Type.ENEMIES:
 			possibleTargets = get_tree().get_nodes_in_group("turnBasedEnemy")
-		CommandResource.Target_Type.PLAYERS:
+		CommandResource.Target_Type.PLAYERS, CommandResource.Target_Type.PLAYERS_WITH_DISABLED:
 			isTargetAlly = true
 			possibleTargets = get_tree().get_nodes_in_group("turnBasedPlayer")
 		CommandResource.Target_Type.SELF:
@@ -222,7 +222,8 @@ func _set_possible_targets(command):
 			possibleTargets = get_tree().get_nodes_in_group("turnBasedPlayer")
 			possibleTargets.erase(self)
 	
-	possibleTargets = possibleTargets.filter(func(target): return not target.isDisabled)
+	if not command.targetType == CommandResource.Target_Type.PLAYERS_WITH_DISABLED:
+		possibleTargets = possibleTargets.filter(func(target): return not target.isDisabled)
 
 func _deselect_all_targets() -> void:
 	var allTargets = get_tree().get_nodes_in_group("turnBasedEnemy") + get_tree().get_nodes_in_group("turnBasedPlayer")
@@ -305,6 +306,11 @@ func _undo_command() -> void:
 	
 
 # public functions
+func add_agent() -> void:
+	isDisabled = false
+	
+	turnBasedController.add_agent(self)
+
 func remove_agent() -> void:
 	isDisabled = true
 	

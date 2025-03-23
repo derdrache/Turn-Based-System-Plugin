@@ -66,12 +66,15 @@ func _set_turn_order() -> void:
 	
 	var players = get_tree().get_nodes_in_group("turnBasedPlayer")
 	var enemies = get_tree().get_nodes_in_group("turnBasedEnemy")
-	var allCharactersList = players + enemies
+	var allAgents = players + enemies
+	
+	for agent: TurnBasedAgent in allAgents:
+		agent.set_active(false)
 	
 	match turnOrderType:
-		Turn_Order_Type.CLASSIC: _set_classic_turn_order(allCharactersList)
-		Turn_Order_Type.VALUE_BASED: _set_value_based_turn_order(allCharactersList)
-		Turn_Order_Type.DYNAMIC: _set_dynamic_turn_order(allCharactersList)
+		Turn_Order_Type.CLASSIC: _set_classic_turn_order(allAgents)
+		Turn_Order_Type.VALUE_BASED: _set_value_based_turn_order(allAgents)
+		Turn_Order_Type.DYNAMIC: _set_dynamic_turn_order(allAgents)
 	
 func _set_classic_turn_order(characterList: Array) -> void:
 		for agent: TurnBasedAgent in characterList:
@@ -310,6 +313,10 @@ func swap_agents(oldAgent: TurnBasedAgent, newAgent: TurnBasedAgent, turnOrderTa
 		Turn_Order_Type.CLASSIC: _swap_agents_classic_mode(oldAgent, newAgent, turnOrderTakeOver)
 		Turn_Order_Type.VALUE_BASED: _swap_agents_classic_mode(oldAgent, newAgent, turnOrderTakeOver)
 		Turn_Order_Type.DYNAMIC: _swap_agents_dynamic_mode(oldAgent, newAgent, turnOrderTakeOver)
+
+func add_agent(agent:TurnBasedAgent) -> void:
+	turnOrderList.append(agent)
+	_refresh_turn_order_bar()
 
 func remove_agent(agent: TurnBasedAgent) -> void:
 	var index: int
