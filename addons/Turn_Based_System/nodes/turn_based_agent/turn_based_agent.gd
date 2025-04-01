@@ -355,6 +355,11 @@ func set_active(boolean: bool) -> void:
 		onTurnIconNode.hide()
 		enemy_turn_started.emit()
 
+func manual_target_selection(target: TurnBasedAgent):
+	mainTarget = target
+	allSelectedTargets = [target]
+	_select_target()
+
 # Editor changes
 func _validate_property(property: Dictionary):
 	var hideList = []
