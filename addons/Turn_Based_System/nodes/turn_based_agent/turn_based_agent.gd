@@ -115,6 +115,8 @@ func _set_group() -> void:
 		add_to_group("turnBasedPlayer")
 	elif character_type == Character_Type.ENEMY:
 		add_to_group("turnBasedEnemy")
+	elif character_type == Character_Type.PASSIV_PLAYER:
+		add_to_group("turnBasedPlayerPassiv")
 
 func _create_on_turn_icon() -> void:
 	if is3DScene:
