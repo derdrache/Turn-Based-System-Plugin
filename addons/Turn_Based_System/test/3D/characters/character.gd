@@ -27,7 +27,7 @@ func _swap_character():
 
 func _ready() -> void:
 	if turn_based_agent: 
-		turn_based_agent.player_action_started.connect(_on_character_action)
+		turn_based_agent.target_selected.connect(_on_character_action)
 		turn_based_agent.enemy_turn_started.connect(_on_enemy_turn_started)
 		turn_based_agent.characterResource = characterResource
 		turn_based_agent.turnOrderValueName = "speed"

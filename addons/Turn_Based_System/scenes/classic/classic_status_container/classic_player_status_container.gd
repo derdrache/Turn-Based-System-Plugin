@@ -40,7 +40,7 @@ func _on_new_agent(agent: TurnBasedAgent) -> void:
 	
 	agent.player_turn_started.connect(_on_player_turn_started.bind(agent))
 	agent.targeting_started.connect(_on_targeting_started)
-	agent.player_action_started.connect(_on_player_action_started)
+	agent.target_selected.connect(_on_player_action_started)
 	agent.undo_command_selected.connect(_on_undo_command)
 	agent.target_changed.connect(_on_target_change)
 	
@@ -77,6 +77,8 @@ func _setup_player_stats_container() -> void:
 		player_container.add_child(playerStatsContainer)
 		playerStatsContainer.set_player_stats(player.characterResource)
 
+	_deactivate_all_player_focus()
+	_activate_player(currentPlayer)
 
 func _on_targeting_started(targets: Array[TurnBasedAgent], command: Resource) -> void:
 	if not command.commandType == command.Command_Type.HEAL: return
@@ -86,7 +88,7 @@ func _on_targeting_started(targets: Array[TurnBasedAgent], command: Resource) ->
 	
 	_on_target_change(targets)
 		
-func _on_player_action_started(_targets, _command) -> void:
+func _on_player_action_started(_mainTarget, _targets, _command) -> void:
 	_deactivate_all_player_focus()
 
 	_deactivate_heal_modus()

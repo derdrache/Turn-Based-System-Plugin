@@ -17,7 +17,7 @@ signal undo_command_selected()
 ## Emitted when the target is selected [br]
 ## Connect to your character to use the selected Command. [br]
 ## After that use the command_done function the move on
-signal player_action_started(targets: Array[TurnBasedAgent], command:Resource)
+signal target_selected(mainTarget: TurnBasedAgent ,targets: Array[TurnBasedAgent], command:Resource)
 signal targeting_started(targets: Array[TurnBasedAgent], command:Resource)
 signal target_changed(targets : Array[TurnBasedAgent])
 
@@ -70,7 +70,9 @@ enum Character_Type {
 	## Controllable friendly unit
 	PLAYER, 
 	## Non-controllable enemy unit
-	ENEMY
+	ENEMY,
+	## Non-controllable friendly unit
+	PASSIV_PLAYER
 	}
 const ON_TURON_ICON = preload("res://addons/Turn_Based_System/assets/icons/Icon_Down.png")
 const Target_ICON = preload("res://addons/Turn_Based_System/assets/icons/Icon_Left.png")
@@ -88,6 +90,8 @@ var isTargetAlly := false
 
 
 func _ready() -> void:
+	turnBasedController = get_tree().get_first_node_in_group("turnBasedController")
+	
 	_set_group()
 	
 	is3DScene = get_parent() is Node3D
@@ -97,6 +101,9 @@ func _ready() -> void:
 		
 	_create_on_turn_icon()
 	_create_target_icon()
+	
+	if character_type == Character_Type.PASSIV_PLAYER:
+		return
 	
 	if not Engine.is_editor_hint():
 		_set_late_signals()
@@ -172,7 +179,6 @@ func _refresh_on_turn_icon_position()-> void:
 		onTurnIconNode.global_position = get_global_position() + Vector2(onTurnIconOffSet.x, onTurnIconOffSet.y)
 
 func _set_late_signals() -> void:
-	turnBasedController = get_tree().get_first_node_in_group("turnBasedController")
 	turnBasedController.battle_finished.connect(_on_battle_finished)
 	
 	if not get_tree().current_scene.is_node_ready():
@@ -191,6 +197,10 @@ func _on_command_selected(command: CommandResource) -> void:
 	if not isActive or turnBasedController.useOwnTargetingSystem: return
 
 	currentCommand = command
+	
+	if command.targetType == CommandResource.Target_Type.NONE:
+		target_selected.emit(null, [], currentCommand)
+		return
 
 	_set_possible_targets(command)
 	
@@ -290,7 +300,7 @@ func _check_and_select_multi_target(mainTarget: TurnBasedAgent, targets: Array) 
 		if mainTargetIndex > targetSize: mainTargetIndex = 0		
 
 func _select_target() -> void:
-	player_action_started.emit(allSelectedTargets, currentCommand)
+	target_selected.emit(mainTarget, allSelectedTargets, currentCommand)
 	_deselect_all_targets()
 	
 	onTurnIconNode.hide()

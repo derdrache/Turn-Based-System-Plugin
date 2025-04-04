@@ -62,7 +62,7 @@ func _connect_agent_signals(agent: TurnBasedAgent) -> void:
 	agent.target_changed.connect(_on_target_changed)
 	agent.undo_command_selected.connect(_on_command_undo)
 	agent.player_turn_started.connect(func (): show())
-	agent.player_action_started.connect(func (_targets, _command): hide())
+	agent.target_selected.connect(func (_maintarget, _targets, _command): hide())
 
 func _on_target_changed(targets: Array[TurnBasedAgent])-> void:
 	_set_target_nodes(targets)
