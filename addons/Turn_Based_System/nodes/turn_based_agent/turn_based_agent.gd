@@ -372,6 +372,9 @@ func manual_target_selection(target: TurnBasedAgent):
 	allSelectedTargets = [target]
 	_select_target()
 
+func set_disable(boolean: bool):
+	isDisabled = boolean
+
 # Editor changes
 func _validate_property(property: Dictionary):
 	var hideList = []
