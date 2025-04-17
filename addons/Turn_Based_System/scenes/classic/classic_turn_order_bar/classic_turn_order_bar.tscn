@@ -89,6 +89,7 @@ offset_right = 1113.0
 offset_bottom = 108.0
 texture = ExtResource("3_e6igx")
 expand_mode = 1
+flip_h = true
 
 [node name="TargetIconsContainer" type="Control" parent="."]
 unique_name_in_owner = true

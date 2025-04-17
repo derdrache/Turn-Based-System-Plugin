@@ -35,6 +35,7 @@ signal target_changed(targets : Array[TurnBasedAgent])
 ## the name of the variable in the character resource that is to determine the turnorder
 ## example: speed
 @export var turnOrderValueName : String
+@export var ownMinionGroup: String
 
 @export_group("command_menu")
 ## Overrides the mainCommandButtonNames in Command Menu
@@ -201,7 +202,6 @@ func _on_command_selected(command: CommandResource) -> void:
 	currentCommand = command
 	
 	if command.targetType == CommandResource.Target_Type.NONE:
-		target_selected.emit(null, [], currentCommand)
 		return
 
 	_set_possible_targets(command)
@@ -233,6 +233,9 @@ func _set_possible_targets(command):
 			isTargetAlly = true
 			possibleTargets = get_tree().get_nodes_in_group("turnBasedPlayer")
 			possibleTargets.erase(self)
+		CommandResource.Target_Type.PLAYERS, CommandResource.Target_Type.PLAYERS_WITH_DISABLED:
+			isTargetAlly = true
+			possibleTargets = get_tree().get_nodes_in_group(ownMinionGroup)
 	
 	if not command.targetType == CommandResource.Target_Type.PLAYERS_WITH_DISABLED:
 		possibleTargets = possibleTargets.filter(func(target): return not target.isDisabled)
@@ -367,13 +370,14 @@ func set_active(boolean: bool) -> void:
 		onTurnIconNode.hide()
 		enemy_turn_started.emit()
 
-func manual_target_selection(target: TurnBasedAgent):
-	mainTarget = target
-	allSelectedTargets = [target]
+func manual_target_selection(targets: Array[TurnBasedAgent]):
+	mainTarget = targets[0]
+	allSelectedTargets = targets
 	_select_target()
 
 func set_disable(boolean: bool):
 	isDisabled = boolean
+	turnBasedController._refresh_turn_order_bar()
 
 # Editor changes
 func _validate_property(property: Dictionary):

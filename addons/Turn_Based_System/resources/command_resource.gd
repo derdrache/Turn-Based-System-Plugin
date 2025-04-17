@@ -1,6 +1,7 @@
 extends Resource
 class_name CommandResource
 
+## None: after command selection, you have to use "manual_target_selection" from the turn based agent to continue the battle
 enum Target_Type {ENEMIES, PLAYERS, SELF, PLAYERS_NOT_SELF, PLAYERS_WITH_DISABLED, OWN_MINIONS, NONE}
 enum Command_Type {DAMAGE, HEAL, SUPPORT}
 

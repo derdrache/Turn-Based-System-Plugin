@@ -64,17 +64,15 @@ func _set_turn_order() -> void:
 	turnOrderList = []
 	dynamicTurnOrderBaseList = []
 	
-	var players = get_tree().get_nodes_in_group("turnBasedPlayer")
-	var enemies = get_tree().get_nodes_in_group("turnBasedEnemy")
-	var allAgents = players + enemies
+	var allCharactersList = _get_valid_agents()
 	
-	for agent: TurnBasedAgent in allAgents:
+	for agent: TurnBasedAgent in allCharactersList:
 		agent.set_active(false)
 	
 	match turnOrderType:
-		Turn_Order_Type.CLASSIC: _set_classic_turn_order(allAgents)
-		Turn_Order_Type.VALUE_BASED: _set_value_based_turn_order(allAgents)
-		Turn_Order_Type.DYNAMIC: _set_dynamic_turn_order(allAgents)
+		Turn_Order_Type.CLASSIC: _set_classic_turn_order(allCharactersList)
+		Turn_Order_Type.VALUE_BASED: _set_value_based_turn_order(allCharactersList)
+		Turn_Order_Type.DYNAMIC: _set_dynamic_turn_order(allCharactersList)
 	
 func _set_classic_turn_order(characterList: Array) -> void:
 		for agent: TurnBasedAgent in characterList:
@@ -141,9 +139,7 @@ func _refresh_turn_order():
 			_refresh_turn_order()
 
 func _refresh_dynamic_turn_order_list() -> void:
-	var players = get_tree().get_nodes_in_group("turnBasedPlayer")
-	var enemies = get_tree().get_nodes_in_group("turnBasedEnemy")
-	var agentList = players + enemies
+	var agentList = _get_valid_agents()
 	turnOrderList = []
 	
 	for agent in agentList:
@@ -171,7 +167,19 @@ func _refresh_dynamic_turn_order_list() -> void:
 			currentTime -= speedValue
 	
 	_sort_turn_order_list_by_time()
+
+func _get_valid_agents():
+	var players = get_tree().get_nodes_in_group("turnBasedPlayer")
+	var enemies = get_tree().get_nodes_in_group("turnBasedEnemy")
+	var validAgents = players + enemies
+
+	for agent:TurnBasedAgent in validAgents:
+		
+		if agent.isDisabled or agent.character_type == TurnBasedAgent.Character_Type.PASSIV_PLAYER:
+			validAgents.erase(agent)
 	
+	return validAgents
+
 func _remove_active_character() -> void:
 	if not activeAgent: return
 	
@@ -316,15 +324,19 @@ func swap_agents(oldAgent: TurnBasedAgent, newAgent: TurnBasedAgent, turnOrderTa
 
 func add_agent(agent:TurnBasedAgent) -> void:
 	turnOrderList.append(agent)
+	
 	_refresh_turn_order_bar()
 
 func remove_agent(agent: TurnBasedAgent) -> void:
-	var index: int
-	
 	for entry: TimeEntry in turnOrderList:
-		if entry.agent == agent: index = turnOrderList.find(entry)
-
-	turnOrderList.remove_at(index)
+		if entry.agent == agent: 
+			turnOrderList.erase(entry)
+	
+	for entry in dynamicTurnOrderBaseList:
+		if entry.agent == agent: 
+			dynamicTurnOrderBaseList.erase(entry)
+	
+	_refresh_turn_order_bar()
 
 func get_active_character():
 	return activeAgent.get_parent()

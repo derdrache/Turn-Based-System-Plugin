@@ -10,8 +10,8 @@ extends PanelContainer
 
 var characterResource: Resource
 var statsReference: Dictionary = {}
-var styleBoxNormal: StyleBox
-var styleBoxFocus: StyleBox 
+var styleBoxNormal: StyleBox = StyleBoxEmpty.new()
+var styleBoxFocus: StyleBox = StyleBoxEmpty.new()
 var oldCharacterResource: Resource
 var styleBoxHealFocus := preload(
 	"res://addons/Turn_Based_System/scenes/classic/classic_status_container/style_box_player_stats_container_heal.tres"

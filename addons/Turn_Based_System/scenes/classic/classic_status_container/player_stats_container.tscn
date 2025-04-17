@@ -32,7 +32,7 @@ theme_override_constants/separation = 25
 
 [node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer/hBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(120, 0)
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.847474, 0.847474, 0.847474, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
