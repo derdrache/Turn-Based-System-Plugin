@@ -128,7 +128,9 @@ func change_menu_index(changeValue: int):
 	
 	menuIndex = clamp(menuIndex, minValue, maxValue)
 	
-	if oldValue == menuIndex: return 
+	if oldValue == menuIndex: 
+		main_command_container.get_child(0).call_deferred("grab_focus")
+		return 
 	
 	_reset_command_menu()
 	_refresh_main_command_menu()
@@ -257,6 +259,7 @@ func _refresh_main_command_menu() -> void:
 			continue
 		
 		var newMainCommandButton = defaultCommandButton.instantiate()
+		newMainCommandButton.withManaCostLabel = false
 		newMainCommandButton.set_name(commandName)
 		newMainCommandButton.buttonIcon = menuData["icons"][index]
 		if isEmpty: newMainCommandButton.focus_mode = Control.FOCUS_NONE
