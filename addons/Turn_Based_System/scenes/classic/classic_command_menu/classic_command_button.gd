@@ -2,6 +2,7 @@ extends Button
 
 @export var buttonIcon: CompressedTexture2D
 @export var command: CommandResource
+@export var withManaCostLabel := true
 
 @onready var texture_rect: TextureRect = %TextureRect
 @onready var texture_rect_container: MarginContainer = %TextureRectContainer
@@ -11,8 +12,9 @@ extends Button
 
 func _ready() -> void:
 	var turnBasedController: TurnBasedController = get_tree().get_first_node_in_group("turnBasedController")
-	texture_rect_container.hide()
-	mana_cost_container.hide()
+	texture_rect_container.hide()	
+	if not withManaCostLabel:
+		mana_cost_container.hide()
 	
 	if buttonIcon:
 		texture_rect.texture = buttonIcon
@@ -20,7 +22,6 @@ func _ready() -> void:
 	
 	if command and command.manaCost:
 		mana_cost_label.text = str(command.manaCost)
-		mana_cost_container.show()
 		
 		var currentMana = turnBasedController.get_active_character().characterResource.currentMana
 		if command.manaCost > currentMana:
