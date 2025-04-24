@@ -11,6 +11,8 @@ signal round_finished()
 ## Emit every time when the order has changed
 signal turn_order_changed(characterTurnOrder: Array[TurnBasedAgent])
 
+signal active_character_changed(newCharacter)
+
 signal new_agent_entered(agent: TurnBasedAgent)
 ## Different turn order calculations
 @export var turnOrderType : Turn_Order_Type:
@@ -110,6 +112,8 @@ func _set_next_active_character() -> void:
 	
 	if turnOrderType == Turn_Order_Type.DYNAMIC: 
 		_reduce_time_on_same_as_active()
+
+	active_character_changed.emit(activeAgent.get_parent())
 
 func _reduce_time_on_same_as_active():
 		for entry in dynamicTurnOrderBaseList:
