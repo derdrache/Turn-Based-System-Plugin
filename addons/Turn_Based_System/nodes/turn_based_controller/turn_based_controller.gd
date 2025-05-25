@@ -4,7 +4,7 @@ class_name TurnBasedController extends Node
 ## It has to stay above your TurnOrderBar
 
 ## Emit when no enemy or no player left and when all player disabled
-signal battle_finished()
+signal battle_finished(victory: bool)
 ## Emit when every character has made his turn [br]
 ## Doesn't fire if endlessOrder is true
 signal round_finished()
@@ -232,7 +232,9 @@ func _battle_done():
 	get_tree().get_first_node_in_group("turnBasedStatusContainer").hide()
 	get_tree().get_first_node_in_group("turnBasedTurnOrderBar").hide()
 
-	battle_finished.emit()
+	var victory = get_tree().get_nodes_in_group("turnBasedEnemy").is_empty()
+
+	battle_finished.emit(victory)
 
 func _get_dynamic_speed_value(characterTurnValue: float) -> float:
 	var baseSpeed : float = get_tree().get_nodes_in_group("turnBasedPlayer")[0].get_turn_order_value()
