@@ -243,13 +243,23 @@ func _get_dynamic_speed_value(characterTurnValue: float) -> float:
 	
 	return snapped(speedValue, 0.01)
 
+func get_command_speed_cost():
+	var activeCharCommand = turnOrderList[0].agent.currentCommand
+	
+	if not activeCharCommand:
+		return 1
+		
+	var commandSpeedCost = activeCharCommand.turnOrderCost
+	
+	return 1 + commandSpeedCost
+
 func _reduce_time_on_active_char():
 	var activeChar = turnOrderList[0].agent
-	var speedValue : float = _get_dynamic_speed_value(activeChar.get_turn_order_value())
-	
+	var speedValue : float = _get_dynamic_speed_value(activeChar.get_turn_order_value()) 
+
 	for entry in dynamicTurnOrderBaseList:
 		if entry.agent == activeChar:
-			entry.currentTime -= speedValue
+			entry.currentTime -= speedValue * get_command_speed_cost()
 
 func _add_time_to_turn_order() -> void:
 	var firstCharacterTime = turnOrderList[0].currentTime

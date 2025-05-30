@@ -6,6 +6,7 @@
 script = ExtResource("1_igvgi")
 name = "Attack"
 manaCost = 0
+turnOrderCost = -0.9
 isAllowed = true
 targetType = 0
 commandType = 0
