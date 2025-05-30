@@ -13,8 +13,8 @@ extends Button
 func _ready() -> void:
 	var turnBasedController: TurnBasedController = get_tree().get_first_node_in_group("turnBasedController")
 	texture_rect_container.hide()	
-	if not withManaCostLabel:
-		mana_cost_container.hide()
+	
+	_set_mana_cost_label()
 	
 	if buttonIcon:
 		texture_rect.texture = buttonIcon
@@ -30,6 +30,12 @@ func _ready() -> void:
 	if command and not command.isAllowed:
 		command_name_label.add_theme_color_override("font_color", Color.GRAY)
 		mana_cost_label.add_theme_color_override("font_color", Color.GRAY)
+
+func _set_mana_cost_label():
+	if not withManaCostLabel:
+		mana_cost_container.hide()
+	else:
+		mana_cost_container.show()
 
 func set_name(name:String):
 	%CommandNameLabel.text = name
