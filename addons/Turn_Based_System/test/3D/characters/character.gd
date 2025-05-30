@@ -32,7 +32,7 @@ func _ready() -> void:
 		turn_based_agent.characterResource = characterResource
 		turn_based_agent.turnOrderValueName = "speed"
 
-func _on_character_action(targets ,command):
+func _on_character_action(mainTarget, targets ,command):
 	# here you put every interaction between the character and his targets
 	# like:
 	# animation
