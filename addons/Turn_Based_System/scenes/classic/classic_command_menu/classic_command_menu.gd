@@ -358,7 +358,7 @@ func _editor_command_menu_refresh() -> void:
 	
 	for i in mainCommandButtonNames.size():
 		var newMainCommandButton = defaultCommandButton.instantiate()
-		newMainCommandButton.text = mainCommandButtonNames[i]
+		newMainCommandButton.set_label_name(mainCommandButtonNames[i])
 		newMainCommandButton.buttonIcon = mainCommandButtonIcons[i]
 		main_command_container.add_child(newMainCommandButton)
 

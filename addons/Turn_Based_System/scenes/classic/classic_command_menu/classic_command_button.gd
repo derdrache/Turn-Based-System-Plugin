@@ -1,3 +1,4 @@
+@tool
 extends Button
 
 @export var buttonIcon: CompressedTexture2D
@@ -37,5 +38,5 @@ func _set_mana_cost_label():
 	else:
 		mana_cost_container.show()
 
-func set_name(name:String):
+func set_label_name(name:String):
 	%CommandNameLabel.text = name
