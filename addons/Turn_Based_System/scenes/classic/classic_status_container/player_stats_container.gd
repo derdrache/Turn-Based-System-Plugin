@@ -18,6 +18,10 @@ var styleBoxHealFocus := preload(
 	)
 var healMode := false
 
+var health := 0
+var mana := 0
+var overDrive := 0
+
 func set_player_stats(newCharacterResource: Resource) -> void:
 	characterResource = newCharacterResource
 
@@ -56,7 +60,11 @@ func set_player_stats(newCharacterResource: Resource) -> void:
 		over_drive_bar.value = characterResource[statsReference.overDrive]
 	else:
 		push_error(statsReference.overDrive + " doesn't found in characterResource")
-
+	
+	health = characterResource[statsReference["health"]]
+	mana = characterResource[statsReference["mana"]]
+	overDrive = characterResource[statsReference["overDrive"]]
+	
 	oldCharacterResource = characterResource.duplicate()
 	
 func _process(delta: float) -> void:
@@ -68,7 +76,10 @@ func _process(delta: float) -> void:
 	
 	if refreshed: 
 		_update_stats()
-		oldCharacterResource = characterResource.duplicate()
+		
+		health = characterResource[statsReference["health"]]
+		mana = characterResource[statsReference["mana"]]
+		overDrive = characterResource[statsReference["overDrive"]]
 
 func _check_refreshed(newResource: Resource, oldResource) -> bool:
 	var healthChanged = false
@@ -76,11 +87,11 @@ func _check_refreshed(newResource: Resource, oldResource) -> bool:
 	var overDriveChanged = false
 	
 	if statsReference["health"] in newResource:
-		healthChanged = newResource[statsReference["health"]] != oldResource[statsReference["health"]]
+		healthChanged = newResource[statsReference["health"]] != health
 	if statsReference["mana"] in newResource:
-		manaChanged = newResource[statsReference["mana"]] != oldResource[statsReference["mana"]]
+		manaChanged = newResource[statsReference["mana"]] != mana
 	if statsReference["overDrive"] in newResource:
-		overDriveChanged = newResource[statsReference["overDrive"]] != oldResource[statsReference["overDrive"]]
+		overDriveChanged = newResource[statsReference["overDrive"]] != overDrive
 	
 	if healthChanged or manaChanged or overDriveChanged:
 		return true
