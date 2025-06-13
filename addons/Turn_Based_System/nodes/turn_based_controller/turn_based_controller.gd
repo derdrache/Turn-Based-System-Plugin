@@ -232,7 +232,8 @@ func _battle_done():
 	get_tree().get_first_node_in_group("turnBasedStatusContainer").hide()
 	get_tree().get_first_node_in_group("turnBasedTurnOrderBar").hide()
 
-	var victory = get_tree().get_nodes_in_group("turnBasedEnemy").is_empty()
+	var activeEnemies = get_tree().get_nodes_in_group("turnBasedEnemy").filter(func(character): return not character.isDisabled)
+	var victory = activeEnemies.is_empty()
 
 	battle_finished.emit(victory)
 
