@@ -252,7 +252,7 @@ func _process(delta: float) -> void:
 	_refresh_target_icon_position()
 
 func _input(event: InputEvent) -> void:
-	if not mainTarget or not event is InputEventKey: return
+	if not mainTarget or not event is InputEventKey or isTargetSelected: return
 	
 	_select_between_targets(event)
 	
