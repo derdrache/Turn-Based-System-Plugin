@@ -88,6 +88,7 @@ var mainTarget: TurnBasedAgent
 var allSelectedTargets: Array[TurnBasedAgent]
 var currentCommand: Resource
 var isTargetAlly := false
+var isTargetSelected = false
 
 
 func _ready() -> void:
@@ -305,6 +306,9 @@ func _check_and_select_multi_target(mainTarget: TurnBasedAgent, targets: Array) 
 		if mainTargetIndex > targetSize: mainTargetIndex = 0		
 
 func _select_target() -> void:
+	if isTargetSelected: return
+	
+	isTargetSelected = true
 	target_selected.emit(mainTarget, allSelectedTargets, currentCommand)
 	_deselect_all_targets()
 	
@@ -358,6 +362,7 @@ func set_target() -> void:
 func set_active(boolean: bool) -> void:
 	if boolean and isActive: return
 	
+	isTargetSelected = false
 	mainTarget = null
 	isActive = boolean
 

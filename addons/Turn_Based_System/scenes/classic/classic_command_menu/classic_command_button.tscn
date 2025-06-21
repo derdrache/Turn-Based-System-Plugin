@@ -50,7 +50,6 @@ text = "Attack"
 
 [node name="manaCostContainer" type="MarginContainer" parent="HBoxContainer"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_constants/margin_right = 10
