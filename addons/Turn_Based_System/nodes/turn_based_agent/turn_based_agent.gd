@@ -102,16 +102,13 @@ func _ready() -> void:
 	
 	is3DScene = get_parent() is Node3D
 	
-	if get_parent().characterResource:
+	if not characterResource and get_parent().characterResource:
 		characterResource = get_parent().characterResource
 	
 	get_parent().process_mode = Node.PROCESS_MODE_ALWAYS
 		
 	_create_on_turn_icon()
 	_create_target_icon()
-	
-	if character_type == Character_Type.PASSIV_PLAYER:
-		return
 	
 	if not Engine.is_editor_hint():
 		_set_late_signals()
@@ -188,7 +185,10 @@ func _refresh_on_turn_icon_position()-> void:
 	else:
 		onTurnIconNode.global_position = get_global_position() + Vector2(onTurnIconOffSet.x, onTurnIconOffSet.y)
 
-func _set_late_signals() -> void:
+func _set_late_signals() -> void:	
+	if character_type == Character_Type.PASSIV_PLAYER:
+		return
+		
 	turnBasedController.battle_finished.connect(_on_battle_finished)
 	
 	if not get_tree().current_scene.is_node_ready():
