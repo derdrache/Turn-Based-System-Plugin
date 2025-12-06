@@ -375,6 +375,7 @@ func swap_agent(swapAgent: TurnBasedAgent, turnOrderTakeOver = false):
 
 func command_done() -> void:
 	atbValue = 0
+	isActive = false
 	turn_finished.emit(self)
 
 func set_target() -> void:
