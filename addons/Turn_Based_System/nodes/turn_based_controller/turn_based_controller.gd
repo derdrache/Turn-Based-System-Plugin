@@ -24,6 +24,7 @@ signal new_agent_entered(agent: TurnBasedAgent)
 
 @export_category("ATB")
 @export var withPause := false
+@export var manually := false
 
 enum Turn_Order_Type{
 	## first the players then the enemies, each character has one turn per round
@@ -384,6 +385,7 @@ func _validate_property(property: Dictionary):
 	if turnOrderType != Turn_Order_Type.ATB:
 		hideList.append("ATB")
 		hideList.append("withPause")
+		hideList.append("manually")
 		
 	if property.name in hideList: 
 		property.usage = PROPERTY_USAGE_NO_EDITOR 

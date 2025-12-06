@@ -260,9 +260,10 @@ func _process(delta: float) -> void:
 	_handle_atb_value()
 
 func _handle_atb_value():
-	if Engine.is_editor_hint(): return
+	if Engine.is_editor_hint() or turnBasedController.manually: return
 
-	if turnBasedController.activeAgent and turnBasedController.withPause: return
+	var activePlayer = turnBasedController.activeAgent and turnBasedController.withPause
+	if activePlayer: return
 
 	if characterResource and turnBasedController.turnOrderType == TurnBasedController.Turn_Order_Type.ATB:
 		if atbValue >= 100:
