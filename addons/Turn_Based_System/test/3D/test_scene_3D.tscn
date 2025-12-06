@@ -77,6 +77,7 @@ scale = Vector2(0.7, 0.7)
 [node name="ClassicStatusContainer" parent="CanvasLayer" instance=ExtResource("9_hbt02")]
 
 [node name="Knight6" parent="." instance=ExtResource("1_w2g8u")]
+process_mode = 3
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.72562, -5.96046e-08, 0)
 characterResource = ExtResource("2_1hdhv")
 
@@ -173,10 +174,12 @@ transform = Transform3D(1, 1.2521356e-21, 5.5422333e-13, -1.2521355e-21, 0.99999
 autoplay = ""
 
 [node name="TurnBasedAgent" parent="Knight6" index="1"]
+process_mode = 3
 characterResource = ExtResource("2_1hdhv")
 onTurnIconOffSet = Vector3(0, 3.125, 0)
 
 [node name="Knight2" parent="." instance=ExtResource("1_w2g8u")]
+process_mode = 3
 transform = Transform3D(-0.00366512, 0, -0.999993, 0, 1, 0, 0.999993, 0, -0.00366512, 5.09338, 0, -2.21003)
 characterResource = ExtResource("3_4p5j1")
 
@@ -273,14 +276,17 @@ transform = Transform3D(1, 1.2521356e-21, 5.5422333e-13, -1.2521355e-21, 0.99999
 autoplay = ""
 
 [node name="TurnBasedAgent" parent="Knight2" index="1"]
+process_mode = 3
 isDisabled = true
 characterResource = ExtResource("3_4p5j1")
 
 [node name="Knight3" parent="." instance=ExtResource("1_w2g8u")]
+process_mode = 3
 transform = Transform3D(-0.00366512, 0, -0.999993, 0, 1, 0, 0.999993, 0, -0.00366512, 4.39612, 0, 2.67334)
 characterResource = ExtResource("6_ikelw")
 
 [node name="Knight4" parent="." instance=ExtResource("1_w2g8u")]
+process_mode = 3
 transform = Transform3D(-0.0406201, 0, 0.999175, 0, 1, 0, -0.999175, 0, -0.0406201, -10.9455, 0, -2.21003)
 characterResource = SubResource("Resource_tw2d2")
 
@@ -377,11 +383,13 @@ transform = Transform3D(1, 1.2521356e-21, 5.5422333e-13, -1.2521355e-21, 0.99999
 autoplay = ""
 
 [node name="TurnBasedAgent" parent="Knight4" index="1"]
+process_mode = 3
 character_type = 1
 characterResource = SubResource("Resource_tw2d2")
 targetIconOffSet = Vector3(1.5, 1.505, 0)
 
 [node name="Knight5" parent="." instance=ExtResource("1_w2g8u")]
+process_mode = 3
 transform = Transform3D(-0.0406201, 0, 0.999175, 0, 1, 0, -0.999175, 0, -0.0406201, -10.9455, 0, 3.16177)
 characterResource = SubResource("Resource_ido0n")
 
@@ -478,6 +486,7 @@ transform = Transform3D(1, 1.2521356e-21, 5.5422333e-13, -1.2521355e-21, 0.99999
 autoplay = ""
 
 [node name="TurnBasedAgent" parent="Knight5" index="1"]
+process_mode = 3
 character_type = 1
 characterResource = SubResource("Resource_ido0n")
 

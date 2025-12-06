@@ -261,6 +261,7 @@ func _refresh_main_command_menu() -> void:
 		var newMainCommandButton = defaultCommandButton.instantiate()
 		newMainCommandButton.withManaCostLabel = false
 		newMainCommandButton.set_name(commandName)
+		newMainCommandButton.set_label_name(commandName)
 		newMainCommandButton.buttonIcon = menuData["icons"][index]
 		if isEmpty: newMainCommandButton.focus_mode = Control.FOCUS_NONE
 		main_command_container.add_child(newMainCommandButton)

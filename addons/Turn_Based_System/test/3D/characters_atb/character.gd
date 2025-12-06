@@ -23,7 +23,6 @@ func _on_character_action(mainTarget, targets ,command):
 	# interaction with Hp Bars
 	# and more
 	await _animation_example(targets[0])
-	
 	if command.name == "Haste":
 		for target in targets: 
 			target.character_resource.speed *=2
@@ -42,7 +41,7 @@ func _on_enemy_turn_started():
 	
 	await _animation_example(target)
 	
-	target.characterResource.take_damage(10)
+	target.get_parent().take_damage(10)
 	
 	turn_based_agent.command_done()
 
@@ -55,8 +54,8 @@ func _animation_example(target):
 	else: 
 		var randomTarget = get_tree().get_nodes_in_group("turnBasedPlayer").pick_random()
 		targetPosition = randomTarget.get_global_position()
-	
-	var tween = get_tree().create_tween()
+		
+	var tween = create_tween()
 	tween.tween_property(self, "global_position", targetPosition, 0.5)
 	tween.tween_property(self, "global_position", startPosition, 0.5)
 	
@@ -64,7 +63,7 @@ func _animation_example(target):
 
 func take_damage(damage):
 	characterResource.currentHealth -= damage
-	
+
 	if characterResource.currentHealth <= 0:
 		queue_free()
 

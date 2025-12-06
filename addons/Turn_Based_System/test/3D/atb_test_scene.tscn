@@ -1,8 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://bq2q47bb1k0g5"]
+[gd_scene load_steps=13 format=3 uid="uid://cc3fc6vi51jh2"]
 
 [ext_resource type="Script" uid="uid://cjby6hkbq05lp" path="res://addons/Turn_Based_System/nodes/turn_based_controller/turn_based_controller.gd" id="1_btdom"]
 [ext_resource type="PackedScene" uid="uid://csjsu65sx7iu5" path="res://addons/Turn_Based_System/scenes/classic/classic_command_menu/classic_command_menu.tscn" id="2_vrf4l"]
-[ext_resource type="PackedScene" uid="uid://cv1rrda3groo5" path="res://addons/Turn_Based_System/scenes/classic/classic_turn_order_bar/classic_turn_order_bar.tscn" id="3_sdcr3"]
 [ext_resource type="PackedScene" uid="uid://b6dd25yaobs1l" path="res://addons/Turn_Based_System/scenes/classic/classic_status_container/classic_player_status_container.tscn" id="4_h0pxi"]
 [ext_resource type="PackedScene" uid="uid://h1l6oa0hyta" path="res://addons/Turn_Based_System/test/3D/characters_atb/knight.tscn" id="5_drd74"]
 [ext_resource type="Resource" uid="uid://ccq1ra2k8frfy" path="res://addons/Turn_Based_System/test/resource/player1.tres" id="6_3y1e4"]
@@ -43,6 +42,7 @@ shadow_enabled = true
 process_mode = 3
 script = ExtResource("1_btdom")
 turnOrderType = 3
+withPause = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.861629, 0.507539, 0, -0.507539, 0.861629, -2.76, 24.745, 41.285)
@@ -60,27 +60,24 @@ mainCommandButtonNames = Array[String](["Attack", "Skills", ""])
 mainCommandButtonReference = Array[String](["basicAttack", "skills", ""])
 mainCommandButtonIcons = Array[CompressedTexture2D]([null, null, null])
 
-[node name="TurnOrderBar" parent="CanvasLayer" instance=ExtResource("3_sdcr3")]
-offset_left = -140.0
-offset_top = -2.0
-offset_right = 60.0002
-offset_bottom = 598.0
-scale = Vector2(0.7, 0.7)
-
 [node name="ClassicStatusContainer" parent="CanvasLayer" instance=ExtResource("4_h0pxi")]
 
 [node name="Knight" parent="." instance=ExtResource("5_drd74")]
+process_mode = 3
 transform = Transform3D(0, 0, -1.0000001, 0, 1, 0, 1.0000001, 0, 0, 5.652807, 0, 0.14414406)
 characterResource = ExtResource("6_3y1e4")
 
 [node name="TurnBasedAgent" parent="Knight" index="1"]
+process_mode = 3
 characterResource = ExtResource("6_3y1e4")
 
 [node name="Knight2" parent="." instance=ExtResource("5_drd74")]
+process_mode = 3
 transform = Transform3D(-8.7422784e-08, 0, 1.0000001, 0, 1, 0, -1.0000001, 0, -8.7422784e-08, -6.5603685, 0, 0.14414406)
 characterResource = SubResource("Resource_yv71m")
 
 [node name="TurnBasedAgent" parent="Knight2" index="1"]
+process_mode = 3
 character_type = 1
 characterResource = SubResource("Resource_yv71m")
 

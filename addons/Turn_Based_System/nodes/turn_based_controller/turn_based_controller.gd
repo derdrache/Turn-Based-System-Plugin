@@ -22,6 +22,9 @@ signal new_agent_entered(agent: TurnBasedAgent)
 @export var useOwnTargetingSystem := false
 @export var manuellStart := false
 
+##ATB Special
+@export var withPause := false
+
 enum Turn_Order_Type{
 	## first the players then the enemies, each character has one turn per round
 	CLASSIC, 
@@ -203,11 +206,16 @@ func _refresh_turn_order_bar():
 
 	turn_order_changed.emit(barTurnOrder)		
 	
-func _on_turn_done() -> void:
+func _on_turn_done(agent: TurnBasedAgent) -> void:
 	var battleDone = _check_battle_done()
 	
 	if battleDone: return
 	
+	if turnOrderType == Turn_Order_Type.ATB:
+		if agent == activeAgent:
+			activeAgent = null
+		return
+		
 	activeAgent.set_active(false)
 	
 	_refresh_turn_order()
@@ -216,7 +224,6 @@ func _on_turn_done() -> void:
 	
 	_refresh_turn_order_bar()
 	
-	activeAgent = null
 
 func _check_battle_done():
 	var allEnemies = get_tree().get_nodes_in_group("turnBasedEnemy").filter(func(character): return not character.isDisabled)
@@ -292,7 +299,7 @@ func _swap_agents_classic_mode(oldAgent: TurnBasedAgent, newAgent: TurnBasedAgen
 		
 		_refresh_turn_order_bar()
 	else:
-		_on_turn_done()
+		_on_turn_done(null)
 
 func _swap_agents_dynamic_mode(oldAgent: TurnBasedAgent, newAgent: TurnBasedAgent, turnOrderTakeOver):
 	if turnOrderTakeOver:
@@ -311,7 +318,7 @@ func _swap_agents_dynamic_mode(oldAgent: TurnBasedAgent, newAgent: TurnBasedAgen
 		_add_dynamic_agent(newAgent)
 		_refresh_dynamic_turn_order_list()
 		
-		_on_turn_done()
+		_on_turn_done(null)
 
 func _add_dynamic_agent(agent:TurnBasedAgent) -> void:
 	var speedValue : float = _get_dynamic_speed_value(agent.get_turn_order_value())

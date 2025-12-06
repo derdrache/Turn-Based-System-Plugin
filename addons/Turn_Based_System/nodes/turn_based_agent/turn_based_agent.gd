@@ -9,7 +9,7 @@ signal enemy_turn_started()
 
 ## Emitted when the character has used his command [br]
 ## For this you have to use command_done
-signal turn_finished()
+signal turn_finished(agent: TurnBasedAgent)
 
 ## Emitted when the target selection is canceled
 signal undo_command_selected()
@@ -94,6 +94,8 @@ var atbValue = 0
 func _ready() -> void:
 	turnBasedController = get_tree().get_first_node_in_group("turnBasedController")
 	
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	
 	atbValue = 0
 	
 	_set_group()
@@ -102,6 +104,8 @@ func _ready() -> void:
 	
 	if get_parent().characterResource:
 		characterResource = get_parent().characterResource
+	
+	get_parent().process_mode = Node.PROCESS_MODE_ALWAYS
 		
 	_create_on_turn_icon()
 	_create_target_icon()
@@ -257,10 +261,10 @@ func _process(delta: float) -> void:
 
 func _handle_atb_value():
 	if Engine.is_editor_hint(): return
-	
-	if turnBasedController.activeAgent: return
-	
-	if characterResource and turnBasedController.turnOrderType == TurnBasedController.Turn_Order_Type.ATB :
+
+	if turnBasedController.activeAgent and turnBasedController.withPause: return
+
+	if characterResource and turnBasedController.turnOrderType == TurnBasedController.Turn_Order_Type.ATB:
 		if atbValue >= 100:
 			set_active(true)
 		else:
@@ -321,7 +325,7 @@ func _check_and_select_multi_target(mainTarget: TurnBasedAgent, targets: Array) 
 		if mainTargetIndex > targetSize: mainTargetIndex = 0		
 
 func _select_target() -> void:
-	if isTargetSelected: return
+	if isTargetSelected or self != turnBasedController.activeAgent: return
 	
 	isTargetSelected = true
 	target_selected.emit(mainTarget, allSelectedTargets, currentCommand)
@@ -369,13 +373,14 @@ func swap_agent(swapAgent: TurnBasedAgent, turnOrderTakeOver = false):
 	turnBasedController.swap_agents(self, swapAgent, turnOrderTakeOver)
 
 func command_done() -> void:
-	turn_finished.emit()
+	atbValue = 0
+	turn_finished.emit(self)
 
 func set_target() -> void:
 	targetIconNode.show()
 
 func set_active(boolean: bool) -> void:
-	if boolean and isActive: return
+	if boolean and isActive and turnBasedController.activeAgent: return
 	
 	isTargetSelected = false
 	mainTarget = null
@@ -389,8 +394,10 @@ func set_active(boolean: bool) -> void:
 	elif character_type == Character_Type.ENEMY and isActive: 
 		onTurnIconNode.hide()
 		enemy_turn_started.emit()
-
-	if not Engine.is_editor_hint():
+	
+	turnBasedController.activeAgent = self
+	
+	if turnBasedController.withPause and not Engine.is_editor_hint():
 		get_tree().paused = true
 
 func manual_target_selection(targets: Array[TurnBasedAgent]):
