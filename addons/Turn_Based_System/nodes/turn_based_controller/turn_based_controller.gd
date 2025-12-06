@@ -23,7 +23,9 @@ signal new_agent_entered(agent: TurnBasedAgent)
 @export var manuellStart := false
 
 @export_category("ATB")
-@export var speedFactor := 0.05
+## characterResource.speed * speedFactor fill the atbValue per frame
+@export var speedFactor := 0.005
+## Paused the game if the player can select an command
 @export var withPause := false
 @export var manually := false
 

@@ -337,7 +337,7 @@ func _select_target() -> void:
 	mainTarget = null
 	allSelectedTargets = []
 	
-func _undo_command() -> void:
+func _undo_command() -> void: 
 	mainTarget = null
 	_deselect_all_targets()
 	allSelectedTargets = []
