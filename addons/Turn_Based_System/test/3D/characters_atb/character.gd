@@ -6,24 +6,7 @@ extends StaticBody3D
 
 #const KNIGHT = preload("res://addons/Turn_Based_System/test/3D/characters/knight.tscn")
 
-func _input(event: InputEvent) -> void:
-	pass
-	#if Input.is_action_just_pressed("ui_cancel"):
-		#_swap_character()
-
-func _swap_character():	
-	if not turn_based_agent.isActive: return
-	
-	var startPosition = Vector3(0,0,0)
-	var target_position = global_position
-
-	var knightNode = load("res://addons/Turn_Based_System/test/3D/characters/testChar.tscn").instantiate()
-	get_tree().current_scene.add_child(knightNode)
-	knightNode.global_position = startPosition
-	
-	turn_based_agent.swap_agent(knightNode.turn_based_agent , true)
-	
-	queue_free()
+var atbValue = 0
 
 func _ready() -> void:
 	if turn_based_agent: 
@@ -84,3 +67,6 @@ func take_damage(damage):
 	
 	if characterResource.currentHealth <= 0:
 		queue_free()
+
+func _process(delta: float) -> void:
+	atbValue += characterResource.speed / 10

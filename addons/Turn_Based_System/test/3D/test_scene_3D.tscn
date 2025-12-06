@@ -30,30 +30,12 @@ size = Vector2(50, 50)
 [sub_resource type="Resource" id="Resource_tw2d2"]
 resource_local_to_scene = true
 script = ExtResource("7_8j8la")
-name = "Name"
-maxHealth = 100
-currentHealth = 100
-maxMana = 50
-currentMana = 50
-speed = 50
-overDriveValue = 0
 basicAttack = ExtResource("6_ad8f7")
-skills = Array[Resource]([])
-items = Array[Resource]([])
 
 [sub_resource type="Resource" id="Resource_ido0n"]
 resource_local_to_scene = true
 script = ExtResource("7_8j8la")
-name = "Name"
-maxHealth = 100
-currentHealth = 100
-maxMana = 50
-currentMana = 50
-speed = 50
-overDriveValue = 0
 basicAttack = ExtResource("6_ad8f7")
-skills = Array[Resource]([])
-items = Array[Resource]([])
 
 [node name="TestScene3d" type="Node3D"]
 
@@ -65,6 +47,7 @@ transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -
 shadow_enabled = true
 
 [node name="TurnBasedController" type="Node" parent="."]
+process_mode = 3
 script = ExtResource("1_fmmsn")
 turnOrderType = 2
 
@@ -82,6 +65,7 @@ mesh = SubResource("PlaneMesh_3gjfx")
 withButtonIcons = true
 mainCommandButtonNames = Array[String](["Attack", "Skills", ""])
 mainCommandButtonReference = Array[String](["basicAttack", "skills", ""])
+mainCommandButtonIcons = Array[CompressedTexture2D]([null, null, null])
 
 [node name="TurnOrderBar" parent="CanvasLayer" instance=ExtResource("7_27ueo")]
 offset_left = -140.0
@@ -154,36 +138,36 @@ bones/49/position = Vector3(-0.713182, 1.10676, -8.51573e-08)
 bones/49/rotation = Quaternion(0.5, -0.5, -0.5, -0.5)
 
 [node name="1H_Sword_Offhand" parent="Knight6/Knight/Rig/Skeleton3D" index="0"]
-transform = Transform3D(-0.999999, -6.27668e-07, -6.63358e-07, -6.94664e-07, -1.18993e-06, 1, -6.46298e-07, 0.999999, 1.2195e-06, 0.883132, 1.04926, 0.0170115)
+transform = Transform3D(-0.9999987, -6.2766776e-07, -6.633583e-07, -6.9466427e-07, -1.1899323e-06, 0.99999976, -6.462976e-07, 0.9999991, 1.2194959e-06, 0.8831316, 1.049261, 0.01701145)
 visible = true
 
 [node name="Badge_Shield" parent="Knight6/Knight/Rig/Skeleton3D" index="1"]
-transform = Transform3D(-0.999999, 1.90751e-06, -1.33082e-06, -1.36213e-06, -1.39656e-06, 1, 1.88888e-06, 0.999999, 1.42613e-06, 0.883131, 1.20515, 0.0170116)
+transform = Transform3D(-0.9999987, 1.907511e-06, -1.33082e-06, -1.3621301e-06, -1.3965617e-06, 0.99999976, 1.8888811e-06, 0.9999991, 1.4261282e-06, 0.88313144, 1.2051463, 0.01701164)
 visible = true
 
 [node name="Rectangle_Shield" parent="Knight6/Knight/Rig/Skeleton3D" index="2"]
-transform = Transform3D(-0.999999, 1.90751e-06, -1.33082e-06, -1.36213e-06, -1.39656e-06, 1, 1.88888e-06, 0.999999, 1.42613e-06, 0.883131, 1.20515, 0.0170116)
+transform = Transform3D(-0.9999987, 1.907511e-06, -1.33082e-06, -1.3621301e-06, -1.3965617e-06, 0.99999976, 1.8888811e-06, 0.9999991, 1.4261282e-06, 0.88313144, 1.2051463, 0.01701164)
 visible = true
 
 [node name="Round_Shield" parent="Knight6/Knight/Rig/Skeleton3D" index="3"]
-transform = Transform3D(-0.999999, 1.90751e-06, -1.33082e-06, -1.36213e-06, -1.39656e-06, 1, 1.88888e-06, 0.999999, 1.42613e-06, 0.883131, 1.20515, 0.0170116)
+transform = Transform3D(-0.9999987, 1.907511e-06, -1.33082e-06, -1.3621301e-06, -1.3965617e-06, 0.99999976, 1.8888811e-06, 0.9999991, 1.4261282e-06, 0.88313144, 1.2051463, 0.01701164)
 visible = true
 
 [node name="Spike_Shield" parent="Knight6/Knight/Rig/Skeleton3D" index="4"]
-transform = Transform3D(-0.999999, 1.90751e-06, -1.33082e-06, -1.36213e-06, -1.39656e-06, 1, 1.88888e-06, 0.999999, 1.42613e-06, 0.883131, 1.20515, 0.0170116)
+transform = Transform3D(-0.9999987, 1.907511e-06, -1.33082e-06, -1.3621301e-06, -1.3965617e-06, 0.99999976, 1.8888811e-06, 0.9999991, 1.4261282e-06, 0.88313144, 1.2051463, 0.01701164)
 
 [node name="1H_Sword" parent="Knight6/Knight/Rig/Skeleton3D" index="5"]
-transform = Transform3D(0.999999, 6.27668e-07, -9.89199e-07, -1.02051e-06, -1.309e-06, -1, -6.46298e-07, 0.999999, -1.33856e-06, -0.883132, 1.04926, 0.033309)
+transform = Transform3D(0.9999987, 6.2766765e-07, -9.891994e-07, -1.0205056e-06, -1.3089973e-06, -0.99999976, -6.46298e-07, 0.9999991, -1.3385607e-06, -0.8831316, 1.0492609, 0.03330896)
 
 [node name="2H_Sword" parent="Knight6/Knight/Rig/Skeleton3D" index="6"]
-transform = Transform3D(0.999999, 6.12934e-07, -9.75513e-07, -1.00682e-06, -1.309e-06, -1, -6.31565e-07, 0.999999, -1.33856e-06, -0.883132, 1.04926, 0.033309)
+transform = Transform3D(0.9999987, 6.129342e-07, -9.755133e-07, -1.0068196e-06, -1.3089972e-06, -0.99999976, -6.315646e-07, 0.9999991, -1.3385607e-06, -0.8831316, 1.0492609, 0.03330896)
 visible = true
 
 [node name="Knight_Helmet" parent="Knight6/Knight/Rig/Skeleton3D" index="7"]
-transform = Transform3D(1, -2.20965e-22, 5.54223e-13, 2.20965e-22, 1, 0, -5.54223e-13, 1.22464e-34, 1, 4.76837e-07, 1.21589, -1.08542e-07)
+transform = Transform3D(1, -2.209651e-22, 5.5422333e-13, 2.2096506e-22, 0.99999994, 0, -5.5422333e-13, 1.2246401e-34, 1, 4.7683716e-07, 1.2158908, -1.0854231e-07)
 
 [node name="Knight_Cape" parent="Knight6/Knight/Rig/Skeleton3D" index="8"]
-transform = Transform3D(1, 1.25214e-21, 5.54223e-13, -1.25214e-21, 1, 0, -5.54223e-13, -6.93963e-34, 1, -7.79573e-20, 1.21589, -1.4066e-07)
+transform = Transform3D(1, 1.2521356e-21, 5.5422333e-13, -1.2521355e-21, 0.99999994, 0, -5.5422333e-13, -6.939628e-34, 1, -7.7957275e-20, 1.2158909, -1.406604e-07)
 
 [node name="AnimationPlayer" parent="Knight6/Knight" index="1"]
 autoplay = ""
@@ -254,36 +238,36 @@ bones/49/position = Vector3(-0.713182, 1.10676, -8.51573e-08)
 bones/49/rotation = Quaternion(0.5, -0.5, -0.5, -0.5)
 
 [node name="1H_Sword_Offhand" parent="Knight2/Knight/Rig/Skeleton3D" index="0"]
-transform = Transform3D(-0.999999, -6.27668e-07, -6.63358e-07, -6.94664e-07, -1.18993e-06, 1, -6.46298e-07, 0.999999, 1.2195e-06, 0.883132, 1.04926, 0.0170115)
+transform = Transform3D(-0.9999987, -6.2766776e-07, -6.633583e-07, -6.9466427e-07, -1.1899323e-06, 0.99999976, -6.462976e-07, 0.9999991, 1.2194959e-06, 0.8831316, 1.049261, 0.01701145)
 visible = true
 
 [node name="Badge_Shield" parent="Knight2/Knight/Rig/Skeleton3D" index="1"]
-transform = Transform3D(-0.999999, 1.90751e-06, -1.33082e-06, -1.36213e-06, -1.39656e-06, 1, 1.88888e-06, 0.999999, 1.42613e-06, 0.883131, 1.20515, 0.0170116)
+transform = Transform3D(-0.9999987, 1.907511e-06, -1.33082e-06, -1.3621301e-06, -1.3965617e-06, 0.99999976, 1.8888811e-06, 0.9999991, 1.4261282e-06, 0.88313144, 1.2051463, 0.01701164)
 visible = true
 
 [node name="Rectangle_Shield" parent="Knight2/Knight/Rig/Skeleton3D" index="2"]
-transform = Transform3D(-0.999999, 1.90751e-06, -1.33082e-06, -1.36213e-06, -1.39656e-06, 1, 1.88888e-06, 0.999999, 1.42613e-06, 0.883131, 1.20515, 0.0170116)
+transform = Transform3D(-0.9999987, 1.907511e-06, -1.33082e-06, -1.3621301e-06, -1.3965617e-06, 0.99999976, 1.8888811e-06, 0.9999991, 1.4261282e-06, 0.88313144, 1.2051463, 0.01701164)
 visible = true
 
 [node name="Round_Shield" parent="Knight2/Knight/Rig/Skeleton3D" index="3"]
-transform = Transform3D(-0.999999, 1.90751e-06, -1.33082e-06, -1.36213e-06, -1.39656e-06, 1, 1.88888e-06, 0.999999, 1.42613e-06, 0.883131, 1.20515, 0.0170116)
+transform = Transform3D(-0.9999987, 1.907511e-06, -1.33082e-06, -1.3621301e-06, -1.3965617e-06, 0.99999976, 1.8888811e-06, 0.9999991, 1.4261282e-06, 0.88313144, 1.2051463, 0.01701164)
 visible = true
 
 [node name="Spike_Shield" parent="Knight2/Knight/Rig/Skeleton3D" index="4"]
-transform = Transform3D(-0.999999, 1.90751e-06, -1.33082e-06, -1.36213e-06, -1.39656e-06, 1, 1.88888e-06, 0.999999, 1.42613e-06, 0.883131, 1.20515, 0.0170116)
+transform = Transform3D(-0.9999987, 1.907511e-06, -1.33082e-06, -1.3621301e-06, -1.3965617e-06, 0.99999976, 1.8888811e-06, 0.9999991, 1.4261282e-06, 0.88313144, 1.2051463, 0.01701164)
 
 [node name="1H_Sword" parent="Knight2/Knight/Rig/Skeleton3D" index="5"]
-transform = Transform3D(0.999999, 6.27668e-07, -9.89199e-07, -1.02051e-06, -1.309e-06, -1, -6.46298e-07, 0.999999, -1.33856e-06, -0.883132, 1.04926, 0.033309)
+transform = Transform3D(0.9999987, 6.2766765e-07, -9.891994e-07, -1.0205056e-06, -1.3089973e-06, -0.99999976, -6.46298e-07, 0.9999991, -1.3385607e-06, -0.8831316, 1.0492609, 0.03330896)
 
 [node name="2H_Sword" parent="Knight2/Knight/Rig/Skeleton3D" index="6"]
-transform = Transform3D(0.999999, 6.12934e-07, -9.75513e-07, -1.00682e-06, -1.309e-06, -1, -6.31565e-07, 0.999999, -1.33856e-06, -0.883132, 1.04926, 0.033309)
+transform = Transform3D(0.9999987, 6.129342e-07, -9.755133e-07, -1.0068196e-06, -1.3089972e-06, -0.99999976, -6.315646e-07, 0.9999991, -1.3385607e-06, -0.8831316, 1.0492609, 0.03330896)
 visible = true
 
 [node name="Knight_Helmet" parent="Knight2/Knight/Rig/Skeleton3D" index="7"]
-transform = Transform3D(1, -2.20965e-22, 5.54223e-13, 2.20965e-22, 1, 0, -5.54223e-13, 1.22464e-34, 1, 4.76837e-07, 1.21589, -1.08542e-07)
+transform = Transform3D(1, -2.209651e-22, 5.5422333e-13, 2.2096506e-22, 0.99999994, 0, -5.5422333e-13, 1.2246401e-34, 1, 4.7683716e-07, 1.2158908, -1.0854231e-07)
 
 [node name="Knight_Cape" parent="Knight2/Knight/Rig/Skeleton3D" index="8"]
-transform = Transform3D(1, 1.25214e-21, 5.54223e-13, -1.25214e-21, 1, 0, -5.54223e-13, -6.93963e-34, 1, -7.79573e-20, 1.21589, -1.4066e-07)
+transform = Transform3D(1, 1.2521356e-21, 5.5422333e-13, -1.2521355e-21, 0.99999994, 0, -5.5422333e-13, -6.939628e-34, 1, -7.7957275e-20, 1.2158909, -1.406604e-07)
 
 [node name="AnimationPlayer" parent="Knight2/Knight" index="1"]
 autoplay = ""
@@ -358,36 +342,36 @@ bones/49/position = Vector3(-0.713182, 1.10676, -8.51573e-08)
 bones/49/rotation = Quaternion(0.5, -0.5, -0.5, -0.5)
 
 [node name="1H_Sword_Offhand" parent="Knight4/Knight/Rig/Skeleton3D" index="0"]
-transform = Transform3D(-0.999999, -6.27668e-07, -6.63358e-07, -6.94664e-07, -1.18993e-06, 1, -6.46298e-07, 0.999999, 1.2195e-06, 0.883132, 1.04926, 0.0170115)
+transform = Transform3D(-0.9999987, -6.2766776e-07, -6.633583e-07, -6.9466427e-07, -1.1899323e-06, 0.99999976, -6.462976e-07, 0.9999991, 1.2194959e-06, 0.8831316, 1.049261, 0.01701145)
 visible = true
 
 [node name="Badge_Shield" parent="Knight4/Knight/Rig/Skeleton3D" index="1"]
-transform = Transform3D(-0.999999, 1.90751e-06, -1.33082e-06, -1.36213e-06, -1.39656e-06, 1, 1.88888e-06, 0.999999, 1.42613e-06, 0.883131, 1.20515, 0.0170116)
+transform = Transform3D(-0.9999987, 1.907511e-06, -1.33082e-06, -1.3621301e-06, -1.3965617e-06, 0.99999976, 1.8888811e-06, 0.9999991, 1.4261282e-06, 0.88313144, 1.2051463, 0.01701164)
 visible = true
 
 [node name="Rectangle_Shield" parent="Knight4/Knight/Rig/Skeleton3D" index="2"]
-transform = Transform3D(-0.999999, 1.90751e-06, -1.33082e-06, -1.36213e-06, -1.39656e-06, 1, 1.88888e-06, 0.999999, 1.42613e-06, 0.883131, 1.20515, 0.0170116)
+transform = Transform3D(-0.9999987, 1.907511e-06, -1.33082e-06, -1.3621301e-06, -1.3965617e-06, 0.99999976, 1.8888811e-06, 0.9999991, 1.4261282e-06, 0.88313144, 1.2051463, 0.01701164)
 visible = true
 
 [node name="Round_Shield" parent="Knight4/Knight/Rig/Skeleton3D" index="3"]
-transform = Transform3D(-0.999999, 1.90751e-06, -1.33082e-06, -1.36213e-06, -1.39656e-06, 1, 1.88888e-06, 0.999999, 1.42613e-06, 0.883131, 1.20515, 0.0170116)
+transform = Transform3D(-0.9999987, 1.907511e-06, -1.33082e-06, -1.3621301e-06, -1.3965617e-06, 0.99999976, 1.8888811e-06, 0.9999991, 1.4261282e-06, 0.88313144, 1.2051463, 0.01701164)
 visible = true
 
 [node name="Spike_Shield" parent="Knight4/Knight/Rig/Skeleton3D" index="4"]
-transform = Transform3D(-0.999999, 1.90751e-06, -1.33082e-06, -1.36213e-06, -1.39656e-06, 1, 1.88888e-06, 0.999999, 1.42613e-06, 0.883131, 1.20515, 0.0170116)
+transform = Transform3D(-0.9999987, 1.907511e-06, -1.33082e-06, -1.3621301e-06, -1.3965617e-06, 0.99999976, 1.8888811e-06, 0.9999991, 1.4261282e-06, 0.88313144, 1.2051463, 0.01701164)
 
 [node name="1H_Sword" parent="Knight4/Knight/Rig/Skeleton3D" index="5"]
-transform = Transform3D(0.999999, 6.27668e-07, -9.89199e-07, -1.02051e-06, -1.309e-06, -1, -6.46298e-07, 0.999999, -1.33856e-06, -0.883132, 1.04926, 0.033309)
+transform = Transform3D(0.9999987, 6.2766765e-07, -9.891994e-07, -1.0205056e-06, -1.3089973e-06, -0.99999976, -6.46298e-07, 0.9999991, -1.3385607e-06, -0.8831316, 1.0492609, 0.03330896)
 
 [node name="2H_Sword" parent="Knight4/Knight/Rig/Skeleton3D" index="6"]
-transform = Transform3D(0.999999, 6.12934e-07, -9.75513e-07, -1.00682e-06, -1.309e-06, -1, -6.31565e-07, 0.999999, -1.33856e-06, -0.883132, 1.04926, 0.033309)
+transform = Transform3D(0.9999987, 6.129342e-07, -9.755133e-07, -1.0068196e-06, -1.3089972e-06, -0.99999976, -6.315646e-07, 0.9999991, -1.3385607e-06, -0.8831316, 1.0492609, 0.03330896)
 visible = true
 
 [node name="Knight_Helmet" parent="Knight4/Knight/Rig/Skeleton3D" index="7"]
-transform = Transform3D(1, -2.20965e-22, 5.54223e-13, 2.20965e-22, 1, 0, -5.54223e-13, 1.22464e-34, 1, 4.76837e-07, 1.21589, -1.08542e-07)
+transform = Transform3D(1, -2.209651e-22, 5.5422333e-13, 2.2096506e-22, 0.99999994, 0, -5.5422333e-13, 1.2246401e-34, 1, 4.7683716e-07, 1.2158908, -1.0854231e-07)
 
 [node name="Knight_Cape" parent="Knight4/Knight/Rig/Skeleton3D" index="8"]
-transform = Transform3D(1, 1.25214e-21, 5.54223e-13, -1.25214e-21, 1, 0, -5.54223e-13, -6.93963e-34, 1, -7.79573e-20, 1.21589, -1.4066e-07)
+transform = Transform3D(1, 1.2521356e-21, 5.5422333e-13, -1.2521355e-21, 0.99999994, 0, -5.5422333e-13, -6.939628e-34, 1, -7.7957275e-20, 1.2158909, -1.406604e-07)
 
 [node name="AnimationPlayer" parent="Knight4/Knight" index="1"]
 autoplay = ""
@@ -459,36 +443,36 @@ bones/49/position = Vector3(-0.713182, 1.10676, -8.51573e-08)
 bones/49/rotation = Quaternion(0.5, -0.5, -0.5, -0.5)
 
 [node name="1H_Sword_Offhand" parent="Knight5/Knight/Rig/Skeleton3D" index="0"]
-transform = Transform3D(-0.999999, -6.27668e-07, -6.63358e-07, -6.94664e-07, -1.18993e-06, 1, -6.46298e-07, 0.999999, 1.2195e-06, 0.883132, 1.04926, 0.0170115)
+transform = Transform3D(-0.9999987, -6.2766776e-07, -6.633583e-07, -6.9466427e-07, -1.1899323e-06, 0.99999976, -6.462976e-07, 0.9999991, 1.2194959e-06, 0.8831316, 1.049261, 0.01701145)
 visible = true
 
 [node name="Badge_Shield" parent="Knight5/Knight/Rig/Skeleton3D" index="1"]
-transform = Transform3D(-0.999999, 1.90751e-06, -1.33082e-06, -1.36213e-06, -1.39656e-06, 1, 1.88888e-06, 0.999999, 1.42613e-06, 0.883131, 1.20515, 0.0170116)
+transform = Transform3D(-0.9999987, 1.907511e-06, -1.33082e-06, -1.3621301e-06, -1.3965617e-06, 0.99999976, 1.8888811e-06, 0.9999991, 1.4261282e-06, 0.88313144, 1.2051463, 0.01701164)
 visible = true
 
 [node name="Rectangle_Shield" parent="Knight5/Knight/Rig/Skeleton3D" index="2"]
-transform = Transform3D(-0.999999, 1.90751e-06, -1.33082e-06, -1.36213e-06, -1.39656e-06, 1, 1.88888e-06, 0.999999, 1.42613e-06, 0.883131, 1.20515, 0.0170116)
+transform = Transform3D(-0.9999987, 1.907511e-06, -1.33082e-06, -1.3621301e-06, -1.3965617e-06, 0.99999976, 1.8888811e-06, 0.9999991, 1.4261282e-06, 0.88313144, 1.2051463, 0.01701164)
 visible = true
 
 [node name="Round_Shield" parent="Knight5/Knight/Rig/Skeleton3D" index="3"]
-transform = Transform3D(-0.999999, 1.90751e-06, -1.33082e-06, -1.36213e-06, -1.39656e-06, 1, 1.88888e-06, 0.999999, 1.42613e-06, 0.883131, 1.20515, 0.0170116)
+transform = Transform3D(-0.9999987, 1.907511e-06, -1.33082e-06, -1.3621301e-06, -1.3965617e-06, 0.99999976, 1.8888811e-06, 0.9999991, 1.4261282e-06, 0.88313144, 1.2051463, 0.01701164)
 visible = true
 
 [node name="Spike_Shield" parent="Knight5/Knight/Rig/Skeleton3D" index="4"]
-transform = Transform3D(-0.999999, 1.90751e-06, -1.33082e-06, -1.36213e-06, -1.39656e-06, 1, 1.88888e-06, 0.999999, 1.42613e-06, 0.883131, 1.20515, 0.0170116)
+transform = Transform3D(-0.9999987, 1.907511e-06, -1.33082e-06, -1.3621301e-06, -1.3965617e-06, 0.99999976, 1.8888811e-06, 0.9999991, 1.4261282e-06, 0.88313144, 1.2051463, 0.01701164)
 
 [node name="1H_Sword" parent="Knight5/Knight/Rig/Skeleton3D" index="5"]
-transform = Transform3D(0.999999, 6.27668e-07, -9.89199e-07, -1.02051e-06, -1.309e-06, -1, -6.46298e-07, 0.999999, -1.33856e-06, -0.883132, 1.04926, 0.033309)
+transform = Transform3D(0.9999987, 6.2766765e-07, -9.891994e-07, -1.0205056e-06, -1.3089973e-06, -0.99999976, -6.46298e-07, 0.9999991, -1.3385607e-06, -0.8831316, 1.0492609, 0.03330896)
 
 [node name="2H_Sword" parent="Knight5/Knight/Rig/Skeleton3D" index="6"]
-transform = Transform3D(0.999999, 6.12934e-07, -9.75513e-07, -1.00682e-06, -1.309e-06, -1, -6.31565e-07, 0.999999, -1.33856e-06, -0.883132, 1.04926, 0.033309)
+transform = Transform3D(0.9999987, 6.129342e-07, -9.755133e-07, -1.0068196e-06, -1.3089972e-06, -0.99999976, -6.315646e-07, 0.9999991, -1.3385607e-06, -0.8831316, 1.0492609, 0.03330896)
 visible = true
 
 [node name="Knight_Helmet" parent="Knight5/Knight/Rig/Skeleton3D" index="7"]
-transform = Transform3D(1, -2.20965e-22, 5.54223e-13, 2.20965e-22, 1, 0, -5.54223e-13, 1.22464e-34, 1, 4.76837e-07, 1.21589, -1.08542e-07)
+transform = Transform3D(1, -2.209651e-22, 5.5422333e-13, 2.2096506e-22, 0.99999994, 0, -5.5422333e-13, 1.2246401e-34, 1, 4.7683716e-07, 1.2158908, -1.0854231e-07)
 
 [node name="Knight_Cape" parent="Knight5/Knight/Rig/Skeleton3D" index="8"]
-transform = Transform3D(1, 1.25214e-21, 5.54223e-13, -1.25214e-21, 1, 0, -5.54223e-13, -6.93963e-34, 1, -7.79573e-20, 1.21589, -1.4066e-07)
+transform = Transform3D(1, 1.2521356e-21, 5.5422333e-13, -1.2521355e-21, 0.99999994, 0, -5.5422333e-13, -6.939628e-34, 1, -7.7957275e-20, 1.2158909, -1.406604e-07)
 
 [node name="AnimationPlayer" parent="Knight5/Knight" index="1"]
 autoplay = ""

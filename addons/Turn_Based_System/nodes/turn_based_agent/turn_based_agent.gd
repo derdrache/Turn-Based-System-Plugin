@@ -89,10 +89,12 @@ var allSelectedTargets: Array[TurnBasedAgent]
 var currentCommand: Resource
 var isTargetAlly := false
 var isTargetSelected = false
-
+var atbValue = 0
 
 func _ready() -> void:
 	turnBasedController = get_tree().get_first_node_in_group("turnBasedController")
+	
+	atbValue = 0
 	
 	_set_group()
 	
@@ -250,6 +252,19 @@ func _deselect_all_targets() -> void:
 func _process(delta: float) -> void:
 	_refresh_on_turn_icon_position()
 	_refresh_target_icon_position()
+	
+	_handle_atb_value()
+
+func _handle_atb_value():
+	if Engine.is_editor_hint(): return
+	
+	if turnBasedController.activeAgent: return
+	
+	if characterResource and turnBasedController.turnOrderType == TurnBasedController.Turn_Order_Type.ATB :
+		if atbValue >= 100:
+			set_active(true)
+		else:
+			atbValue += characterResource.speed / 100.0
 
 func _input(event: InputEvent) -> void:
 	if not mainTarget or not event is InputEventKey or isTargetSelected: return
@@ -374,6 +389,9 @@ func set_active(boolean: bool) -> void:
 	elif character_type == Character_Type.ENEMY and isActive: 
 		onTurnIconNode.hide()
 		enemy_turn_started.emit()
+
+	if not Engine.is_editor_hint():
+		get_tree().paused = true
 
 func manual_target_selection(targets: Array[TurnBasedAgent]):
 	mainTarget = targets[0]
