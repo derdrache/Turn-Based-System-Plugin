@@ -23,6 +23,7 @@ signal new_agent_entered(agent: TurnBasedAgent)
 @export var manuellStart := false
 
 @export_category("ATB")
+@export var speedFactor := 0.05
 @export var withPause := false
 @export var manually := false
 
@@ -384,6 +385,7 @@ func _validate_property(property: Dictionary):
 	
 	if turnOrderType != Turn_Order_Type.ATB:
 		hideList.append("ATB")
+		hideList.append("speedFactor")
 		hideList.append("withPause")
 		hideList.append("manually")
 		

@@ -269,7 +269,7 @@ func _handle_atb_value():
 		if atbValue >= 100:
 			set_active(true)
 		else:
-			atbValue += characterResource.speed / 100.0
+			atbValue += characterResource.speed * turnBasedController.speedFactor
 
 func _input(event: InputEvent) -> void:
 	if not mainTarget or not event is InputEventKey or isTargetSelected: return
