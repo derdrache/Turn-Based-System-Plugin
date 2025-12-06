@@ -192,6 +192,7 @@ func _set_multi_command_container(commandList: Array) -> void:
 	for command:Resource in commandList:
 		var newCommandButton = defaultCommandButton.instantiate()
 		newCommandButton.set_name(command.name)
+		newCommandButton.set_label_name(command.name)
 		newCommandButton.command = command
 		newCommandButton.pressed.connect(_on_command_pressed.bind(command, newCommandButton))
 		multi_command_container.add_child(newCommandButton)
@@ -261,6 +262,7 @@ func _refresh_main_command_menu() -> void:
 		var newMainCommandButton = defaultCommandButton.instantiate()
 		newMainCommandButton.withManaCostLabel = false
 		newMainCommandButton.set_name(commandName)
+		newMainCommandButton.set_label_name(commandName)
 		newMainCommandButton.buttonIcon = menuData["icons"][index]
 		if isEmpty: newMainCommandButton.focus_mode = Control.FOCUS_NONE
 		main_command_container.add_child(newMainCommandButton)
