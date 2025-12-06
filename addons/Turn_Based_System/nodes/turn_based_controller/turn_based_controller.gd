@@ -22,7 +22,7 @@ signal new_agent_entered(agent: TurnBasedAgent)
 @export var useOwnTargetingSystem := false
 @export var manuellStart := false
 
-##ATB Special
+@export_category("ATB")
 @export var withPause := false
 
 enum Turn_Order_Type{
@@ -381,5 +381,9 @@ func start():
 func _validate_property(property: Dictionary):
 	var hideList = []
 	
+	if turnOrderType != Turn_Order_Type.ATB:
+		hideList.append("ATB")
+		hideList.append("withPause")
+		
 	if property.name in hideList: 
 		property.usage = PROPERTY_USAGE_NO_EDITOR 
