@@ -156,9 +156,9 @@ func _on_command_pressed(commandResource: Resource, button: Button) -> void:
 	if not commandResource:
 		push_error(button.text + " button doesn't have a reference resource")
 		return
-		
+	
 	var turnBasedController: TurnBasedController = get_tree().get_first_node_in_group("turnBasedController")
-	var currentMana = turnBasedController.get_active_character().characterResource.currentMana
+	var currentMana = turnBasedController.get_active_agent_resource().currentMana
 	var notEnoughMana = commandResource.manaCost > currentMana
 	if not commandResource.isAllowed or notEnoughMana:
 		return
@@ -207,8 +207,9 @@ func _set_signals() -> void:
 	turnBasedController.new_agent_entered.connect(_connect_agent_signals)
 
 func _connect_agent_signals(agent: TurnBasedAgent) -> void:
-	agent.player_turn_started.connect(_on_player_turn.bind(agent))
-	agent.undo_command_selected.connect(_on_player_turn.bind(agent, true))
+	if not agent.is_connected("player_turn_started", _on_player_turn):
+		agent.player_turn_started.connect(_on_player_turn.bind(agent))
+		agent.undo_command_selected.connect(_on_player_turn.bind(agent, true))
 
 func _on_player_turn(character: TurnBasedAgent, commandUndo = false) -> void:
 	currentCharacter = character

@@ -371,6 +371,9 @@ func remove_agent(agent: TurnBasedAgent) -> void:
 func get_active_character():
 	return activeAgent.get_parent()
 
+func get_active_agent_resource():
+	return activeAgent.characterResource
+
 func start():
 	turnOrderList = []
 	dynamicTurnOrderBaseList = []
