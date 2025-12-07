@@ -108,7 +108,6 @@ func deactivate_focus() -> void:
 	add_theme_stylebox_override("panel", styleBoxNormal)
 
 func _update_stats() -> void:
-	print(characterResource[statsReference["health"]])
 	_refresh_animation(hp_label_2, characterResource[statsReference["health"]])
 	_refresh_animation(mp_label_4, characterResource[statsReference["mana"]])
 	_refresh_animation(over_drive_bar, characterResource[statsReference["overDrive"]])
