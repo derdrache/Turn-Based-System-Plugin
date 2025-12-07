@@ -22,13 +22,22 @@ signal new_agent_entered(agent: TurnBasedAgent)
 @export var useOwnTargetingSystem := false
 @export var manuellStart := false
 
+@export_category("ATB")
+## characterResource.speed * speedFactor fill the atbValue per frame
+@export var speedFactor := 0.005
+## Paused the game if the player can select an command
+@export var withPause := false
+@export var manually := false
+
 enum Turn_Order_Type{
 	## first the players then the enemies, each character has one turn per round
 	CLASSIC, 
 	## Value Based: a value determines who is first, each character has one turn per round
 	VALUE_BASED, 
 	## a value determines who is first, there is nothing like rounds.
-	DYNAMIC
+	DYNAMIC,
+	## Active Time Battle or if you want it per input
+	ATB,
 	}
 
 var turnOrderList: Array[TimeEntry] = []
@@ -37,6 +46,8 @@ var activeAgent: TurnBasedAgent
 
 func _ready() -> void:
 	add_to_group("turnBasedController")
+	
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	
 	_set_signals()
 	
@@ -49,6 +60,8 @@ func _on_new_agent_entered(agent: TurnBasedAgent):
 
 func _setup():
 	await get_tree().process_frame
+	
+	if turnOrderType == Turn_Order_Type.ATB: return
 	
 	_set_turn_order()
 	
@@ -119,7 +132,6 @@ func _reduce_time_on_same_as_active():
 		for entry in dynamicTurnOrderBaseList:
 			if entry.agent != activeAgent and entry.currentTime == turnOrderList[0].currentTime:
 				entry.currentTime -= 0.01
-
 
 func _refresh_turn_order():
 	if turnOrderType == Turn_Order_Type.DYNAMIC: 
@@ -198,11 +210,16 @@ func _refresh_turn_order_bar():
 
 	turn_order_changed.emit(barTurnOrder)		
 	
-func _on_turn_done() -> void:
+func _on_turn_done(agent: TurnBasedAgent) -> void:
 	var battleDone = _check_battle_done()
 	
 	if battleDone: return
 	
+	if turnOrderType == Turn_Order_Type.ATB:
+		if agent == activeAgent:
+			activeAgent = null
+		return
+		
 	activeAgent.set_active(false)
 	
 	_refresh_turn_order()
@@ -211,6 +228,7 @@ func _on_turn_done() -> void:
 	
 	_refresh_turn_order_bar()
 	
+
 func _check_battle_done():
 	var allEnemies = get_tree().get_nodes_in_group("turnBasedEnemy").filter(func(character): return not character.isDisabled)
 	var allPlayer = get_tree().get_nodes_in_group("turnBasedPlayer")
@@ -226,12 +244,7 @@ func _check_battle_done():
 		
 	return false
 		
-
 func _battle_done():
-	get_tree().get_first_node_in_group("turnBasedCommandMenu").hide()
-	get_tree().get_first_node_in_group("turnBasedStatusContainer").hide()
-	get_tree().get_first_node_in_group("turnBasedTurnOrderBar").hide()
-
 	var activeEnemies = get_tree().get_nodes_in_group("turnBasedEnemy").filter(func(character): return not character.isDisabled)
 	var victory = activeEnemies.is_empty()
 
@@ -286,7 +299,7 @@ func _swap_agents_classic_mode(oldAgent: TurnBasedAgent, newAgent: TurnBasedAgen
 		
 		_refresh_turn_order_bar()
 	else:
-		_on_turn_done()
+		_on_turn_done(null)
 
 func _swap_agents_dynamic_mode(oldAgent: TurnBasedAgent, newAgent: TurnBasedAgent, turnOrderTakeOver):
 	if turnOrderTakeOver:
@@ -305,7 +318,7 @@ func _swap_agents_dynamic_mode(oldAgent: TurnBasedAgent, newAgent: TurnBasedAgen
 		_add_dynamic_agent(newAgent)
 		_refresh_dynamic_turn_order_list()
 		
-		_on_turn_done()
+		_on_turn_done(null)
 
 func _add_dynamic_agent(agent:TurnBasedAgent) -> void:
 	var speedValue : float = _get_dynamic_speed_value(agent.get_turn_order_value())
@@ -358,6 +371,9 @@ func remove_agent(agent: TurnBasedAgent) -> void:
 func get_active_character():
 	return activeAgent.get_parent()
 
+func get_active_agent_resource():
+	return activeAgent.characterResource
+
 func start():
 	turnOrderList = []
 	dynamicTurnOrderBaseList = []
@@ -368,5 +384,11 @@ func start():
 func _validate_property(property: Dictionary):
 	var hideList = []
 	
+	if turnOrderType != Turn_Order_Type.ATB:
+		hideList.append("ATB")
+		hideList.append("speedFactor")
+		hideList.append("withPause")
+		hideList.append("manually")
+		
 	if property.name in hideList: 
 		property.usage = PROPERTY_USAGE_NO_EDITOR 

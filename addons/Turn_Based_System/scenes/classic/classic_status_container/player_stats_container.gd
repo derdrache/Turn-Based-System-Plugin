@@ -113,7 +113,7 @@ func _update_stats() -> void:
 	_refresh_animation(over_drive_bar, characterResource[statsReference["overDrive"]])
 
 func _refresh_animation(node: Control, newValue: int) -> void:
-	var tween = get_tree().create_tween()
+	var tween = create_tween()
 	
 	if node is Label:
 		var oldValue = int(node.text)

@@ -1,0 +1,88 @@
+[gd_scene load_steps=13 format=3 uid="uid://cc3fc6vi51jh2"]
+
+[ext_resource type="Script" uid="uid://cjby6hkbq05lp" path="res://addons/Turn_Based_System/nodes/turn_based_controller/turn_based_controller.gd" id="1_btdom"]
+[ext_resource type="PackedScene" uid="uid://csjsu65sx7iu5" path="res://addons/Turn_Based_System/scenes/classic/classic_command_menu/classic_command_menu.tscn" id="2_vrf4l"]
+[ext_resource type="PackedScene" uid="uid://b6dd25yaobs1l" path="res://addons/Turn_Based_System/scenes/classic/classic_status_container/classic_player_status_container.tscn" id="4_h0pxi"]
+[ext_resource type="PackedScene" uid="uid://h1l6oa0hyta" path="res://addons/Turn_Based_System/test/3D/characters_atb/knight.tscn" id="5_drd74"]
+[ext_resource type="Resource" uid="uid://ccq1ra2k8frfy" path="res://addons/Turn_Based_System/test/resource/player1.tres" id="6_3y1e4"]
+[ext_resource type="Resource" uid="uid://dkcvrtj60prfi" path="res://addons/Turn_Based_System/test/skills/normal_attack.tres" id="8_8j4mk"]
+[ext_resource type="Script" uid="uid://cfr66w8pkeuwd" path="res://addons/Turn_Based_System/test/resource/character_resource.gd" id="9_cwogu"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mwsgy"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_upqwq"]
+sky_material = SubResource("ProceduralSkyMaterial_mwsgy")
+
+[sub_resource type="Environment" id="Environment_6xef7"]
+background_mode = 2
+sky = SubResource("Sky_upqwq")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_kvcci"]
+size = Vector2(50, 50)
+
+[sub_resource type="Resource" id="Resource_yv71m"]
+resource_local_to_scene = true
+script = ExtResource("9_cwogu")
+basicAttack = ExtResource("8_8j4mk")
+
+[node name="AtbTestScene" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_6xef7")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="TurnBasedController" type="Node" parent="."]
+process_mode = 3
+script = ExtResource("1_btdom")
+turnOrderType = 3
+withPause = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.861629, 0.507539, 0, -0.507539, 0.861629, -2.76, 24.745, 41.285)
+current = true
+fov = 15.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_kvcci")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ComandMenu" parent="CanvasLayer" instance=ExtResource("2_vrf4l")]
+withButtonIcons = true
+mainCommandButtonNames = Array[String](["Attack", "Skills", ""])
+mainCommandButtonReference = Array[String](["basicAttack", "skills", ""])
+mainCommandButtonIcons = Array[CompressedTexture2D]([null, null, null])
+
+[node name="ClassicStatusContainer" parent="CanvasLayer" instance=ExtResource("4_h0pxi")]
+
+[node name="Knight" parent="." instance=ExtResource("5_drd74")]
+process_mode = 3
+transform = Transform3D(0, 0, -1.0000001, 0, 1, 0, 1.0000001, 0, 0, 5.652807, 0, 0.14414406)
+characterResource = ExtResource("6_3y1e4")
+
+[node name="TurnBasedAgent" parent="Knight" index="1"]
+process_mode = 3
+characterResource = ExtResource("6_3y1e4")
+
+[node name="Knight2" parent="." instance=ExtResource("5_drd74")]
+process_mode = 3
+transform = Transform3D(-8.7422784e-08, 0, 1.0000001, 0, 1, 0, -1.0000001, 0, -8.7422784e-08, -6.5603685, 0, 0.14414406)
+characterResource = SubResource("Resource_yv71m")
+
+[node name="TurnBasedAgent" parent="Knight2" index="1"]
+process_mode = 3
+character_type = 1
+characterResource = SubResource("Resource_yv71m")
+
+[editable path="CanvasLayer/ComandMenu"]
+[editable path="Knight"]
+[editable path="Knight/Knight"]
+[editable path="Knight2"]
+[editable path="Knight2/Knight"]

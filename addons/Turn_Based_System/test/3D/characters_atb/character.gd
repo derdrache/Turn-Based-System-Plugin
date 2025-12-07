@@ -6,24 +6,7 @@ extends StaticBody3D
 
 #const KNIGHT = preload("res://addons/Turn_Based_System/test/3D/characters/knight.tscn")
 
-func _input(event: InputEvent) -> void:
-	pass
-	#if Input.is_action_just_pressed("ui_cancel"):
-		#_swap_character()
-
-func _swap_character():	
-	if not turn_based_agent.isActive: return
-	
-	var startPosition = Vector3(0,0,0)
-	var target_position = global_position
-
-	var knightNode = load("res://addons/Turn_Based_System/test/3D/characters/testChar.tscn").instantiate()
-	get_tree().current_scene.add_child(knightNode)
-	knightNode.global_position = startPosition
-	
-	turn_based_agent.swap_agent(knightNode.turn_based_agent , true)
-	
-	queue_free()
+var atbValue = 0
 
 func _ready() -> void:
 	if turn_based_agent: 
@@ -40,7 +23,6 @@ func _on_character_action(mainTarget, targets ,command):
 	# interaction with Hp Bars
 	# and more
 	await _animation_example(targets[0])
-	
 	if command.name == "Haste":
 		for target in targets: 
 			target.character_resource.speed *=2
@@ -59,7 +41,7 @@ func _on_enemy_turn_started():
 	
 	await _animation_example(target)
 	
-	target.characterResource.take_damage(10)
+	target.get_parent().take_damage(10)
 	
 	turn_based_agent.command_done()
 
@@ -72,8 +54,8 @@ func _animation_example(target):
 	else: 
 		var randomTarget = get_tree().get_nodes_in_group("turnBasedPlayer").pick_random()
 		targetPosition = randomTarget.get_global_position()
-	
-	var tween = get_tree().create_tween()
+		
+	var tween = create_tween()
 	tween.tween_property(self, "global_position", targetPosition, 0.5)
 	tween.tween_property(self, "global_position", startPosition, 0.5)
 	
@@ -81,6 +63,9 @@ func _animation_example(target):
 
 func take_damage(damage):
 	characterResource.currentHealth -= damage
-	
+
 	if characterResource.currentHealth <= 0:
 		queue_free()
+
+func _process(delta: float) -> void:
+	atbValue += characterResource.speed / 10
