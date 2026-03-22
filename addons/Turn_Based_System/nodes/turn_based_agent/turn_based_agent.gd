@@ -102,9 +102,10 @@ func _ready() -> void:
 	
 	is3DScene = get_parent() is Node3D
 	
-	if not characterResource and get_parent().characterResource:
-		characterResource = get_parent().characterResource
-	
+	if not characterResource:
+		if "characterResource" in get_parent():
+			characterResource = get_parent().characterResource
+
 	get_parent().process_mode = Node.PROCESS_MODE_ALWAYS
 		
 	_create_on_turn_icon()
