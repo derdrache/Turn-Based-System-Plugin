@@ -158,8 +158,17 @@ func _on_command_pressed(commandResource: Resource, button: Button) -> void:
 		return
 	
 	var turnBasedController: TurnBasedController = get_tree().get_first_node_in_group("turnBasedController")
-	var currentMana = turnBasedController.get_active_agent_resource().currentMana
-	var notEnoughMana = commandResource.manaCost > currentMana
+	
+	if not turnBasedController.get_active_agent_resource():
+		push_error("agent doesn't have a character resource")
+		return
+	
+	var notEnoughMana = false
+	
+	if "currentMana" in turnBasedController.get_active_agent_resource():
+		var currentMana = turnBasedController.get_active_agent_resource().currentMana
+		notEnoughMana = commandResource.manaCost > currentMana
+	
 	if not commandResource.isAllowed or notEnoughMana:
 		return
 
