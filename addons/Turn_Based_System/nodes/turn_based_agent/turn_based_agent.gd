@@ -192,6 +192,9 @@ func _set_late_signals() -> void:
 		
 	turnBasedController.battle_finished.connect(_on_battle_finished)
 	
+	if not get_parent().is_node_ready():
+		await get_parent().ready
+		
 	if not get_tree().current_scene.is_node_ready():
 		await get_tree().current_scene.ready
 	
