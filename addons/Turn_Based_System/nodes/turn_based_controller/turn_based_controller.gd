@@ -44,9 +44,10 @@ var turnOrderList: Array[TimeEntry] = []
 var dynamicTurnOrderBaseList: Array[TimeEntry] = []
 var activeAgent: TurnBasedAgent
 
-func _ready() -> void:
+func _init() -> void:
 	add_to_group("turnBasedController")
-	
+
+func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	
 	_set_signals()
