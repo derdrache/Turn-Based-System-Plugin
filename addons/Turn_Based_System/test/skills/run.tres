@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="TestSkillResource" format=3 uid="uid://dgx0453qe7jjh"]
+
+[ext_resource type="Script" uid="uid://dg76cr18bloaq" path="res://addons/Turn_Based_System/test/skills/skillResource.gd" id="1_cnkus"]
+
+[resource]
+script = ExtResource("1_cnkus")
+name = "Run"
+targetType = 6
+commandType = 2
+targetCount = 0

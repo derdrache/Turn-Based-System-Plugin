@@ -8,6 +8,7 @@ func _ready() -> void:
 	if turn_based_agent: 
 		turn_based_agent.enemy_turn_started.connect(_on_enemy_turn_started)
 		turn_based_agent.target_selected.connect(_on_character_action)
+		turn_based_agent.command_without_target_selected.connect(_on_command_without_target_selected)
 		turn_based_agent.characterResource = characterResource
 		turn_based_agent.turnOrderValueName = "speed"
 
@@ -42,5 +43,7 @@ func _animation_example(target: TurnBasedAgent):
 	tween.tween_property(self, "global_position", startPosition, 0.5)
 	
 	await tween.finished
-	
+
+func _on_command_without_target_selected(command:Resource):
+	print(command.name)
 	

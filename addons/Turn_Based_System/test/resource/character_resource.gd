@@ -14,6 +14,7 @@ class_name TestCharacterResource
 @export var basicAttack: Resource
 @export var skills: Array[Resource]
 @export var items: Array[Resource]
+@export var run: Resource
 
 func take_damage(damage):
 	currentHealth -= damage

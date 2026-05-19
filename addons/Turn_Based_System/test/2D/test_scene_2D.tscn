@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bojnuadillejy"]
+[gd_scene format=3 uid="uid://bojnuadillejy"]
 
 [ext_resource type="PackedScene" uid="uid://b4la2yqdnumj5" path="res://addons/Turn_Based_System/nodes/turn_based_controller/turn_based_controller.tscn" id="2_08mpt"]
 [ext_resource type="Texture2D" uid="uid://80nu5nqla587" path="res://addons/Turn_Based_System/test/2D/assets/83.png" id="2_tl5g6"]
@@ -18,106 +18,123 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tmcke"]
 size = Vector2(96, 96)
 
-[node name="TestScene" type="Node2D"]
+[node name="TestScene" type="Node2D" unique_id=631573521]
 
-[node name="Enemy 1" type="StaticBody2D" parent="."]
+[node name="Enemy 1" type="StaticBody2D" parent="." unique_id=77107893]
+process_mode = 3
 position = Vector2(228, 126)
 scale = Vector2(1.25, 1.25)
 script = ExtResource("2_yehj6")
 characterResource = ExtResource("4_s0etk")
 
-[node name="Sprite2D" type="Sprite2D" parent="Enemy 1"]
+[node name="Sprite2D" type="Sprite2D" parent="Enemy 1" unique_id=1662216035]
 texture = ExtResource("2_tl5g6")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy 1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy 1" unique_id=906364053]
 shape = SubResource("RectangleShape2D_tmcke")
 
-[node name="TurnBasedAgent" type="Node" parent="Enemy 1"]
+[node name="TurnBasedAgent" type="Node" parent="Enemy 1" unique_id=2134361666]
+process_mode = 3
 script = ExtResource("4_hy2bi")
 character_type = 1
+characterResource = ExtResource("4_s0etk")
 targetIconOffSet = Vector3(53.09, -9.2, 0)
 
-[node name="Enemy 2" type="StaticBody2D" parent="."]
+[node name="Enemy 2" type="StaticBody2D" parent="." unique_id=1609166902]
+process_mode = 3
 position = Vector2(541, 131)
 scale = Vector2(1.25, 1.25)
 script = ExtResource("2_yehj6")
 characterResource = ExtResource("4_s0etk")
 
-[node name="Sprite2D" type="Sprite2D" parent="Enemy 2"]
+[node name="Sprite2D" type="Sprite2D" parent="Enemy 2" unique_id=1756456543]
 texture = ExtResource("5_5tugo")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy 2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy 2" unique_id=765830789]
 shape = SubResource("RectangleShape2D_tmcke")
 
-[node name="TurnBasedAgent" type="Node" parent="Enemy 2"]
+[node name="TurnBasedAgent" type="Node" parent="Enemy 2" unique_id=1762112230]
+process_mode = 3
 script = ExtResource("4_hy2bi")
 character_type = 1
+characterResource = ExtResource("4_s0etk")
 targetIconOffSet = Vector3(53.09, -9.355, 0)
 
-[node name="Enemy 3" type="StaticBody2D" parent="."]
+[node name="Enemy 3" type="StaticBody2D" parent="." unique_id=1059182597]
+process_mode = 3
 position = Vector2(823, 131)
 scale = Vector2(1.25, 1.25)
 script = ExtResource("2_yehj6")
 characterResource = ExtResource("4_s0etk")
 
-[node name="Sprite2D" type="Sprite2D" parent="Enemy 3"]
+[node name="Sprite2D" type="Sprite2D" parent="Enemy 3" unique_id=509843378]
 texture = ExtResource("6_kb8yp")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy 3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy 3" unique_id=853298987]
 shape = SubResource("RectangleShape2D_tmcke")
 
-[node name="TurnBasedAgent" type="Node" parent="Enemy 3"]
+[node name="TurnBasedAgent" type="Node" parent="Enemy 3" unique_id=260077524]
+process_mode = 3
 script = ExtResource("4_hy2bi")
 character_type = 1
+characterResource = ExtResource("4_s0etk")
 targetIconOffSet = Vector3(53.09, -9.355, 0)
 
-[node name="Player1" type="StaticBody2D" parent="."]
+[node name="Player1" type="StaticBody2D" parent="." unique_id=676591693]
+process_mode = 3
 position = Vector2(344, 397)
 scale = Vector2(1.25, 1.25)
 script = ExtResource("2_yehj6")
 characterResource = ExtResource("5_jfnju")
 
-[node name="Sprite2D" type="Sprite2D" parent="Player1"]
+[node name="Sprite2D" type="Sprite2D" parent="Player1" unique_id=2056642901]
 texture = ExtResource("7_50ei7")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player1" unique_id=207722113]
 shape = SubResource("RectangleShape2D_tmcke")
 
-[node name="TurnBasedAgent" type="Node" parent="Player1"]
+[node name="TurnBasedAgent" type="Node" parent="Player1" unique_id=463412869]
+process_mode = 3
 script = ExtResource("4_hy2bi")
+characterResource = ExtResource("5_jfnju")
 onTurnIconOffSet = Vector3(-11.295, -65.255, 0)
 targetIconOffSet = Vector3(27.91, -9.355, 0)
 
-[node name="Player2" type="StaticBody2D" parent="."]
+[node name="Player2" type="StaticBody2D" parent="." unique_id=1040377087]
+process_mode = 3
 position = Vector2(648, 404)
 scale = Vector2(1.25, 1.25)
 script = ExtResource("2_yehj6")
 characterResource = ExtResource("6_2gvv6")
 
-[node name="Sprite2D" type="Sprite2D" parent="Player2"]
+[node name="Sprite2D" type="Sprite2D" parent="Player2" unique_id=1815472149]
 texture = ExtResource("9_nca4s")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player2" unique_id=930291341]
 shape = SubResource("RectangleShape2D_tmcke")
 
-[node name="TurnBasedAgent" type="Node" parent="Player2"]
+[node name="TurnBasedAgent" type="Node" parent="Player2" unique_id=2144458149]
+process_mode = 3
 script = ExtResource("4_hy2bi")
+characterResource = ExtResource("6_2gvv6")
 onTurnIconOffSet = Vector3(0, -65.255, 0)
 targetIconOffSet = Vector3(40.27, -9.355, 0)
 
-[node name="TurnBasedController" parent="." instance=ExtResource("2_08mpt")]
+[node name="TurnBasedController" parent="." unique_id=968309746 instance=ExtResource("2_08mpt")]
+process_mode = 3
+ATB = null
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1823034929]
 
-[node name="ComandMenu" parent="CanvasLayer" instance=ExtResource("4_pl6x7")]
+[node name="ComandMenu" parent="CanvasLayer" unique_id=557027308 instance=ExtResource("4_pl6x7")]
 mainCommandButtonNames = Array[String](["Attack", "Skills", "Run"])
+mainCommandButtonReference = Array[String](["attack", "skills", "run"])
+mainCommandButtonIcons = Array[CompressedTexture2D]([null, null, null])
 
-[node name="TurnOrderBar" parent="CanvasLayer" instance=ExtResource("13_ka3q1")]
+[node name="TurnOrderBar" parent="CanvasLayer" unique_id=932344521 instance=ExtResource("13_ka3q1")]
 offset_left = -151.0
 offset_right = 49.0
 offset_bottom = 600.0
 scale = Vector2(0.75, 0.75)
 
-[node name="ClassicStatusContainer" parent="CanvasLayer" instance=ExtResource("14_ilk63")]
-
-[editable path="CanvasLayer/ComandMenu"]
+[node name="ClassicStatusContainer" parent="CanvasLayer" unique_id=638992127 instance=ExtResource("14_ilk63")]
