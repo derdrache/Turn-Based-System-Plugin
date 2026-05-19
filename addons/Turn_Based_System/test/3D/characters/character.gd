@@ -41,6 +41,7 @@ func _on_character_action(mainTarget, targets ,command):
 	# and more
 	await _animation_example(mainTarget)
 	
+	# This is a very simplified example to show how to add the haste effect
 	if command.name == "Haste":
 		for target in targets: 
 			target.character_resource.speed *=2
