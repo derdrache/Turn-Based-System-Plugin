@@ -14,6 +14,10 @@ signal turn_finished(agent: TurnBasedAgent)
 ## Emitted when the target selection is canceled
 signal undo_command_selected()
 
+## Emitted when the command can't have a target
+## command target_type == NONE
+signal command_without_target_selected(command: Resource)
+
 ## Emitted when the target is selected [br]
 ## Connect to your character to use the selected Command. [br]
 ## After that use the command_done function the move on
@@ -189,7 +193,7 @@ func _refresh_on_turn_icon_position()-> void:
 func _set_late_signals() -> void:	
 	if character_type == Character_Type.PASSIV_PLAYER:
 		return
-		
+	
 	turnBasedController.battle_finished.connect(_on_battle_finished)
 	
 	if not get_parent().is_node_ready():
@@ -213,6 +217,7 @@ func _on_command_selected(command: CommandResource) -> void:
 	currentCommand = command
 	
 	if command.targetType == CommandResource.Target_Type.NONE:
+		command_without_target_selected.emit(command)
 		return
 
 	_set_possible_targets(command)
