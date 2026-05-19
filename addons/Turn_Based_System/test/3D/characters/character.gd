@@ -39,7 +39,7 @@ func _on_character_action(mainTarget, targets ,command):
 	# damage/heal/buffs
 	# interaction with Hp Bars
 	# and more
-	await _animation_example(targets[0])
+	await _animation_example(mainTarget)
 	
 	if command.name == "Haste":
 		for target in targets: 
@@ -63,15 +63,9 @@ func _on_enemy_turn_started():
 	
 	turn_based_agent.command_done()
 
-func _animation_example(target):
+func _animation_example(target: TurnBasedAgent):
 	var startPosition = global_position
-	var targetPosition
-	
-	if target:
-		targetPosition = target.get_global_position()
-	else: 
-		var randomTarget = get_tree().get_nodes_in_group("turnBasedPlayer").pick_random()
-		targetPosition = randomTarget.get_global_position()
+	var targetPosition = target.get_global_position()
 	
 	var tween = get_tree().create_tween()
 	tween.tween_property(self, "global_position", targetPosition, 0.5)
