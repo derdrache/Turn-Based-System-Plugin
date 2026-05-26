@@ -51,20 +51,38 @@ signal target_changed(targets : Array[TurnBasedAgent])
 @export_category("Customize Icons")
 @export_group("Turn Icon")
 ## Indication icon if the character is on turn [br]
-@export var onTurnIconTexture: CompressedTexture2D
+@export var onTurnIconTexture: CompressedTexture2D:
+	set(value):
+		onTurnIconTexture = value
+		if value and Engine.is_editor_hint():
+			onTurnIconNode = value
 @export var onTurnIconOffSet: Vector3 = Vector3.ZERO:
 	set(value):
 		onTurnIconOffSet = value
 		if Engine.is_editor_hint():
 			_refresh_on_turn_icon_position()
+@export var turnIconScale := 1.0:
+	set(value):
+		turnIconScale = value
+		if value and Engine.is_editor_hint():
+			onTurnIconNode.scale = Vector3.ONE * turnIconScale
 
 @export_group("Target Icon")
-@export var targetIconTexture: CompressedTexture2D
+@export var targetIconTexture: CompressedTexture2D:
+	set(value):
+		targetIconTexture = value
+		if value:
+			targetIconNode.texture = value
 @export var targetIconOffSet: Vector3 = Vector3.ZERO:
 	set(value):
 		targetIconOffSet = value
 		if Engine.is_editor_hint():
 			_refresh_target_icon_position()
+@export var targetIconScale := 1.0:
+	set(value):
+		targetIconScale = value
+		if targetIconNode:
+			targetIconNode.scale = Vector3.ONE * targetIconScale
 @export var selectEnemyIconColor: Color = Color(1,0,0)
 @export var selectPlayerIconColor: Color = Color(0, 1, 0)
 
@@ -132,12 +150,11 @@ func _create_on_turn_icon() -> void:
 	if is3DScene:
 		onTurnIconNode = Sprite3D.new()
 		onTurnIconNode.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-		onTurnIconNode.scale *= 0.5
 	else:
 		onTurnIconNode = TextureRect.new()
 		onTurnIconNode.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		onTurnIconNode.custom_minimum_size = Vector2(25,25)
-	
+		
 	onTurnIconNode.texture = ON_TURON_ICON
 
 	add_child(onTurnIconNode)
@@ -154,11 +171,12 @@ func _create_target_icon() -> void:
 	if is3DScene:
 		targetIconNode = Sprite3D.new()
 		targetIconNode.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-		targetIconNode.scale *= 0.5
+		onTurnIconNode.scale = Vector3.ONE * targetIconScale
 	else:
 		targetIconNode = TextureRect.new()
 		targetIconNode.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		targetIconNode.custom_minimum_size = Vector2(25,25)
+		onTurnIconNode.scale = Vector2.ONE * targetIconScale
 	
 	targetIconNode.texture = Target_ICON
 	
@@ -212,6 +230,8 @@ func _on_battle_finished():
 	onTurnIconNode.hide()
 
 func _on_command_selected(command: CommandResource) -> void:
+	_refresh_target_icon_position()
+	
 	if not isActive or turnBasedController.useOwnTargetingSystem: return
 
 	currentCommand = command
@@ -263,9 +283,6 @@ func _deselect_all_targets() -> void:
 		target.targetIconNode.hide()	
 
 func _process(delta: float) -> void:
-	_refresh_on_turn_icon_position()
-	_refresh_target_icon_position()
-	
 	_handle_atb_value()
 
 func _handle_atb_value():
@@ -392,6 +409,8 @@ func set_target() -> void:
 
 func set_active(boolean: bool) -> void:
 	if boolean and isActive and turnBasedController.activeAgent: return
+	
+	_refresh_on_turn_icon_position()
 	
 	isTargetSelected = false
 	mainTarget = null
