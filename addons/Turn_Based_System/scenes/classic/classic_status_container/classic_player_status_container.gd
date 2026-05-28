@@ -38,6 +38,9 @@ func _set_signals() -> void:
 func _on_new_agent(agent: TurnBasedAgent) -> void:
 	_refresh()
 	
+	if agent.is_connected("targeting_started", _on_targeting_started):
+		return
+		
 	agent.player_turn_started.connect(_on_player_turn_started.bind(agent))
 	agent.targeting_started.connect(_on_targeting_started)
 	agent.target_selected.connect(_on_player_action_started)

@@ -57,7 +57,8 @@ func _ready() -> void:
 	if not manuellStart: _setup()
 
 func _on_new_agent_entered(agent: TurnBasedAgent):
-	agent.turn_finished.connect(_on_turn_done)
+	if not agent.is_connected("turn_finished", _on_turn_done):
+		agent.turn_finished.connect(_on_turn_done)
 
 func _setup():
 	await get_tree().process_frame
